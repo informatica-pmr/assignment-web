@@ -5,11 +5,12 @@ import type { FindManyYearsOutputDTO } from "../dtos/outputs/find-many-years.out
 import type { FindOneYearsOutputDTO } from "../dtos/outputs/find-one-years.output.dto";
 import {
   useYearsFilters,
-  type YearsFiltersContextProps,
 } from "../contexts/years-filters.context";
 import type { CreateYearsInputDTO } from "../dtos/inputs/create-years.input.dto";
 import type { CreateYearsOutputDTO } from "../dtos/outputs/create-years.output.dto";
 import type { UpdateYearsInputDTO } from "../dtos/inputs/update-years.input.dto";
+import { usePagination } from "../../shared/contexts/pagination.context";
+import type { FindManyYearsInputDTO } from "../dtos/inputs/find-many-years.input.dto";
 
 type YearsProviderProps = {
   children: ReactNode;
@@ -18,6 +19,7 @@ type YearsProviderProps = {
 const fetch = new Fetch("years");
 
 export const YearsProvider = ({ children }: YearsProviderProps) => {
+  const {page, size, changePagination } = usePagination();
   const filters = useYearsFilters();
   const [years, setYears] = useState<FindManyYearsOutputDTO[]>([]);
 
@@ -34,18 +36,22 @@ export const YearsProvider = ({ children }: YearsProviderProps) => {
   }, []);
   const findManyYears = useCallback(async () => {
     try {
-      const { data } = await fetch.get<
+      const { data, pagination } = await fetch.get<
         FindManyYearsOutputDTO[],
-        YearsFiltersContextProps
+        FindManyYearsInputDTO
       >({
-        filters,
+        filters: {
+          ...filters,
+          page, size
+        },
       });
 
       setYears(data ?? []);
+      changePagination(pagination);
     } catch (err) {
       console.error(err);
     }
-  }, [filters]);
+  }, [filters, page, size, changePagination]);
   const createYear = useCallback(async (createYearDTO: CreateYearsInputDTO) => {
     try {
       await fetch.post<CreateYearsOutputDTO, CreateYearsInputDTO>(

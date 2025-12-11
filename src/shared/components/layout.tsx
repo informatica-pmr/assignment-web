@@ -1,17 +1,14 @@
-import type { ReactNode } from "react";
 import { Header } from "./header";
 import { Container } from "./container";
+import { usePages } from "../contexts/pages.context";
 
-type LayoutProps = Readonly<{
-  children: ReactNode;
-}>;
-
-export const Layout = ({children}: LayoutProps) => {
+export const Layout = () => {
+  const {page} = usePages();
   return (
     <>
       <Header/>
       <Container>
-        {children}
+        {page}
       </Container>
     </>
   )

@@ -1,4 +1,9 @@
+import { HomePage } from "../../home/pages/home.page";
+import { YearsIndexPage } from "../../years/pages/years-index.page";
+import { usePages } from "../contexts/pages.context";
+
 export const Header = () => {
+  const {changePage} = usePages();
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
@@ -19,18 +24,8 @@ export const Header = () => {
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">
-                Home
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Features
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Pricing
+              <a className="nav-link active" aria-current="page" href="#" onClick={() => changePage(<HomePage />)}>
+                início
               </a>
             </li>
             <li className="nav-item dropdown">
@@ -41,22 +36,12 @@ export const Header = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Dropdown link
+                cadastro
               </a>
               <ul className="dropdown-menu">
                 <li>
-                  <a className="dropdown-item" href="#">
-                    Action
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Another action
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Something else here
+                  <a className="dropdown-item" href="#" onClick={() => changePage(<YearsIndexPage />)}>
+                    anos
                   </a>
                 </li>
               </ul>

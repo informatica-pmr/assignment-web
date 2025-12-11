@@ -4,7 +4,11 @@ export type YearsFiltersContextProps = {
   yearId: string;
   record: string;
   resolution: string;
-  isBloqued: string;
+  isBlocked: string;
+  changeYearId: (value: string) => void;
+  changeRecord: (value: string) => void;
+  changeResolution: (value: string) => void;
+  changeIsBlocked: (value: string) => void;
 };
 
 export const YearsFiltersContext = createContext<YearsFiltersContextProps | null>(null);

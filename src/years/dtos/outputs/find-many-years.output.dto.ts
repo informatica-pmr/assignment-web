@@ -2,5 +2,5 @@ export type FindManyYearsOutputDTO = {
   yearId: number;
   record: string;
   resolution: string;
-  isBloqued: boolean;
+  isBlocked: string;
 };
