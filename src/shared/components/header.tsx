@@ -1,5 +1,6 @@
 import { DisciplinesIndexPage } from "../../disciplines/pages/disciplines-index.page";
 import { HomePage } from "../../home/pages/home.page";
+import { PreferencesIndexPage } from "../../preferences/pages/preferences-index.page";
 import { SituationsIndexPage } from "../../situations/pages/situations-index.page";
 import { UnitsIndexPage } from "../../units/pages/units-index.page";
 import { YearsIndexPage } from "../../years/pages/years-index.page";
@@ -60,6 +61,11 @@ export const Header = () => {
                 <li>
                   <a className="dropdown-item" href="#" onClick={() => changePage(<SituationsIndexPage />)}>
                     situações
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#" onClick={() => changePage(<PreferencesIndexPage />)}>
+                    preferências
                   </a>
                 </li>
               </ul>
