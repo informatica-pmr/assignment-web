@@ -1,5 +1,7 @@
+import { CivilStatusesIndexPage } from "../../civil-statuses/pages/civil-statuses-index.page";
 import { DisciplinesIndexPage } from "../../disciplines/pages/disciplines-index.page";
 import { HomePage } from "../../home/pages/home.page";
+import { PositionsIndexPage } from "../../positions/pages/positions-index.page";
 import { PreferencesIndexPage } from "../../preferences/pages/preferences-index.page";
 import { SituationsIndexPage } from "../../situations/pages/situations-index.page";
 import { UnitsIndexPage } from "../../units/pages/units-index.page";
@@ -66,6 +68,16 @@ export const Header = () => {
                 <li>
                   <a className="dropdown-item" href="#" onClick={() => changePage(<PreferencesIndexPage />)}>
                     preferências
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#" onClick={() => changePage(<CivilStatusesIndexPage />)}>
+                    estados civis
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#" onClick={() => changePage(<PositionsIndexPage />)}>
+                    cargos
                   </a>
                 </li>
               </ul>
