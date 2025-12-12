@@ -1,33 +1,15 @@
-import { useEffect, useState } from "react";
-import { useUnits } from "../contexts/units.context";
+import { useState } from "react";
+import { useDisciplines } from "../contexts/disciplines.context";
 import { usePages } from "../../shared/contexts/pages.context";
 import { Row } from "../../shared/components/row";
 import { InputText } from "../../shared/components/input-text.component";
-import { UnitsIndexPage } from "../pages/units-index.page";
+import { DisciplinesIndexPage } from "../pages/disciplines-index.page";
 
-type UpdateUnitFormProps = {
-  id: string;
-};
-
-export const UpdateUnitForm = ({ id }: UpdateUnitFormProps) => {
-  const { findOneUnit, updateUnit } = useUnits();
+export const CreateDisciplineForm = () => {
+  const { createDiscipline } = useDisciplines();
   const { changePage } = usePages();
 
   const [name, setName] = useState("");
-
-  useEffect(() => {
-    const load = async () => {
-      const unit = await findOneUnit(id);
-      if (!unit) {
-        return;
-      }
-      setName(unit.name);
-    };
-
-    if (id !== "") {
-      load();
-    }
-  }, [findOneUnit, id]);
 
   const handleSubmit = async () => {
     if (!name || name === "") {
@@ -35,12 +17,12 @@ export const UpdateUnitForm = ({ id }: UpdateUnitFormProps) => {
       return;
     }
 
-    const updated = await updateUnit(id, {
+    const created = await createDiscipline({
       name,
     });
 
-    if (updated) {
-      changePage(<UnitsIndexPage />);
+    if (created) {
+      changePage(<DisciplinesIndexPage />);
     }
   };
 
@@ -55,7 +37,7 @@ export const UpdateUnitForm = ({ id }: UpdateUnitFormProps) => {
           <button
             type="button"
             className="btn btn-primary w-100"
-            onClick={() => changePage(<UnitsIndexPage />)}
+            onClick={() => changePage(<DisciplinesIndexPage />)}
           >
             voltar
           </button>
