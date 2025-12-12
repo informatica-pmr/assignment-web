@@ -1,4 +1,4 @@
-import { UpdateYearForm } from "../components/update-year-form.component copy";
+import { UpdateYearForm } from "../components/update-year-form.component";
 import { YearsLayout } from "../layout";
 
 type YearsUpdatePageProps = {

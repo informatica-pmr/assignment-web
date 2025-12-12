@@ -9,7 +9,7 @@ import { YearsCreatePage } from "../pages/years-create.page";
 import { YearsUpdatePage } from "../pages/years-update.page";
 
 export const YearsTable = () => {
-  const { years, deleteYear } = useYears();
+  const { years, deleteYear, findManyYears } = useYears();
   const { changePage } = usePages();
 
   const tableRef = useRef<TableElement>(null);
@@ -30,7 +30,7 @@ export const YearsTable = () => {
           { id: `${x.yearId}_${x.yearId}`, value: x.yearId.toString() },
           { id: `${x.yearId}_${x.record}`, value: x.record },
           { id: `${x.yearId}_${x.resolution}`, value: x.resolution },
-          { id: `${x.yearId}_${x.isBlocked}`, value: x.isBlocked },
+          { id: `${x.yearId}_${x.isBlocked}`, value: x.isBlocked === 'S' ? 'sim' : 'não'},
         ],
       }))}
       createHandle={() => changePage(<YearsCreatePage />)}
@@ -39,11 +39,14 @@ export const YearsTable = () => {
           <YearsUpdatePage id={tableRef.current?.getSelectedRow() ?? ""} />
         )
       }
-      deleteHandle={() => {
+      deleteHandle={async () => {
         const anwser = confirm("deseja remover este ano?");
         if (anwser) {
           const id = tableRef.current?.getSelectedRow() ?? "";
-          deleteYear(id);
+          const deleted = await deleteYear(id);
+          if (deleted) {
+            await findManyYears();
+          }
         }
       }}
     />

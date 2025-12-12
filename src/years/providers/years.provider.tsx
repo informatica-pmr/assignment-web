@@ -58,6 +58,8 @@ export const YearsProvider = ({ children }: YearsProviderProps) => {
         createYearDTO
       );
 
+      alert('ano criado com sucesso');
+
       return true;
     } catch (err) {
       console.error(err);
@@ -71,6 +73,8 @@ export const YearsProvider = ({ children }: YearsProviderProps) => {
         updateYearDTO
       );
 
+      alert('ano atualizado com sucesso');
+
       return true;
     } catch (err) {
       console.error(err);
@@ -82,6 +86,8 @@ export const YearsProvider = ({ children }: YearsProviderProps) => {
       await fetch.delete(
         id,
       );
+
+      alert('ano deletado com sucesso');
 
       return true;
     } catch (err) {

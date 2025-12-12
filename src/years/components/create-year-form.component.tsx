@@ -17,7 +17,7 @@ export const CreateYearForm = () => {
   const [isBlocked, setIsBlocked] = useState("N");
 
   const handleSubmit = async () => {
-    if (year < new Date().getFullYear() || year > new Date().getFullYear()) {
+    if (year < new Date().getFullYear() || year > new Date().getFullYear()+1) {
       alert("campo ano inválido");
       return;
     }
@@ -29,6 +29,11 @@ export const CreateYearForm = () => {
 
     if (!resolution || resolution === "") {
       alert("campo resolução inválido");
+      return;
+    }
+
+    if (!isBlocked || isBlocked === "") {
+      alert("campo bloqueado inválido");
       return;
     }
 
@@ -45,7 +50,7 @@ export const CreateYearForm = () => {
   };
 
   return (
-    <form action="" onSubmit={handleSubmit}>
+    <>
       <Row>
         <InputNumber col={1} label="ano" value={year} setValue={setYear} />
         <InputText col={4} label="ficha" value={record} setValue={setRecord} />
@@ -70,13 +75,23 @@ export const CreateYearForm = () => {
       <Row>
         <div className="col-sm-2">
           <button
+            type="button"
             className="btn btn-primary w-100"
             onClick={() => changePage(<YearsIndexPage />)}
           >
             voltar
           </button>
         </div>
+        <div className="col-sm-2 ms-auto">
+          <button
+            type="submit"
+            className="btn btn-success w-100"
+            onClick={() => handleSubmit()}
+          >
+            salvar
+          </button>
+        </div>
       </Row>
-    </form>
+    </>
   );
 };

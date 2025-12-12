@@ -11,7 +11,7 @@ type UpdateYearFormProps = {
   id: string;
 };
 
-export const UpdateYearForm = ({id}: UpdateYearFormProps) => {
+export const UpdateYearForm = ({ id }: UpdateYearFormProps) => {
   const { findOneYear, updateYear } = useYears();
   const { changePage } = usePages();
 
@@ -32,17 +32,12 @@ export const UpdateYearForm = ({id}: UpdateYearFormProps) => {
       setIsBlocked(year.isBlocked);
     };
 
-    if (id !== '') {
+    if (id !== "") {
       load();
     }
   }, [findOneYear, id]);
 
   const handleSubmit = async () => {
-    if (year < new Date().getFullYear() || year > new Date().getFullYear()) {
-      alert("campo ano inválido");
-      return;
-    }
-
     if (!record || record === "") {
       alert("campo ficha inválido");
       return;
@@ -53,8 +48,12 @@ export const UpdateYearForm = ({id}: UpdateYearFormProps) => {
       return;
     }
 
+    if (!isBlocked || isBlocked === "") {
+      alert("campo bloqueado inválido");
+      return;
+    }
+
     const updated = await updateYear(id, {
-      yearId: year,
       record,
       resolution,
       isBlocked,
@@ -66,9 +65,9 @@ export const UpdateYearForm = ({id}: UpdateYearFormProps) => {
   };
 
   return (
-    <form action="" onSubmit={handleSubmit}>
+    <>
       <Row>
-        <InputNumber col={1} label="ano" value={year} setValue={setYear} />
+        <InputNumber col={1} label="ano" readonly value={year} setValue={setYear} />
         <InputText col={4} label="ficha" value={record} setValue={setRecord} />
         <InputText
           col={6}
@@ -91,13 +90,23 @@ export const UpdateYearForm = ({id}: UpdateYearFormProps) => {
       <Row>
         <div className="col-sm-2">
           <button
+            type="button"
             className="btn btn-primary w-100"
             onClick={() => changePage(<YearsIndexPage />)}
           >
             voltar
           </button>
         </div>
+        <div className="col-sm-2 ms-auto">
+          <button
+            type="submit"
+            className="btn btn-success w-100"
+            onClick={() => handleSubmit()}
+          >
+            salvar
+          </button>
+        </div>
       </Row>
-    </form>
+    </>
   );
 };
