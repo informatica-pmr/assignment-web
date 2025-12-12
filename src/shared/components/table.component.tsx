@@ -76,7 +76,7 @@ export const Table = forwardRef<TableElement, TableProps>(
           <table className="table mb-0">
             <thead>
               <tr>
-                <th></th>
+                <th style={{width: '35px'}}></th>
                 {headers.map((head) => (
                   <th key={head.id}>{head.value}</th>
                 ))}
@@ -108,8 +108,8 @@ export const Table = forwardRef<TableElement, TableProps>(
           <table className="table">
             <thead>
               <tr>
-                <th style={{ width: "200px" }}>
-                  página {page} de {pagination?.totalPages}{" "}
+                <th style={{ width: "300px" }}>
+                  página {page} de {pagination?.totalPages}, {pagination?.totalRecords} registros
                 </th>
                 <td align="right">
                   <button

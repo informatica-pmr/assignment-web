@@ -1,4 +1,5 @@
 import { HomePage } from "../../home/pages/home.page";
+import { UnitsIndexPage } from "../../units/pages/units-index.page";
 import { YearsIndexPage } from "../../years/pages/years-index.page";
 import { usePages } from "../contexts/pages.context";
 
@@ -42,6 +43,11 @@ export const Header = () => {
                 <li>
                   <a className="dropdown-item" href="#" onClick={() => changePage(<YearsIndexPage />)}>
                     anos
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#" onClick={() => changePage(<UnitsIndexPage />)}>
+                    unidades
                   </a>
                 </li>
               </ul>
