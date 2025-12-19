@@ -1,0 +1,84 @@
+import { useRef } from "react";
+import {
+  Table,
+  type TableElement,
+} from "../../shared/components/table.component";
+import { useTeachers } from "../contexts/teachers.context";
+import { usePages } from "../../shared/contexts/pages.context";
+import { TeachersCreatePage } from "../pages/teachers-create.page";
+import { TeachersUpdatePage } from "../pages/teechers-update.page";
+import { useLoadUnits } from "../../units/contexts/load-units.context";
+import { Formatter } from "../../shared/toolkit/formatter";
+import { useLoadPositions } from "../../positions/contexts/load-positions.context";
+import { useLoadSituations } from "../../situations/contexts/load-situations.context";
+
+const formatter = new Formatter();
+
+export const TeachersTable = () => {
+  const { teachers, deleteTeacher, findManyTeachers } = useTeachers();
+  const { changePage } = usePages();
+  const { units } = useLoadUnits();
+  const { positions } = useLoadPositions();
+  const { situations } = useLoadSituations();
+
+  const tableRef = useRef<TableElement>(null);
+
+  return (
+    <Table
+      ref={tableRef}
+      headers={[
+        { id: 1, value: "nome" },
+        { id: 2, value: "unidade" },
+        { id: 3, value: "nascimento" },
+        { id: 4, value: "celular" },
+        { id: 5, value: "cargo" },
+        { id: 6, value: "situação" },
+      ]}
+      rows={teachers.map((x) => ({
+        id: x.teacherId,
+        checked: false,
+        cols: [
+          { id: `name_${x.name}`, value: x.name ?? '' },
+          {
+            id: `unit_${x.unitId}`,
+            value: units.find((u) => u.unitId === x.unitId)?.name ?? "",
+          },
+          {
+            id: `birthAt_${x.birthAt}`,
+            value: formatter.date(x.birthAt ?? ''),
+          },
+          {
+            id: `cellphone_${x.cellphone}`,
+            value: formatter.phoneNumber(x.cellphone ?? ''),
+          },
+          {
+            id: `position_${x.positionId}`,
+            value:
+              positions.find((p) => p.positionId === x.positionId)?.name ?? "",
+          },
+          {
+            id: `situation_${x.situationId}`,
+            value:
+              situations.find((s) => s.situationId === x.situationId)?.name ?? "",
+          },
+        ],
+      }))}
+      createHandle={() => changePage(<TeachersCreatePage />)}
+      editHandle={() =>
+        changePage(
+          <TeachersUpdatePage id={tableRef.current?.getSelectedRow() ?? ""} />
+        )
+      }
+      deleteHandle={async () => {
+        const anwser = confirm("deseja remover este(a) professor(a)?");
+        if (anwser) {
+          const id = tableRef.current?.getSelectedRow() ?? "";
+          const deleted = await deleteTeacher(id);
+          if (deleted) {
+            await findManyTeachers();
+          }
+        }
+      }}
+    />
+  );
+};

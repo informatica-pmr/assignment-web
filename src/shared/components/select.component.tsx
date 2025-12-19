@@ -7,6 +7,7 @@ type SelectProps = {
   col: number;
   label: string;
   all?: boolean;
+  default?: boolean;
   disabled?: boolean;
   required?: boolean;
   value: string;
@@ -20,6 +21,7 @@ export const Select = ({
   setValue,
   value,
   all,
+  default: defaultProp,
   disabled,
   required,
   data,
@@ -39,11 +41,8 @@ export const Select = ({
         value={value}
         onChange={(e) => setValue(e.target.value)}
       >
-        {all ? (
-          <option value="all">TODOS</option>
-        ) : (
-          <option value="">SELECIONE</option>
-        )}
+        {all && <option value="all">TODOS</option>}{" "}
+        {defaultProp && <option value="">SELECIONE</option>}
         {data.map((item) => (
           <option key={item.value} value={item.value}>
             {item.display}

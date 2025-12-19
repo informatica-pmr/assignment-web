@@ -10,7 +10,7 @@ export const PaginationProvider = ({ children }: PaginationProviderProps) => {
   const [pagination, setPagination] = useState<Pagination>({
     page: 1,
     totalPages: 0,
-    recordsPerPage: 5,
+    recordsPerPage: 10,
     totalRecords: 0,
   });
   const page =

@@ -1,0 +1,34 @@
+import type { Pageable } from "../../../shared/dtos/inputs/pageable";
+
+export type FindManyTeachersInputDTO = Pageable<{
+  name?: string;
+  identity?: string;
+  document?: string;
+  dependents?: string;
+  birthAt?: string;
+  address?: string;
+  neighborhood?: string;
+  city?: string;
+  postalCode?: string;
+  phone?: string;
+  cellphone?: string;
+  email?: string;
+  observations?: string;
+  yearId?: string;
+  unitId?: string;
+  civilStatusId?: string;
+  positionId?: string;
+  disciplineId?: string;
+  situationId?: string;
+  speciality?: string;
+  remove?: string;
+  adido?: string;
+  readapted?: string;
+  readingRoom?: string;
+  computing?: string;
+  supplementCharge?: string;
+  tutoring?: string;
+  ambientalEducation?: string;
+  robotics?: string;
+  music?: string;
+}>;

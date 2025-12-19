@@ -4,6 +4,8 @@ import { HomePage } from "../../home/pages/home.page";
 import { PositionsIndexPage } from "../../positions/pages/positions-index.page";
 import { PreferencesIndexPage } from "../../preferences/pages/preferences-index.page";
 import { SituationsIndexPage } from "../../situations/pages/situations-index.page";
+import { TeachersIndexPage } from "../../teachers/pages/teachers-index.page";
+import { TitlesIndexPage } from "../../titles/pages/titles-index.page";
 import { UnitsIndexPage } from "../../units/pages/units-index.page";
 import { YearsIndexPage } from "../../years/pages/years-index.page";
 import { usePages } from "../contexts/pages.context";
@@ -78,6 +80,16 @@ export const Header = () => {
                 <li>
                   <a className="dropdown-item" href="#" onClick={() => changePage(<PositionsIndexPage />)}>
                     cargos
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#" onClick={() => changePage(<TeachersIndexPage />)}>
+                    professores(as)
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#" onClick={() => changePage(<TitlesIndexPage />)}>
+                    títulos
                   </a>
                 </li>
               </ul>

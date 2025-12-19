@@ -262,6 +262,38 @@ export class Formatter {
     return normalizedValue;
   }
 
+  decimal(value: string | number) {
+    if (!value) {
+      return '0,000';
+    }
+
+    if (typeof value === 'string') {
+      value = Number(value);
+    }
+
+    const matchedValues = value
+      .toFixed(3)
+      .toString()
+      .match(/\d+(\.\d+)*/g);
+
+    const numericValue = Number(matchedValues?.[0]);
+
+    const formattedCurrency = numericValue.toLocaleString('pt-BR', {
+      style: 'decimal',
+      currency: 'BRL',
+      minimumFractionDigits: 3,
+    });
+
+    return formattedCurrency;
+  }
+
+  // TODO: Ensure that the value returned by formatter.unmaskCurrency is always a valid number
+  unmaskDecimal(value: string) {
+    const numericValue = Number(value.replace(/\D/g, ''));
+    const normalizedValue = numericValue / 1000;
+    return normalizedValue;
+  }
+
   date(value: string | Date) {
     if (!value) {
       return '';

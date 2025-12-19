@@ -23,7 +23,7 @@ export const Table = forwardRef<TableElement, TableProps>(
     { headers, rows, createHandle, editHandle, deleteHandle },
     ref
   ) => {
-    const { page, siblingPages, size, to, pagination, changePagination } =
+    const { page, siblingPages, size, pagination, changePagination } =
       usePagination();
     const [selectedRowId, setSelectedRowId] = useState("");
     const handleSelectRow = (value: boolean, id: string) => {
@@ -153,7 +153,7 @@ export const Table = forwardRef<TableElement, TableProps>(
                       setSelectedRowId("");
                       changePagination({
                         ...pagination,
-                        page: to,
+                        page: pagination?.totalPages ?? 0,
                         totalPages: pagination?.totalPages ?? 0,
                         totalRecords: pagination?.totalRecords ?? 0,
                         recordsPerPage: pagination?.recordsPerPage ?? 0,
