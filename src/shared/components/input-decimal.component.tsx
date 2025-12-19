@@ -9,7 +9,7 @@ type InputDecimalProps = {
   disabled?: boolean;
   required?: boolean;
   value: number;
-  setValue: (value: number) => void;
+  setValue?: (value: number) => void;
 };
 
 export const InputDecimal = ({
@@ -21,7 +21,7 @@ export const InputDecimal = ({
   value,
   setValue,
 }: InputDecimalProps) => {
-  const id = label.split(' ').join('-');
+  const id = label.split(" ").join("-");
   return (
     <div className={`col-sm-${col}`}>
       <label htmlFor={id} className="form-label">
@@ -35,7 +35,9 @@ export const InputDecimal = ({
         readOnly={readonly}
         disabled={disabled}
         value={formatter.decimal(value)}
-        onChange={(e) => setValue(Number(formatter.unmaskDecimal(e.target.value)))}
+        onChange={(e) =>
+          setValue && setValue(Number(formatter.unmaskDecimal(e.target.value)))
+        }
       />
     </div>
   );

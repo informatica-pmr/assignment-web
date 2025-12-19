@@ -7,7 +7,7 @@ type SelectTeachersProps = {
   label?: string;
   disabled?: boolean;
   teacherId: string | number;
-  setTeacherId: (value: string | number) => void;
+  setTeacherId: (value: string) => void;
 };
 
 export const SelectTeachers = (props: SelectTeachersProps) => {

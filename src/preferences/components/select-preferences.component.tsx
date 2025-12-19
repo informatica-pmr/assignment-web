@@ -7,7 +7,7 @@ type SelectPreferencesProps = {
   label?: string;
   disabled?: boolean;
   preferenceId: string | number;
-  setPreferenceId: (value: string | number) => void;
+  setPreferenceId: (value: string) => void;
 };
 
 export const SelectPreferences = (props: SelectPreferencesProps) => {

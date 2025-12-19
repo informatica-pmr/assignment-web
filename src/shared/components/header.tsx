@@ -4,6 +4,7 @@ import { HomePage } from "../../home/pages/home.page";
 import { PositionsIndexPage } from "../../positions/pages/positions-index.page";
 import { PreferencesIndexPage } from "../../preferences/pages/preferences-index.page";
 import { SituationsIndexPage } from "../../situations/pages/situations-index.page";
+import { SubscriptionsIndexPage } from "../../subscriptions/pages/subscriptions-index.page";
 import { TeachersIndexPage } from "../../teachers/pages/teachers-index.page";
 import { TitlesIndexPage } from "../../titles/pages/titles-index.page";
 import { UnitsIndexPage } from "../../units/pages/units-index.page";
@@ -90,6 +91,24 @@ export const Header = () => {
                 <li>
                   <a className="dropdown-item" href="#" onClick={() => changePage(<TitlesIndexPage />)}>
                     títulos
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                classificação
+              </a>
+              <ul className="dropdown-menu">
+                <li>
+                  <a className="dropdown-item" href="#" onClick={() => changePage(<SubscriptionsIndexPage />)}>
+                    inscricões
                   </a>
                 </li>
               </ul>

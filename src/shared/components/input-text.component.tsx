@@ -4,8 +4,8 @@ type InputTextProps = {
   readonly?: boolean;
   disabled?: boolean;
   required?: boolean;
-  value: string;
-  setValue: (value: string) => void;
+  value: string | number;
+  setValue?: (value: string) => void;
 };
 
 export const InputText = ({
@@ -31,7 +31,7 @@ export const InputText = ({
         readOnly={readonly}
         disabled={disabled}
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => setValue && setValue(e.target.value)}
       />
     </div>
   );
