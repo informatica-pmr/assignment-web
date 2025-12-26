@@ -1,0 +1,64 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.2.5/schema.json",
+  "files": {
+    "includes": ["**/*.ts", "**/*.tsx", "!**/*.css"]
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "off"
+      }
+    }
+  },
+  "linter": {
+    "rules": {
+      "a11y": {
+        "noLabelWithoutControl": "off",
+        "useKeyWithClickEvents": "off",
+        "useFocusableInteractive": "off",
+        "noStaticElementInteractions": "off"
+      },
+      "style": {
+        "noNonNullAssertion": "off"
+      },
+      "complexity": {
+        "noBannedTypes": "off",
+        "noStaticOnlyClass": "off"
+      },
+      "suspicious": {
+        "noDocumentCookie": "off",
+        "noConfusingVoidType": "off"
+      },
+      "correctness": {
+        "noEmptyPattern": "off",
+        "useParseIntRadix": "off",
+        "useUniqueElementIds": "off",
+        "noUnusedPrivateClassMembers": "off"
+      },
+      "performance": {
+        "noImgElement": "off"
+      }
+    }
+  },
+  "javascript": {
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    },
+    "formatter": {
+      "quoteStyle": "single",
+      "semicolons": "always",
+      "jsxQuoteStyle": "single",
+      "bracketSpacing": true,
+      "trailingCommas": "all",
+      "bracketSameLine": true,
+      "quoteProperties": "asNeeded",
+      "arrowParentheses": "always"
+    }
+  },
+  "formatter": {
+    "lineWidth": 100,
+    "lineEnding": "lf",
+    "indentStyle": "space",
+    "indentWidth": 2
+  }
+}
