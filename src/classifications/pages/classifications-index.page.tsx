@@ -1,5 +1,4 @@
 import { ClassificationsFilter } from '../components/classifications-filter.component';
-import { ClassificationsTable } from '../components/classifications-table.component';
 import { ClassificationsLayout } from '../layout';
 
 export const ClassificationsIndexPage = () => {
@@ -8,8 +7,6 @@ export const ClassificationsIndexPage = () => {
       <h2 className='mt-3 text-center'>Classificação</h2>
       <hr />
       <ClassificationsFilter />
-      <hr />
-      <ClassificationsTable />
     </ClassificationsLayout>
   );
 };

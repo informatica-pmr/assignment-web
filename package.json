@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@biomejs/biome": "^2.3.10",
+    "jspdf": "^4.0.0",
     "react": "^19.2.0",
     "react-cookie": "^8.0.1",
     "react-dom": "^19.2.0"
