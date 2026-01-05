@@ -1,0 +1,15 @@
+import { ClassificationsFilter } from '../components/classifications-filter.component';
+import { ClassificationsTable } from '../components/classifications-table.component';
+import { ClassificationsLayout } from '../layout';
+
+export const ClassificationsIndexPage = () => {
+  return (
+    <ClassificationsLayout>
+      <h2 className='mt-3 text-center'>Classificação</h2>
+      <hr />
+      <ClassificationsFilter />
+      <hr />
+      <ClassificationsTable />
+    </ClassificationsLayout>
+  );
+};

@@ -1,20 +1,23 @@
-import { useRef, useState } from "react";
-import { useSubscriptions } from "../contexts/subscriptions.context";
-import { usePages } from "../../shared/contexts/pages.context";
-import { Row } from "../../shared/components/row";
-import { SubscriptionsIndexPage } from "../pages/subscriptions-index.page";
-import { useAuth } from "../../auth/contexts/auth.context";
-import { SelectPreferences } from "../../preferences/components/select-preferences.component";
-import { SelectTeachers } from "../../teachers/components/select-teachers.component";
-import { SubscriptionTitlesForm, type SubscriptionTitlesFormElement } from "./subscription-titles-form.component";
+import { useRef, useState } from 'react';
+import { useSubscriptions } from '../contexts/subscriptions.context';
+import { usePages } from '../../shared/contexts/pages.context';
+import { Row } from '../../shared/components/row';
+import { SubscriptionsIndexPage } from '../pages/subscriptions-index.page';
+import { useAuth } from '../../auth/contexts/auth.context';
+import { SelectPreferences } from '../../preferences/components/select-preferences.component';
+import { SelectTeachers } from '../../teachers/components/select-teachers.component';
+import {
+  SubscriptionTitlesForm,
+  type SubscriptionTitlesFormElement,
+} from './subscription-titles-form.component';
 
 export const CreateSubscriptionForm = () => {
   const { yearId } = useAuth();
   const { createSubscription } = useSubscriptions();
   const { changePage } = usePages();
 
-  const [teacherId, setTeacherId] = useState("");
-  const [preferenceId, setPreferenceId] = useState("");
+  const [teacherId, setTeacherId] = useState('');
+  const [preferenceId, setPreferenceId] = useState('');
 
   const subscriptionTitlesRef = useRef<SubscriptionTitlesFormElement>(null);
 
@@ -22,8 +25,13 @@ export const CreateSubscriptionForm = () => {
     const titles = subscriptionTitlesRef.current?.getTitles() || [];
     const points = subscriptionTitlesRef.current?.getPoints() || [];
 
-    if (!teacherId || teacherId === "") {
-      alert("campo nome inválido");
+    if (!teacherId || teacherId === '') {
+      alert('campo professor inválido');
+      return;
+    }
+
+    if (!preferenceId || preferenceId === '') {
+      alert('campo preferência inválido');
       return;
     }
 
@@ -43,12 +51,7 @@ export const CreateSubscriptionForm = () => {
   return (
     <>
       <Row>
-        <SelectTeachers
-          all
-          col={8}
-          teacherId={teacherId}
-          setTeacherId={setTeacherId}
-        />
+        <SelectTeachers all col={8} teacherId={teacherId} setTeacherId={setTeacherId} />
         <SelectPreferences
           all
           col={4}
@@ -60,21 +63,16 @@ export const CreateSubscriptionForm = () => {
       <SubscriptionTitlesForm ref={subscriptionTitlesRef} />
       <hr />
       <Row>
-        <div className="col-sm-2">
+        <div className='col-sm-2'>
           <button
-            type="button"
-            className="btn btn-primary w-100"
-            onClick={() => changePage(<SubscriptionsIndexPage />)}
-          >
+            type='button'
+            className='btn btn-primary w-100'
+            onClick={() => changePage(<SubscriptionsIndexPage />)}>
             voltar
           </button>
         </div>
-        <div className="col-sm-2 ms-auto">
-          <button
-            type="submit"
-            className="btn btn-success w-100"
-            onClick={() => handleSubmit()}
-          >
+        <div className='col-sm-2 ms-auto'>
+          <button type='submit' className='btn btn-success w-100' onClick={() => handleSubmit()}>
             salvar
           </button>
         </div>
