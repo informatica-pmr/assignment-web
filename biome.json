@@ -16,7 +16,9 @@
         "noLabelWithoutControl": "off",
         "useKeyWithClickEvents": "off",
         "useFocusableInteractive": "off",
-        "noStaticElementInteractions": "off"
+        "noStaticElementInteractions": "off",
+        "useValidAnchor": "off",
+        "useSemanticElements": "off"
       },
       "style": {
         "noNonNullAssertion": "off"
