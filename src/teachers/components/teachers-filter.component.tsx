@@ -1,13 +1,13 @@
-import { useEffect } from "react";
-import { InputText } from "../../shared/components/input-text.component";
-import { Row } from "../../shared/components/row";
-import { useTeachersFilters } from "../contexts/teachers-filters.context";
-import { useTeachers } from "../contexts/teachers.context";
-import { SelectUnits } from "../../units/components/select-units.component";
-import { InputDate } from "../../shared/components/input-date.component";
-import { InputPhone } from "../../shared/components/input-phone.component";
-import { SelectPositions } from "../../positions/components/select-positions.component";
-import { SelectSituations } from "../../situations/components/select-situations.component";
+import { useEffect } from 'react';
+import { InputText } from '../../shared/components/input-text.component';
+import { Row } from '../../shared/components/row';
+import { useTeachersFilters } from '../contexts/teachers-filters.context';
+import { useTeachers } from '../contexts/teachers.context';
+import { SelectUnits } from '../../units/components/select-units.component';
+import { InputDate } from '../../shared/components/input-date.component';
+import { InputPhone } from '../../shared/components/input-phone.component';
+import { SelectPositions } from '../../positions/components/select-positions.component';
+import { SelectSituations } from '../../situations/components/select-situations.component';
 
 export const TeachersFilter = () => {
   const {
@@ -28,28 +28,16 @@ export const TeachersFilter = () => {
 
   useEffect(() => {
     findManyTeachers();
-  }, [findManyTeachers, name]);
+  }, [findManyTeachers]);
 
   return (
-    <>
-      <Row>
-        <InputText col={2} label="nome" value={name} setValue={changeName} />
-        <SelectUnits all col={2} unitId={unitId} setUnitId={changeUnitId} />
-        <InputDate
-          col={2}
-          label="nascimento"
-          value={birthAt}
-          setValue={changeBirthAt}
-        />
-        <InputPhone
-          col={2}
-          label="celular"
-          value={cellphone}
-          setValue={changeCellphone}
-        />
-        <SelectPositions all col={2} positionId={positionId} setPositionId={changePositionId} />
-        <SelectSituations all col={2} situationId={situationId} setSituationId={changeSituationId} />
-      </Row>
-    </>
+    <Row>
+      <InputText col={2} label='nome' value={name} setValue={changeName} />
+      <SelectUnits all col={2} unitId={unitId} setUnitId={changeUnitId} />
+      <InputDate col={2} label='nascimento' value={birthAt} setValue={changeBirthAt} />
+      <InputPhone col={2} label='celular' value={cellphone} setValue={changeCellphone} />
+      <SelectPositions all col={2} positionId={positionId} setPositionId={changePositionId} />
+      <SelectSituations all col={2} situationId={situationId} setSituationId={changeSituationId} />
+    </Row>
   );
 };

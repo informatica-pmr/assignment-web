@@ -1,11 +1,11 @@
 import { useCallback, useState, type ReactNode } from 'react';
-import { TeachersFiltersContext } from '../contexts/teachers-filters.context';
+import { TeachersOrderByContext } from '../contexts/teachers-order-by.context';
 
-type TeachersFiltersProviderProps = {
+type TeachersOrderByProviderProps = {
   children: ReactNode;
 };
 
-export const TeachersFiltersProvider = ({ children }: TeachersFiltersProviderProps) => {
+export const TeachersOrderByProvider = ({ children }: TeachersOrderByProviderProps) => {
   const [name, setName] = useState('');
   const [identity, setIdentity] = useState('');
   const [document, setDocument] = useState('');
@@ -20,12 +20,11 @@ export const TeachersFiltersProvider = ({ children }: TeachersFiltersProviderPro
   const [observations, setObservations] = useState('');
   const [speciality, setSpeciality] = useState('');
   const [dependents, setDependents] = useState('');
-  const [yearId, setYearId] = useState('all');
-  const [unitId, setUnitId] = useState('all');
-  const [civilStatusId, setCivilStatusId] = useState('all');
-  const [positionId, setPositionId] = useState('all');
-  const [disciplineId, setDisciplineId] = useState('all');
-  const [situationId, setSituationId] = useState('all');
+  const [unit, setUnit] = useState('all');
+  const [civilStatus, setCivilStatus] = useState('all');
+  const [position, setPosition] = useState('all');
+  const [discipline, setDiscipline] = useState('all');
+  const [situation, setSituation] = useState('all');
   const [remove, setRemove] = useState('all');
   const [adido, setAdido] = useState('all');
   const [readapted, setReadapted] = useState('all');
@@ -51,12 +50,11 @@ export const TeachersFiltersProvider = ({ children }: TeachersFiltersProviderPro
   const changeObservations = useCallback((value: string) => setObservations(value), []);
   const changeSpeciality = useCallback((value: string) => setSpeciality(value), []);
   const changeDependents = useCallback((value: string) => setDependents(value), []);
-  const changeYearId = useCallback((value: string) => setYearId(value), []);
-  const changeUnitId = useCallback((value: string) => setUnitId(value), []);
-  const changeCivilStatusId = useCallback((value: string) => setCivilStatusId(value), []);
-  const changePositionId = useCallback((value: string) => setPositionId(value), []);
-  const changeDisciplineId = useCallback((value: string) => setDisciplineId(value), []);
-  const changeSituationId = useCallback((value: string) => setSituationId(value), []);
+  const changeUnit = useCallback((value: string) => setUnit(value), []);
+  const changeCivilStatus = useCallback((value: string) => setCivilStatus(value), []);
+  const changePosition = useCallback((value: string) => setPosition(value), []);
+  const changeDiscipline = useCallback((value: string) => setDiscipline(value), []);
+  const changeSituation = useCallback((value: string) => setSituation(value), []);
   const changeRemove = useCallback((value: string) => setRemove(value), []);
   const changeAdido = useCallback((value: string) => setAdido(value), []);
   const changeReadapted = useCallback((value: string) => setReadapted(value), []);
@@ -69,7 +67,7 @@ export const TeachersFiltersProvider = ({ children }: TeachersFiltersProviderPro
   const changeMusic = useCallback((value: string) => setMusic(value), []);
 
   return (
-    <TeachersFiltersContext.Provider
+    <TeachersOrderByContext.Provider
       value={{
         name,
         identity,
@@ -84,12 +82,11 @@ export const TeachersFiltersProvider = ({ children }: TeachersFiltersProviderPro
         cellphone,
         email,
         observations,
-        yearId,
-        unitId,
-        civilStatusId,
-        positionId,
-        disciplineId,
-        situationId,
+        unit,
+        civilStatus,
+        position,
+        discipline,
+        situation,
         speciality,
         remove,
         adido,
@@ -115,12 +112,11 @@ export const TeachersFiltersProvider = ({ children }: TeachersFiltersProviderPro
         changeObservations,
         changeSpeciality,
         changeDependents,
-        changeYearId,
-        changeUnitId,
-        changeCivilStatusId,
-        changePositionId,
-        changeDisciplineId,
-        changeSituationId,
+        changeUnit,
+        changeCivilStatus,
+        changePosition,
+        changeDiscipline,
+        changeSituation,
         changeRemove,
         changeAdido,
         changeReadapted,
@@ -133,6 +129,6 @@ export const TeachersFiltersProvider = ({ children }: TeachersFiltersProviderPro
         changeMusic,
       }}>
       {children}
-    </TeachersFiltersContext.Provider>
+    </TeachersOrderByContext.Provider>
   );
 };

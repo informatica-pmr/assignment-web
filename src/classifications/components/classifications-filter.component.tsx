@@ -8,8 +8,16 @@ import { SelectSituations } from '../../situations/components/select-situations.
 import { SelectUnits } from '../../units/components/select-units.component';
 import { Select } from '../../shared/components/select.component';
 import { Report } from '../../shared/toolkit/report';
+import { useLoadPositions } from '../../positions/contexts/load-positions.context';
+import { useLoadSituations } from '../../situations/contexts/load-situations.context';
+import { useLoadUnits } from '../../units/contexts/load-units.context';
+import { useAuth } from '../../auth/contexts/auth.context';
 
 export const ClassificationsFilter = () => {
+  const { yearId } = useAuth();
+  const { positions } = useLoadPositions();
+  const { situations } = useLoadSituations();
+  const { units } = useLoadUnits();
   const {
     name,
     positionId,
@@ -44,8 +52,48 @@ export const ClassificationsFilter = () => {
 
   const handleExportClick = () => {
     const filters = ``;
-    const fileName = '';
-    const fileReference = '2026';
+    const position =
+      positionId !== 'all'
+        ? positions.find((p) => p.positionId === Number(positionId))!.name.toUpperCase()
+        : '';
+    const situation =
+      situationId !== 'all'
+        ? situations.find((s) => s.situationId === Number(situationId))!.name.toUpperCase()
+        : '';
+    const unit =
+      unitId !== 'all'
+        ? units.find((u) => u.unitId === Number(unitId))!.name.toUpperCase()
+        : 'GERAL';
+    let flag = '';
+    if (adido === 'Sim') {
+      flag += 'ADIDO ';
+    }
+    if (readapted === 'Sim') {
+      flag += 'READAPTADO ';
+    }
+    if (remove === 'Sim') {
+      flag += 'REMOÇÃO';
+    }
+    if (readingRoom === 'Sim') {
+      flag += 'SALA DE LEITURA ';
+    }
+    if (computing === 'Sim') {
+      flag += 'INFORMÁTICA ';
+    }
+    if (tutoring === 'Sim') {
+      flag += 'REFORÇO ';
+    }
+    if (ambientalEducation === 'Sim') {
+      flag += 'EDUCAÇÃO AMBIENTAL';
+    }
+    if (robotics === 'Sim') {
+      flag += 'ROBÓTICA ';
+    }
+    if (music === 'Sim') {
+      flag += 'MÚSICA ';
+    }
+    const fileName = `${position} - ${situation}${flag} - ${unit}`;
+    const fileReference = `${yearId}`;
     const report = new Report(classifications, fileName, fileReference, filters);
     report.create();
     report.export();

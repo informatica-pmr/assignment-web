@@ -1,5 +1,3 @@
-/** biome-ignore-all lint/a11y/useValidAnchor: <explanation> */
-/** biome-ignore-all lint/a11y/useSemanticElements: <explanation> */
 import { CivilStatusesIndexPage } from '../../civil-statuses/pages/civil-statuses-index.page';
 import { ClassificationsIndexPage } from '../../classifications/pages/classifications-index.page';
 import { DisciplinesIndexPage } from '../../disciplines/pages/disciplines-index.page';
@@ -9,6 +7,7 @@ import { PreferencesIndexPage } from '../../preferences/pages/preferences-index.
 import { SituationsIndexPage } from '../../situations/pages/situations-index.page';
 import { SubscriptionsIndexPage } from '../../subscriptions/pages/subscriptions-index.page';
 import { TeachersIndexPage } from '../../teachers/pages/teachers-index.page';
+import { TeachersReportPage } from '../../teachers/pages/teachers-report.page';
 import { TitlesIndexPage } from '../../titles/pages/titles-index.page';
 import { UnitsIndexPage } from '../../units/pages/units-index.page';
 import { YearsIndexPage } from '../../years/pages/years-index.page';
@@ -143,6 +142,26 @@ export const Header = () => {
                     href='#'
                     onClick={() => changePage(<SubscriptionsIndexPage />)}>
                     inscricões
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li className='nav-item dropdown'>
+              <a
+                className='nav-link dropdown-toggle'
+                href='#'
+                role='button'
+                data-bs-toggle='dropdown'
+                aria-expanded='false'>
+                relatórios
+              </a>
+              <ul className='dropdown-menu'>
+                <li>
+                  <a
+                    className='dropdown-item'
+                    href='#'
+                    onClick={() => changePage(<TeachersReportPage />)}>
+                    professores
                   </a>
                 </li>
                 <li>

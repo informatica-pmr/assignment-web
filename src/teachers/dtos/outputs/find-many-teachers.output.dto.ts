@@ -15,10 +15,15 @@ export type FindManyTeachersOutputDTO = {
   observations: string | null;
   yearId: number;
   unitId: number;
+  unitName: string | null;
   civilStatusId: number;
+  civilStatusName: string | null;
   positionId: number;
+  positionName: string | null;
   disciplineId: number | null;
+  disciplineName: string | null;
   situationId: number;
+  situationName: string | null;
   speciality: string | null;
   remove: string | null;
   adido: string | null;

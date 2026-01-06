@@ -1,15 +1,16 @@
 import jsPDF from 'jspdf';
-import type { FindManyClassificationsOutputDTO } from '../../classifications/dtos/outputs/find-many-classifications.output.dto';
+import type { FindManyTeachersOutputDTO } from '../../teachers/dtos/outputs/find-many-teachers.output.dto';
+import { Formatter } from './formatter';
 
-export class Report {
+export class ReportTeachers {
   #pdf: jsPDF;
-  #data: FindManyClassificationsOutputDTO[];
+  #data: FindManyTeachersOutputDTO[];
   #source: string;
   #reference: string;
   #filters: string;
 
   constructor(
-    data: FindManyClassificationsOutputDTO[],
+    data: FindManyTeachersOutputDTO[],
     source: string,
     reference: string,
     filters: string,
@@ -19,7 +20,7 @@ export class Report {
       format: 'a4',
       unit: 'mm',
     });
-    this.#pdf.setDocumentProperties({ title: 'Classificação' });
+    this.#pdf.setDocumentProperties({ title: 'Relação de Professores' });
     this.#data = data;
     this.#source = source;
     this.#reference = reference;
@@ -36,7 +37,7 @@ export class Report {
     const month = date.getMonth() + 1;
     const monthFormatted = month.toString().length === 1 ? `0${month}` : month;
     this.#pdf.output('dataurlnewwindow', {
-      filename: `classificacao_${date.getDate()}${monthFormatted}${date.getFullYear()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}`,
+      filename: `relacao_professores_${date.getDate()}${monthFormatted}${date.getFullYear()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}`,
     });
   }
 
@@ -49,7 +50,7 @@ export class Report {
     // title
     this.#pdf.setFont('times', 'bold');
     this.#pdf.setFontSize(14);
-    const title = 'CLASSIFICAÇÃO DE PROFESSORES';
+    const title = 'RELAÇÃO DE PROFESSORES';
     const titleHeight = this.#pdf.getTextDimensions(title).h;
     const titleX = 8;
     const titleY = titleHeight * 2;
@@ -142,20 +143,10 @@ export class Report {
   #tableHeader() {
     this.#pdf.setFont('times', 'bold');
     this.#pdf.setFontSize(11);
-    this.#pdf.text('Nº', 10, 34);
-    this.#pdf.text('PROFESSOR(A)', 18, 34);
-    this.#pdf.text('TSM', 110, 34);
-    this.#pdf.text('TSE', 125, 34);
-    this.#pdf.text('Conc1', 140, 34);
-    this.#pdf.text('Conc2', 155, 34);
-    this.#pdf.text('Ped', 170, 34);
-    this.#pdf.text('Mes', 185, 34);
-    this.#pdf.text('Dout', 200, 34);
-    this.#pdf.text('POS', 215, 34);
-    this.#pdf.text('Ape', 230, 34);
-    this.#pdf.text('Cur', 245, 34);
-    this.#pdf.text('Pub', 260, 34);
-    this.#pdf.text('TOTAL', 274, 34);
+    this.#pdf.text('UNIDADE', 10, 34);
+    this.#pdf.text('PROFESSOR(A)', 90, 34);
+    this.#pdf.text('TELEFONE', 220, 34);
+    this.#pdf.text('CELULAR', 259, 34);
     // table header line
     const lineX1 = 9;
     const lineY1 = 35;
@@ -167,8 +158,8 @@ export class Report {
   }
 
   #tableBody() {
+    const formatter = new Formatter();
     let y = 40;
-    let i = 1;
     for (const item of this.#data) {
       if (y === 190) {
         y = 40;
@@ -178,23 +169,11 @@ export class Report {
       }
       this.#pdf.setFont('times', 'normal');
       this.#pdf.setFontSize(11);
-      this.#pdf.text(i.toString(), 10, y);
-      this.#pdf.text(item.name, 18, y);
-      this.#pdf.text(item.t1?.toString() ?? '', 110, y);
-      this.#pdf.text(item.t2?.toString() ?? '', 125, y);
-      this.#pdf.text(item.t3?.toString() ?? '', 140, y);
-      this.#pdf.text(item.t4?.toString() ?? '', 155, y);
-      this.#pdf.text(item.t5?.toString() ?? '', 170, y);
-      this.#pdf.text(item.t6?.toString() ?? '', 185, y);
-      this.#pdf.text(item.t7?.toString() ?? '', 200, y);
-      this.#pdf.text(item.t8?.toString() ?? '', 215, y);
-      this.#pdf.text(item.t9?.toString() ?? '', 230, y);
-      this.#pdf.text(item.t10?.toString() ?? '', 245, y);
-      this.#pdf.text(item.t11?.toString() ?? '', 260, y);
-      this.#pdf.setFont('times', 'bold');
-      this.#pdf.text(item.total.toString(), 274, y);
+      this.#pdf.text(item.unitName ?? '', 10, y);
+      this.#pdf.text(item.name ?? '', 90, y);
+      this.#pdf.text(formatter.phoneNumber(item.phone ?? ''), 220, y);
+      this.#pdf.text(formatter.phoneNumber(item.cellphone ?? ''), 259, y);
       y += 6;
-      i++;
     }
   }
 
