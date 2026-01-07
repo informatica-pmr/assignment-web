@@ -4,7 +4,7 @@ export type CreateUsersInputDTO = {
   password: string;
   name: string;
   active: string;
-  role: string;
+  roleId: string;
   units: CreateUsersUnitsInputDTO[];
 };
 

@@ -20,7 +20,7 @@ export const UsersProvider = ({ children }: UsersProviderProps) => {
   const filters = useUsersFilters();
   const orderBy = useUsersOrderBy();
   const { page, size, changePagination } = usePagination();
-  const [users, setUsers] = useState<FindOneUsersOutputDTO[]>([]);
+  const [users, setUsers] = useState<FindManyUsersOutputDTO[]>([]);
 
   const findOneUser = useCallback(async (username: string) => {
     try {

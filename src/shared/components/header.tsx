@@ -10,6 +10,7 @@ import { TeachersIndexPage } from '../../teachers/pages/teachers-index.page';
 import { TeachersReportPage } from '../../teachers/pages/teachers-report.page';
 import { TitlesIndexPage } from '../../titles/pages/titles-index.page';
 import { UnitsIndexPage } from '../../units/pages/units-index.page';
+import { UsersIndexPage } from '../../users/pages/users-index.page';
 import { YearsIndexPage } from '../../years/pages/years-index.page';
 import { usePages } from '../contexts/pages.context';
 
@@ -126,25 +127,13 @@ export const Header = () => {
                 </li>
               </ul>
             </li>
-            <li className='nav-item dropdown'>
+            <li className='nav-item'>
               <a
-                className='nav-link dropdown-toggle'
+                className='nav-link'
                 href='#'
-                role='button'
-                data-bs-toggle='dropdown'
-                aria-expanded='false'>
-                classificação
+                onClick={() => changePage(<SubscriptionsIndexPage />)}>
+                inscricões
               </a>
-              <ul className='dropdown-menu'>
-                <li>
-                  <a
-                    className='dropdown-item'
-                    href='#'
-                    onClick={() => changePage(<SubscriptionsIndexPage />)}>
-                    inscricões
-                  </a>
-                </li>
-              </ul>
             </li>
             <li className='nav-item dropdown'>
               <a
@@ -170,6 +159,26 @@ export const Header = () => {
                     href='#'
                     onClick={() => changePage(<ClassificationsIndexPage />)}>
                     classificação
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li className='nav-item dropdown'>
+              <a
+                className='nav-link dropdown-toggle'
+                href='#'
+                role='button'
+                data-bs-toggle='dropdown'
+                aria-expanded='false'>
+                segurança
+              </a>
+              <ul className='dropdown-menu'>
+                <li>
+                  <a
+                    className='dropdown-item'
+                    href='#'
+                    onClick={() => changePage(<UsersIndexPage />)}>
+                    usuários
                   </a>
                 </li>
               </ul>

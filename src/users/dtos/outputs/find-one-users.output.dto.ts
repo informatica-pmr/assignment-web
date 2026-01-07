@@ -1,14 +1,15 @@
 export type FindOneUsersOutputDTO = {
   username: string;
   email: string;
-  password: string;
   name: string;
   active: string;
-  role: {
-    value: string;
-    displayValue: string;
+  roleId: number;
+  userRole?: {
+    username: string;
+    roleId: number;
+    roleDescription: string;
   };
-  units?: FindOneUsersUnitsOutputDTO[];
+  usersUnits?: FindOneUsersUnitsOutputDTO[];
 };
 
 export type FindOneUsersUnitsOutputDTO = {
