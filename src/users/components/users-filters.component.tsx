@@ -4,6 +4,7 @@ import { Row } from '../../shared/components/row';
 import { Select } from '../../shared/components/select.component';
 import { useUsersFilters } from '../contexts/users-filters.context';
 import { useUsers } from '../contexts/users.context';
+import { SelectRoles } from '../../roles/components/select-roles.component';
 
 export const UsersFilters = () => {
   const { findManyUsers } = useUsers();
@@ -16,10 +17,11 @@ export const UsersFilters = () => {
   return (
     <Row>
       <InputText col={2} label='login' value={username} setValue={changeUsername} />
-      <InputText col={2} label='name' value={name} setValue={changeName} />
+      <InputText col={6} label='name' value={name} setValue={changeName} />
+      <SelectRoles all col={2} roleId={''} setRoleId={() => {}} />
       <Select
         all
-        col={1}
+        col={2}
         label='ativo'
         value={active}
         setValue={changeActive}

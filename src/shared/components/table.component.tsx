@@ -4,7 +4,7 @@ import { usePagination } from '../contexts/pagination.context';
 type TableProps = {
   headers: { id: number; value: string }[];
   rows: {
-    id: number;
+    id: number | string;
     checked: boolean;
     cols: { id: string; value: string }[];
   }[];

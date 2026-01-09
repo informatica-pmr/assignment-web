@@ -1,29 +1,28 @@
-import { useCallback, useState, type ReactNode } from "react";
-import { AuthContext } from "../contexts/auth.context";
-import { Fetch } from "../../shared/lib/fetch";
-import { useNookies } from "../../shared/contexts/nookies.context";
+import { useCallback, useState, type ReactNode } from 'react';
+import { AuthContext } from '../contexts/auth.context';
+import { Fetch } from '../../shared/lib/fetch';
+import { useNookies } from '../../shared/contexts/nookies.context';
+import type { LoginAuthInputDTO } from '../dtos/inputs/login-auth.input.dto';
+import type { LoginAuthOutputDTO } from '../dtos/output/login-auth.output.dto';
 
 type AuthProviderProps = {
   children: ReactNode;
 };
 
-const fetch = new Fetch("auth");
+const fetch = new Fetch('auth');
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const { setAccessToken } = useNookies();
-  const [yearId, setYearId] = useState(2025);
+  const [yearId, setYearId] = useState(0);
   const [userId, setUserId] = useState(0);
-  const [username, setUsername] = useState("");
-  const [role, setRole] = useState("");
+  const [username, setUsername] = useState('');
+  const [role, setRole] = useState('');
 
   const login = useCallback(
-    async (yearId: string, username: string, password: string) => {
+    async ({ yearId, username, password }: LoginAuthInputDTO) => {
       try {
-        const { data } = await fetch.post<
-          { accessToken: string; expiresIn: number },
-          { yearId: number; username: string; password: string }
-        >({
-          yearId: Number(yearId),
+        const { data } = await fetch.post<LoginAuthOutputDTO, LoginAuthInputDTO>({
+          yearId,
           username,
           password,
         });
@@ -32,13 +31,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           return false;
         }
 
-        const payload = data.accessToken.split(".").at(1) ?? "";
+        const payload = data.accessToken.split('.').at(1) ?? '';
 
-        const { sub, user, role, year } = JSON.parse(atob(payload) || "{}");
+        const { sub, user, role, year } = JSON.parse(atob(payload) || '{}');
         setUserId(sub);
         setUsername(user);
         setRole(role);
-        setYearId(year);
+        setYearId(Number(year));
 
         setAccessToken(data.accessToken);
 
@@ -48,7 +47,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         return false;
       }
     },
-    [setAccessToken]
+    [setAccessToken],
   );
 
   return (
@@ -59,8 +58,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         username,
         role,
         login,
-      }}
-    >
+      }}>
       {children}
     </AuthContext.Provider>
   );

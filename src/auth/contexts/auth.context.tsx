@@ -1,11 +1,12 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext } from 'react';
+import type { LoginAuthInputDTO } from '../dtos/inputs/login-auth.input.dto';
 
 type AuthContextProps = {
   yearId: number;
   userId: number;
   username: string;
   role: string;
-  login: (yearId: string, username: string, password: string) => Promise<boolean>;
+  login: (loginDTO: LoginAuthInputDTO) => Promise<boolean>;
 };
 
 export const AuthContext = createContext<AuthContextProps | null>(null);

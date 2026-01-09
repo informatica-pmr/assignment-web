@@ -9,6 +9,7 @@ import { useUsersFilters } from '../contexts/users-filters.context';
 import { useUsersOrderBy, type UsersOrderByContextProps } from '../contexts/users-order-by.context';
 import type { FindManyUsersOutputDTO } from '../dtos/outputs/find-many-users.output.dto';
 import type { FindManyUsersInputDTO } from '../dtos/inputs/find-many-users.input.dto';
+import { useNookies } from '../../shared/contexts/nookies.context';
 
 type UsersProviderProps = {
   children: ReactNode;
@@ -17,18 +18,18 @@ type UsersProviderProps = {
 const fetch = new Fetch('users');
 
 export const UsersProvider = ({ children }: UsersProviderProps) => {
+  const { getAccessTokenOrThrow } = useNookies();
   const filters = useUsersFilters();
   const orderBy = useUsersOrderBy();
   const { page, size, changePagination } = usePagination();
   const [users, setUsers] = useState<FindManyUsersOutputDTO[]>([]);
 
+  fetch.setAccessToken(getAccessTokenOrThrow());
+
   const findOneUser = useCallback(async (username: string) => {
     try {
-      const { data } = await fetch.get<FindOneUsersOutputDTO[]>({ id: username });
-      if (!data || data.length === 0) {
-        return undefined;
-      }
-      return data.at(0);
+      const { data } = await fetch.get<FindOneUsersOutputDTO>({ id: username });
+      return data;
     } catch (err) {
       console.error(err);
       return undefined;

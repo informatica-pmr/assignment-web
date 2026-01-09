@@ -1,3 +1,5 @@
+import { useAuth } from '../../auth/contexts/auth.context';
+import { AuthLoginPage } from '../../auth/pages/auth-login.page';
 import { CivilStatusesIndexPage } from '../../civil-statuses/pages/civil-statuses-index.page';
 import { ClassificationsIndexPage } from '../../classifications/pages/classifications-index.page';
 import { DisciplinesIndexPage } from '../../disciplines/pages/disciplines-index.page';
@@ -12,13 +14,16 @@ import { TitlesIndexPage } from '../../titles/pages/titles-index.page';
 import { UnitsIndexPage } from '../../units/pages/units-index.page';
 import { UsersIndexPage } from '../../users/pages/users-index.page';
 import { YearsIndexPage } from '../../years/pages/years-index.page';
+import { useNookies } from '../contexts/nookies.context';
 import { usePages } from '../contexts/pages.context';
 
 export const Header = () => {
   const { changePage } = usePages();
+  const { username, yearId, role } = useAuth();
+  const { deleteAccessToken } = useNookies();
   return (
     <nav className='navbar navbar-expand-lg bg-body-tertiary'>
-      <div className='container-fluid'>
+      <div className=' container container-fluid'>
         <a className='navbar-brand' href='/'>
           Atribui
         </a>
@@ -33,7 +38,7 @@ export const Header = () => {
           <span className='navbar-toggler-icon'></span>
         </button>
         <div className='collapse navbar-collapse' id='navbarNavDropdown'>
-          <ul className='navbar-nav'>
+          <ul className='navbar-nav me-auto mb-2 mb-lg-0'>
             <li className='nav-item'>
               <a
                 className='nav-link active'
@@ -163,6 +168,30 @@ export const Header = () => {
                 </li>
               </ul>
             </li>
+            {role !== '3' && (
+              <li className='nav-item dropdown'>
+                <a
+                  className='nav-link dropdown-toggle'
+                  href='#'
+                  role='button'
+                  data-bs-toggle='dropdown'
+                  aria-expanded='false'>
+                  segurança
+                </a>
+                <ul className='dropdown-menu'>
+                  <li>
+                    <a
+                      className='dropdown-item'
+                      href='#'
+                      onClick={() => changePage(<UsersIndexPage />)}>
+                      usuários
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            )}
+          </ul>
+          <ul className='navbar-nav ml-auto mb-2 mb-lg-0'>
             <li className='nav-item dropdown'>
               <a
                 className='nav-link dropdown-toggle'
@@ -170,15 +199,18 @@ export const Header = () => {
                 role='button'
                 data-bs-toggle='dropdown'
                 aria-expanded='false'>
-                segurança
+                {username} | {yearId}
               </a>
               <ul className='dropdown-menu'>
                 <li>
                   <a
                     className='dropdown-item'
                     href='#'
-                    onClick={() => changePage(<UsersIndexPage />)}>
-                    usuários
+                    onClick={() => {
+                      deleteAccessToken();
+                      changePage(<AuthLoginPage />);
+                    }}>
+                    sair
                   </a>
                 </li>
               </ul>

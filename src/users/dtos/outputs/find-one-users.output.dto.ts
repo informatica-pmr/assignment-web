@@ -4,12 +4,13 @@ export type FindOneUsersOutputDTO = {
   name: string;
   active: string;
   roleId: number;
+  unitId: number;
   userRole?: {
     username: string;
     roleId: number;
     roleDescription: string;
   };
-  usersUnits?: FindOneUsersUnitsOutputDTO[];
+  userUnit?: FindOneUsersUnitsOutputDTO;
 };
 
 export type FindOneUsersUnitsOutputDTO = {

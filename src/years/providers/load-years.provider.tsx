@@ -1,14 +1,14 @@
-import { useCallback, useEffect, useState, type ReactNode } from "react";
-import { LoadYearsContext } from "../contexts/load-years.context";
-import type { FindManyYearsOutputDTO } from "../dtos/outputs/find-many-years.output.dto";
-import { Fetch } from "../../shared/lib/fetch";
-import type { FindManyYearsInputDTO } from "../dtos/inputs/find-many-years.input.dto";
+import { useCallback, useEffect, useState, type ReactNode } from 'react';
+import { LoadYearsContext } from '../contexts/load-years.context';
+import type { FindManyYearsOutputDTO } from '../dtos/outputs/find-many-years.output.dto';
+import { Fetch } from '../../shared/lib/fetch';
+import type { FindManyYearsInputDTO } from '../dtos/inputs/find-many-years.input.dto';
 
 type LoadYearsProviderProps = {
   children: ReactNode;
 };
 
-const fetch = new Fetch("years");
+const fetch = new Fetch('years');
 
 export const LoadYearsProvider = ({ children }: LoadYearsProviderProps) => {
   const [years, setYears] = useState<FindManyYearsOutputDTO[]>([]);
@@ -16,10 +16,7 @@ export const LoadYearsProvider = ({ children }: LoadYearsProviderProps) => {
 
   const findManyYears = useCallback(async () => {
     try {
-      const { data } = await fetch.get<
-        FindManyYearsOutputDTO[],
-        FindManyYearsInputDTO
-      >({
+      const { data } = await fetch.get<FindManyYearsOutputDTO[], FindManyYearsInputDTO>({
         filters: {},
       });
 
@@ -36,8 +33,6 @@ export const LoadYearsProvider = ({ children }: LoadYearsProviderProps) => {
   }, [findManyYears]);
 
   return (
-    <LoadYearsContext.Provider value={{ years, isLoading }}>
-      {children}
-    </LoadYearsContext.Provider>
+    <LoadYearsContext.Provider value={{ years, isLoading }}>{children}</LoadYearsContext.Provider>
   );
 };

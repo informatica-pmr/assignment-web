@@ -1,4 +1,4 @@
-type InputTextProps = {
+type InputPasswordProps = {
   col: number;
   label: string;
   readonly?: boolean;
@@ -8,7 +8,7 @@ type InputTextProps = {
   setValue?: (value: string) => void;
 };
 
-export const InputText = ({
+export const InputPassword = ({
   col,
   label,
   readonly,
@@ -16,7 +16,7 @@ export const InputText = ({
   required,
   value,
   setValue,
-}: InputTextProps) => {
+}: InputPasswordProps) => {
   const id = label.split(' ').join('-');
   return (
     <div className={`col-sm-${col}`}>
@@ -24,7 +24,7 @@ export const InputText = ({
         {label} {required && <span style={{ color: 'red' }}>*</span>}
       </label>
       <input
-        type='text'
+        type='password'
         name={id}
         id={id}
         className='form-control'

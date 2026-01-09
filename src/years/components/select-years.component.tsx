@@ -1,5 +1,5 @@
-import { Select } from "../../shared/components/select.component";
-import { useLoadYears } from "../contexts/load-years.context";
+import { Select } from '../../shared/components/select.component';
+import { useLoadYears } from '../contexts/load-years.context';
 
 type SelectYearsProps = {
   all?: boolean;
@@ -7,7 +7,7 @@ type SelectYearsProps = {
   label?: string;
   disabled?: boolean;
   yearId: string | number;
-  setYearId: (value: string | number) => void;
+  setYearId: (value: string) => void;
 };
 
 export const SelectYears = (props: SelectYearsProps) => {
@@ -18,7 +18,7 @@ export const SelectYears = (props: SelectYearsProps) => {
       all={props.all}
       default={!props.all}
       col={props.col}
-      label={props.label ?? "ano"}
+      label={props.label ?? 'ano'}
       disabled={props.disabled}
       value={props.yearId as string}
       setValue={props.setYearId}

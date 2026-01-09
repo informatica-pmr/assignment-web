@@ -4,10 +4,6 @@ export type UpdateUsersInputDTO = {
   password?: string;
   name?: string;
   active?: string;
-  roleId?: string;
-  units: UpdateUsersUnitsInputDTO[];
-};
-
-export type UpdateUsersUnitsInputDTO = {
-  unitId: number;
+  roleId?: number;
+  unitId?: number;
 };
