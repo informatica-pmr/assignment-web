@@ -1,5 +1,5 @@
-import type { Pageable } from "../../dtos/inputs/pageable";
-import type { SuccessResponseDTO } from "../../dtos/outputs/success-response.dto";
+import type { Pageable } from '../../dtos/inputs/pageable';
+import type { SuccessResponseDTO } from '../../dtos/outputs/success-response.dto';
 
 export class FetchError {
   statusCode: number;
@@ -33,7 +33,9 @@ export class Fetch {
 
   private async getBaseUrlJson() {
     const origin = document.location.origin;
-    const path = `${origin}/_/url.json`;
+    const path = origin.includes('localhost')
+      ? `${origin}/_/url.json`
+      : `${origin}/atribui/_/url.json`;
     const response = await fetch(path, {});
     const data = await response.json();
 
@@ -106,7 +108,7 @@ export class Fetch {
     }
     if (filters) {
       const params = this.buildFilters<Y>(filters);
-      url = `${url}?${params}`;
+      url = `${url}/?${params}`;
     }
 
     const headers = this.buildHeaders<O>(orderBy);
@@ -148,6 +150,19 @@ export class Fetch {
         'content-type': 'application/json',
       },
       body: JSON.stringify(updateDTO),
+    });
+
+    await this.handleStatus(response);
+  }
+
+  async patch<T = object>(id: string, updatePartialDTO: T): Promise<void> {
+    const response = await fetch(`${this.baseUrl}${this.resource}/${id}`, {
+      method: 'PATCH',
+      headers: {
+        authorization: `Bearer ${this.accessToken}`,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(updatePartialDTO),
     });
 
     await this.handleStatus(response);

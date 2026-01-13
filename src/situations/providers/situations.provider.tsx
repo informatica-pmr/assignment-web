@@ -1,27 +1,29 @@
-import { useCallback, useState, type ReactNode } from "react";
-import { SituationsContext } from "../contexts/situations.context";
-import { Fetch } from "../../shared/lib/fetch";
-import type { FindManySituationsOutputDTO } from "../dtos/outputs/find-many-situations.output.dto";
-import type { FindOneSituationsOutputDTO } from "../dtos/outputs/find-one-situations.output.dto";
-import {
-  useSituationsFilters,
-} from "../contexts/situations-filters.context";
-import type { CreateSituationsInputDTO } from "../dtos/inputs/create-situations.input.dto";
-import type { CreateSituationsOutputDTO } from "../dtos/outputs/create-situations.output.dto";
-import type { UpdateSituationsInputDTO } from "../dtos/inputs/update-situations.input.dto";
-import { usePagination } from "../../shared/contexts/pagination.context";
-import type { FindManySituationsInputDTO } from "../dtos/inputs/find-many-situations.input.dto";
+import { useCallback, useState, type ReactNode } from 'react';
+import { SituationsContext } from '../contexts/situations.context';
+import { Fetch } from '../../shared/lib/fetch';
+import type { FindManySituationsOutputDTO } from '../dtos/outputs/find-many-situations.output.dto';
+import type { FindOneSituationsOutputDTO } from '../dtos/outputs/find-one-situations.output.dto';
+import { useSituationsFilters } from '../contexts/situations-filters.context';
+import type { CreateSituationsInputDTO } from '../dtos/inputs/create-situations.input.dto';
+import type { CreateSituationsOutputDTO } from '../dtos/outputs/create-situations.output.dto';
+import type { UpdateSituationsInputDTO } from '../dtos/inputs/update-situations.input.dto';
+import { usePagination } from '../../shared/contexts/pagination.context';
+import type { FindManySituationsInputDTO } from '../dtos/inputs/find-many-situations.input.dto';
+import { useNookies } from '../../shared/contexts/nookies.context';
 
 type SituationsProviderProps = {
   children: ReactNode;
 };
 
-const fetch = new Fetch("situations");
+const fetch = new Fetch('situations');
 
 export const SituationsProvider = ({ children }: SituationsProviderProps) => {
-  const {page, size, changePagination } = usePagination();
+  const { getAccessTokenOrThrow } = useNookies();
+  const { page, size, changePagination } = usePagination();
   const filters = useSituationsFilters();
   const [situations, setSituations] = useState<FindManySituationsOutputDTO[]>([]);
+
+  fetch.setAccessToken(getAccessTokenOrThrow());
 
   const findOneSituation = useCallback(async (id: string) => {
     try {
@@ -42,7 +44,8 @@ export const SituationsProvider = ({ children }: SituationsProviderProps) => {
       >({
         filters: {
           ...filters,
-          page, size
+          page,
+          size,
         },
       });
 
@@ -54,9 +57,7 @@ export const SituationsProvider = ({ children }: SituationsProviderProps) => {
   }, [filters, page, size, changePagination]);
   const createSituation = useCallback(async (createSituationDTO: CreateSituationsInputDTO) => {
     try {
-      await fetch.post<CreateSituationsOutputDTO, CreateSituationsInputDTO>(
-        createSituationDTO
-      );
+      await fetch.post<CreateSituationsOutputDTO, CreateSituationsInputDTO>(createSituationDTO);
 
       alert('situação criada com sucesso');
 
@@ -66,26 +67,24 @@ export const SituationsProvider = ({ children }: SituationsProviderProps) => {
       return false;
     }
   }, []);
-  const updateSituation = useCallback(async (id: string, updateSituationDTO: UpdateSituationsInputDTO) => {
-    try {
-      await fetch.put<UpdateSituationsInputDTO>(
-        id,
-        updateSituationDTO
-      );
+  const updateSituation = useCallback(
+    async (id: string, updateSituationDTO: UpdateSituationsInputDTO) => {
+      try {
+        await fetch.put<UpdateSituationsInputDTO>(id, updateSituationDTO);
 
-      alert('situação atualizada com sucesso');
+        alert('situação atualizada com sucesso');
 
-      return true;
-    } catch (err) {
-      console.error(err);
-      return false;
-    }
-  }, []);
+        return true;
+      } catch (err) {
+        console.error(err);
+        return false;
+      }
+    },
+    [],
+  );
   const deleteSituation = useCallback(async (id: string) => {
     try {
-      await fetch.delete(
-        id,
-      );
+      await fetch.delete(id);
 
       alert('situação deletada com sucesso');
 
@@ -104,8 +103,7 @@ export const SituationsProvider = ({ children }: SituationsProviderProps) => {
         createSituation,
         updateSituation,
         deleteSituation,
-      }}
-    >
+      }}>
       {children}
     </SituationsContext.Provider>
   );

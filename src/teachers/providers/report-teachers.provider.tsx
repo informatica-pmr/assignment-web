@@ -9,6 +9,7 @@ import {
   useTeachersOrderBy,
   type TeachersOrderByContextProps,
 } from '../contexts/teachers-order-by.context';
+import { useNookies } from '../../shared/contexts/nookies.context';
 
 type ReportTeachersProviderProps = {
   children: ReactNode;
@@ -17,10 +18,14 @@ type ReportTeachersProviderProps = {
 const fetch = new Fetch('teachers');
 
 export const ReportTeachersProvider = ({ children }: ReportTeachersProviderProps) => {
+  const { getAccessTokenOrThrow } = useNookies();
   const { yearId } = useAuth();
   const filters = useTeachersFilters();
   const orderBy = useTeachersOrderBy();
   const [teachers, setTeachers] = useState<FindManyTeachersOutputDTO[]>([]);
+
+  fetch.setAccessToken(getAccessTokenOrThrow());
+
   const findManyTeachers = useCallback(async () => {
     try {
       const { data } = await fetch.get<

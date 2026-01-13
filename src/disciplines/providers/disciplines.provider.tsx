@@ -1,27 +1,29 @@
-import { useCallback, useState, type ReactNode } from "react";
-import { DisciplinesContext } from "../contexts/disciplines.context";
-import { Fetch } from "../../shared/lib/fetch";
-import type { FindManyDisciplinesOutputDTO } from "../dtos/outputs/find-many-disciplines.output.dto";
-import type { FindOneDisciplinesOutputDTO } from "../dtos/outputs/find-one-disciplines.output.dto";
-import {
-  useDisciplinesFilters,
-} from "../contexts/disciplines-filters.context";
-import type { CreateDisciplinesInputDTO } from "../dtos/inputs/create-disciplines.input.dto";
-import type { CreateDisciplinesOutputDTO } from "../dtos/outputs/create-disciplines.output.dto";
-import type { UpdateDisciplinesInputDTO } from "../dtos/inputs/update-disciplines.input.dto";
-import { usePagination } from "../../shared/contexts/pagination.context";
-import type { FindManyDisciplinesInputDTO } from "../dtos/inputs/find-many-disciplines.input.dto";
+import { useCallback, useState, type ReactNode } from 'react';
+import { DisciplinesContext } from '../contexts/disciplines.context';
+import { Fetch } from '../../shared/lib/fetch';
+import type { FindManyDisciplinesOutputDTO } from '../dtos/outputs/find-many-disciplines.output.dto';
+import type { FindOneDisciplinesOutputDTO } from '../dtos/outputs/find-one-disciplines.output.dto';
+import { useDisciplinesFilters } from '../contexts/disciplines-filters.context';
+import type { CreateDisciplinesInputDTO } from '../dtos/inputs/create-disciplines.input.dto';
+import type { CreateDisciplinesOutputDTO } from '../dtos/outputs/create-disciplines.output.dto';
+import type { UpdateDisciplinesInputDTO } from '../dtos/inputs/update-disciplines.input.dto';
+import { usePagination } from '../../shared/contexts/pagination.context';
+import type { FindManyDisciplinesInputDTO } from '../dtos/inputs/find-many-disciplines.input.dto';
+import { useNookies } from '../../shared/contexts/nookies.context';
 
 type DisciplinesProviderProps = {
   children: ReactNode;
 };
 
-const fetch = new Fetch("disciplines");
+const fetch = new Fetch('disciplines');
 
 export const DisciplinesProvider = ({ children }: DisciplinesProviderProps) => {
-  const {page, size, changePagination } = usePagination();
+  const { getAccessTokenOrThrow } = useNookies();
+  const { page, size, changePagination } = usePagination();
   const filters = useDisciplinesFilters();
   const [disciplines, setDisciplines] = useState<FindManyDisciplinesOutputDTO[]>([]);
+
+  fetch.setAccessToken(getAccessTokenOrThrow());
 
   const findOneDiscipline = useCallback(async (id: string) => {
     try {
@@ -42,7 +44,8 @@ export const DisciplinesProvider = ({ children }: DisciplinesProviderProps) => {
       >({
         filters: {
           ...filters,
-          page, size
+          page,
+          size,
         },
       });
 
@@ -54,9 +57,7 @@ export const DisciplinesProvider = ({ children }: DisciplinesProviderProps) => {
   }, [filters, page, size, changePagination]);
   const createDiscipline = useCallback(async (createDisciplineDTO: CreateDisciplinesInputDTO) => {
     try {
-      await fetch.post<CreateDisciplinesOutputDTO, CreateDisciplinesInputDTO>(
-        createDisciplineDTO
-      );
+      await fetch.post<CreateDisciplinesOutputDTO, CreateDisciplinesInputDTO>(createDisciplineDTO);
 
       alert('disciplina criada com sucesso');
 
@@ -66,26 +67,24 @@ export const DisciplinesProvider = ({ children }: DisciplinesProviderProps) => {
       return false;
     }
   }, []);
-  const updateDiscipline = useCallback(async (id: string, updateDisciplineDTO: UpdateDisciplinesInputDTO) => {
-    try {
-      await fetch.put<UpdateDisciplinesInputDTO>(
-        id,
-        updateDisciplineDTO
-      );
+  const updateDiscipline = useCallback(
+    async (id: string, updateDisciplineDTO: UpdateDisciplinesInputDTO) => {
+      try {
+        await fetch.put<UpdateDisciplinesInputDTO>(id, updateDisciplineDTO);
 
-      alert('disciplina atualizada com sucesso');
+        alert('disciplina atualizada com sucesso');
 
-      return true;
-    } catch (err) {
-      console.error(err);
-      return false;
-    }
-  }, []);
+        return true;
+      } catch (err) {
+        console.error(err);
+        return false;
+      }
+    },
+    [],
+  );
   const deleteDiscipline = useCallback(async (id: string) => {
     try {
-      await fetch.delete(
-        id,
-      );
+      await fetch.delete(id);
 
       alert('disciplina deletada com sucesso');
 
@@ -104,8 +103,7 @@ export const DisciplinesProvider = ({ children }: DisciplinesProviderProps) => {
         createDiscipline,
         updateDiscipline,
         deleteDiscipline,
-      }}
-    >
+      }}>
       {children}
     </DisciplinesContext.Provider>
   );

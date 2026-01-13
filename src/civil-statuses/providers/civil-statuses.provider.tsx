@@ -1,27 +1,29 @@
-import { useCallback, useState, type ReactNode } from "react";
-import { CivilStatusesContext } from "../contexts/civil-statuses.context";
-import { Fetch } from "../../shared/lib/fetch";
-import type { FindManyCivilStatusesOutputDTO } from "../dtos/outputs/find-many-civil-statuses.output.dto";
-import type { FindOneCivilStatusesOutputDTO } from "../dtos/outputs/find-one-civil-statuses.output.dto";
-import {
-  useCivilStatusesFilters,
-} from "../contexts/civil-statuses-filters.context";
-import type { CreateCivilStatusesInputDTO } from "../dtos/inputs/create-civil-statuses.input.dto";
-import type { CreateCivilStatusesOutputDTO } from "../dtos/outputs/create-civil-statuses.output.dto";
-import type { UpdateCivilStatusesInputDTO } from "../dtos/inputs/update-civil-statuses.input.dto";
-import { usePagination } from "../../shared/contexts/pagination.context";
-import type { FindManyCivilStatusesInputDTO } from "../dtos/inputs/find-many-civil-statuses.input.dto";
+import { useCallback, useState, type ReactNode } from 'react';
+import { CivilStatusesContext } from '../contexts/civil-statuses.context';
+import { Fetch } from '../../shared/lib/fetch';
+import type { FindManyCivilStatusesOutputDTO } from '../dtos/outputs/find-many-civil-statuses.output.dto';
+import type { FindOneCivilStatusesOutputDTO } from '../dtos/outputs/find-one-civil-statuses.output.dto';
+import { useCivilStatusesFilters } from '../contexts/civil-statuses-filters.context';
+import type { CreateCivilStatusesInputDTO } from '../dtos/inputs/create-civil-statuses.input.dto';
+import type { CreateCivilStatusesOutputDTO } from '../dtos/outputs/create-civil-statuses.output.dto';
+import type { UpdateCivilStatusesInputDTO } from '../dtos/inputs/update-civil-statuses.input.dto';
+import { usePagination } from '../../shared/contexts/pagination.context';
+import type { FindManyCivilStatusesInputDTO } from '../dtos/inputs/find-many-civil-statuses.input.dto';
+import { useNookies } from '../../shared/contexts/nookies.context';
 
 type CivilStatusesProviderProps = {
   children: ReactNode;
 };
 
-const fetch = new Fetch("civil-statuses");
+const fetch = new Fetch('civil-statuses');
 
 export const CivilStatusesProvider = ({ children }: CivilStatusesProviderProps) => {
-  const {page, size, changePagination } = usePagination();
+  const { getAccessTokenOrThrow } = useNookies();
+  const { page, size, changePagination } = usePagination();
   const filters = useCivilStatusesFilters();
   const [civilStatuses, setCivilStatuses] = useState<FindManyCivilStatusesOutputDTO[]>([]);
+
+  fetch.setAccessToken(getAccessTokenOrThrow());
 
   const findOneCivilStatus = useCallback(async (id: string) => {
     try {
@@ -42,7 +44,8 @@ export const CivilStatusesProvider = ({ children }: CivilStatusesProviderProps) 
       >({
         filters: {
           ...filters,
-          page, size
+          page,
+          size,
         },
       });
 
@@ -52,40 +55,41 @@ export const CivilStatusesProvider = ({ children }: CivilStatusesProviderProps) 
       console.error(err);
     }
   }, [filters, page, size, changePagination]);
-  const createCivilStatus = useCallback(async (createCivilStatusDTO: CreateCivilStatusesInputDTO) => {
-    try {
-      await fetch.post<CreateCivilStatusesOutputDTO, CreateCivilStatusesInputDTO>(
-        createCivilStatusDTO
-      );
+  const createCivilStatus = useCallback(
+    async (createCivilStatusDTO: CreateCivilStatusesInputDTO) => {
+      try {
+        await fetch.post<CreateCivilStatusesOutputDTO, CreateCivilStatusesInputDTO>(
+          createCivilStatusDTO,
+        );
 
-      alert('estado civil criado com sucesso');
+        alert('estado civil criado com sucesso');
 
-      return true;
-    } catch (err) {
-      console.error(err);
-      return false;
-    }
-  }, []);
-  const updateCivilStatus = useCallback(async (id: string, updateCivilStatusDTO: UpdateCivilStatusesInputDTO) => {
-    try {
-      await fetch.put<UpdateCivilStatusesInputDTO>(
-        id,
-        updateCivilStatusDTO
-      );
+        return true;
+      } catch (err) {
+        console.error(err);
+        return false;
+      }
+    },
+    [],
+  );
+  const updateCivilStatus = useCallback(
+    async (id: string, updateCivilStatusDTO: UpdateCivilStatusesInputDTO) => {
+      try {
+        await fetch.put<UpdateCivilStatusesInputDTO>(id, updateCivilStatusDTO);
 
-      alert('estado civil atualizado com sucesso');
+        alert('estado civil atualizado com sucesso');
 
-      return true;
-    } catch (err) {
-      console.error(err);
-      return false;
-    }
-  }, []);
+        return true;
+      } catch (err) {
+        console.error(err);
+        return false;
+      }
+    },
+    [],
+  );
   const deleteCivilStatus = useCallback(async (id: string) => {
     try {
-      await fetch.delete(
-        id,
-      );
+      await fetch.delete(id);
 
       alert('estado civil deletado com sucesso');
 
@@ -104,8 +108,7 @@ export const CivilStatusesProvider = ({ children }: CivilStatusesProviderProps) 
         createCivilStatus,
         updateCivilStatus,
         deleteCivilStatus,
-      }}
-    >
+      }}>
       {children}
     </CivilStatusesContext.Provider>
   );

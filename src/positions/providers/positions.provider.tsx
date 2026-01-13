@@ -1,27 +1,29 @@
-import { useCallback, useState, type ReactNode } from "react";
-import { PositionsContext } from "../contexts/positions.context";
-import { Fetch } from "../../shared/lib/fetch";
-import type { FindManyPositionsOutputDTO } from "../dtos/outputs/find-many-positions.output.dto";
-import type { FindOnePositionsOutputDTO } from "../dtos/outputs/find-one-positions.output.dto";
-import {
-  usePositionsFilters,
-} from "../contexts/positions-filters.context";
-import type { CreatePositionsInputDTO } from "../dtos/inputs/create-positions.input.dto";
-import type { CreatePositionsOutputDTO } from "../dtos/outputs/create-positions.output.dto";
-import type { UpdatePositionsInputDTO } from "../dtos/inputs/update-positions.input.dto";
-import { usePagination } from "../../shared/contexts/pagination.context";
-import type { FindManyPositionsInputDTO } from "../dtos/inputs/find-many-positions.input.dto";
+import { useCallback, useState, type ReactNode } from 'react';
+import { PositionsContext } from '../contexts/positions.context';
+import { Fetch } from '../../shared/lib/fetch';
+import type { FindManyPositionsOutputDTO } from '../dtos/outputs/find-many-positions.output.dto';
+import type { FindOnePositionsOutputDTO } from '../dtos/outputs/find-one-positions.output.dto';
+import { usePositionsFilters } from '../contexts/positions-filters.context';
+import type { CreatePositionsInputDTO } from '../dtos/inputs/create-positions.input.dto';
+import type { CreatePositionsOutputDTO } from '../dtos/outputs/create-positions.output.dto';
+import type { UpdatePositionsInputDTO } from '../dtos/inputs/update-positions.input.dto';
+import { usePagination } from '../../shared/contexts/pagination.context';
+import type { FindManyPositionsInputDTO } from '../dtos/inputs/find-many-positions.input.dto';
+import { useNookies } from '../../shared/contexts/nookies.context';
 
 type PositionsProviderProps = {
   children: ReactNode;
 };
 
-const fetch = new Fetch("positions");
+const fetch = new Fetch('positions');
 
 export const PositionsProvider = ({ children }: PositionsProviderProps) => {
-  const {page, size, changePagination } = usePagination();
+  const { getAccessTokenOrThrow } = useNookies();
+  const { page, size, changePagination } = usePagination();
   const filters = usePositionsFilters();
   const [positions, setPositions] = useState<FindManyPositionsOutputDTO[]>([]);
+
+  fetch.setAccessToken(getAccessTokenOrThrow());
 
   const findOnePosition = useCallback(async (id: string) => {
     try {
@@ -42,7 +44,8 @@ export const PositionsProvider = ({ children }: PositionsProviderProps) => {
       >({
         filters: {
           ...filters,
-          page, size
+          page,
+          size,
         },
       });
 
@@ -54,9 +57,7 @@ export const PositionsProvider = ({ children }: PositionsProviderProps) => {
   }, [filters, page, size, changePagination]);
   const createPosition = useCallback(async (createPositionDTO: CreatePositionsInputDTO) => {
     try {
-      await fetch.post<CreatePositionsOutputDTO, CreatePositionsInputDTO>(
-        createPositionDTO
-      );
+      await fetch.post<CreatePositionsOutputDTO, CreatePositionsInputDTO>(createPositionDTO);
 
       alert('cargo criado com sucesso');
 
@@ -66,26 +67,24 @@ export const PositionsProvider = ({ children }: PositionsProviderProps) => {
       return false;
     }
   }, []);
-  const updatePosition = useCallback(async (id: string, updatePositionDTO: UpdatePositionsInputDTO) => {
-    try {
-      await fetch.put<UpdatePositionsInputDTO>(
-        id,
-        updatePositionDTO
-      );
+  const updatePosition = useCallback(
+    async (id: string, updatePositionDTO: UpdatePositionsInputDTO) => {
+      try {
+        await fetch.put<UpdatePositionsInputDTO>(id, updatePositionDTO);
 
-      alert('cargo atualizado com sucesso');
+        alert('cargo atualizado com sucesso');
 
-      return true;
-    } catch (err) {
-      console.error(err);
-      return false;
-    }
-  }, []);
+        return true;
+      } catch (err) {
+        console.error(err);
+        return false;
+      }
+    },
+    [],
+  );
   const deletePosition = useCallback(async (id: string) => {
     try {
-      await fetch.delete(
-        id,
-      );
+      await fetch.delete(id);
 
       alert('cargo deletado com sucesso');
 
@@ -104,8 +103,7 @@ export const PositionsProvider = ({ children }: PositionsProviderProps) => {
         createPosition,
         updatePosition,
         deletePosition,
-      }}
-    >
+      }}>
       {children}
     </PositionsContext.Provider>
   );
