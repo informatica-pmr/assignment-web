@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
         return true;
       } catch (err) {
-        console.error(err);
+        fetch.handleError(err);
         return false;
       }
     },
@@ -84,7 +84,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (err instanceof FetchError) {
         alert(err.errors.join('\n'));
       } else {
-        console.error(err);
+        fetch.handleError(err);
       }
 
       return false;

@@ -11,6 +11,7 @@ import { usePagination } from '../../shared/contexts/pagination.context';
 import type { FindManyTitlesInputDTO } from '../dtos/inputs/find-many-titles.input.dto';
 import { useAuth } from '../../auth/contexts/auth.context';
 import { useNookies } from '../../shared/contexts/nookies.context';
+import type { ImportTitlesInputDTO } from '../dtos/inputs/import-titles.input.dto';
 
 type TitlesProviderProps = {
   children: ReactNode;
@@ -35,7 +36,7 @@ export const TitlesProvider = ({ children }: TitlesProviderProps) => {
 
       return data;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     }
   }, []);
   const findManyTitles = useCallback(async () => {
@@ -55,7 +56,7 @@ export const TitlesProvider = ({ children }: TitlesProviderProps) => {
       setTitles(data ?? []);
       changePagination(pagination);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     }
   }, [filters, page, size, changePagination, yearId]);
   const createTitle = useCallback(async (createTitleDTO: CreateTitlesInputDTO) => {
@@ -69,7 +70,7 @@ export const TitlesProvider = ({ children }: TitlesProviderProps) => {
       if (err instanceof FetchError && err.statusCode >= 400 && err.statusCode < 500) {
         alert(err.errors?.join('\n') || 'erro ao criar título');
       } else {
-        console.error(err);
+        fetch.handleError(err);
       }
       return false;
     }
@@ -85,7 +86,7 @@ export const TitlesProvider = ({ children }: TitlesProviderProps) => {
       if (err instanceof FetchError && err.statusCode >= 400 && err.statusCode < 500) {
         alert(err.errors?.join('\n') || 'erro ao atualizar título');
       } else {
-        console.error(err);
+        fetch.handleError(err);
       }
       return false;
     }
@@ -101,11 +102,25 @@ export const TitlesProvider = ({ children }: TitlesProviderProps) => {
       if (err instanceof FetchError && err.statusCode >= 400 && err.statusCode < 500) {
         alert(err.errors?.join('\n') || 'erro ao deletar título');
       } else {
-        console.error(err);
+        fetch.handleError(err);
       }
       return false;
     }
   }, []);
+
+  const importTitles = useCallback(async (importDTO: ImportTitlesInputDTO) => {
+    try {
+      await fetch.post<ImportTitlesInputDTO>(importDTO, 'import');
+
+      alert('Títulos importados com sucesso');
+
+      return true;
+    } catch (err) {
+      fetch.handleError(err);
+      return false;
+    }
+  }, []);
+
   return (
     <TitlesContext.Provider
       value={{
@@ -115,6 +130,7 @@ export const TitlesProvider = ({ children }: TitlesProviderProps) => {
         createTitle,
         updateTitle,
         deleteTitle,
+        importTitles,
       }}>
       {children}
     </TitlesContext.Provider>

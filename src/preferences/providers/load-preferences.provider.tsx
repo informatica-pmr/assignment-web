@@ -28,7 +28,7 @@ export const LoadPreferencesProvider = ({ children }: LoadPreferencesProviderPro
 
       setPreferences(data ?? []);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     } finally {
       setIsLoading(false);
     }

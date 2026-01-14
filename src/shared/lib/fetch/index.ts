@@ -125,8 +125,14 @@ export class Fetch {
     return body;
   }
 
-  async post<T = object, Y = object>(createDTO: Y): Promise<SuccessResponseDTO<T>> {
-    const response = await fetch(`${this.baseUrl}${this.resource}`, {
+  async post<T = object, Y = object>(
+    createDTO: Y,
+    action?: string,
+  ): Promise<SuccessResponseDTO<T>> {
+    const url = action
+      ? `${this.baseUrl}${this.resource}/${action}`
+      : `${this.baseUrl}${this.resource}`;
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         authorization: `Bearer ${this.accessToken}`,
@@ -179,5 +185,13 @@ export class Fetch {
     });
 
     await this.handleStatus(response);
+  }
+
+  handleError(error: FetchError | unknown) {
+    if (error instanceof FetchError) {
+      alert(error.errors.join('\n'));
+    } else {
+      console.error(error);
+    }
   }
 }

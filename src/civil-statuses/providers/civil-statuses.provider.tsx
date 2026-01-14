@@ -33,7 +33,7 @@ export const CivilStatusesProvider = ({ children }: CivilStatusesProviderProps) 
 
       return data;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     }
   }, []);
   const findManyCivilStatuses = useCallback(async () => {
@@ -52,7 +52,7 @@ export const CivilStatusesProvider = ({ children }: CivilStatusesProviderProps) 
       setCivilStatuses(data ?? []);
       changePagination(pagination);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     }
   }, [filters, page, size, changePagination]);
   const createCivilStatus = useCallback(
@@ -66,7 +66,7 @@ export const CivilStatusesProvider = ({ children }: CivilStatusesProviderProps) 
 
         return true;
       } catch (err) {
-        console.error(err);
+        fetch.handleError(err);
         return false;
       }
     },
@@ -81,7 +81,7 @@ export const CivilStatusesProvider = ({ children }: CivilStatusesProviderProps) 
 
         return true;
       } catch (err) {
-        console.error(err);
+        fetch.handleError(err);
         return false;
       }
     },
@@ -95,7 +95,7 @@ export const CivilStatusesProvider = ({ children }: CivilStatusesProviderProps) 
 
       return true;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
       return false;
     }
   }, []);

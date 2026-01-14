@@ -26,7 +26,7 @@ export const LoadPositionsProvider = ({ children }: LoadPositionsProviderProps) 
 
       setPositions(data ?? []);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     } finally {
       setIsLoading(false);
     }

@@ -26,7 +26,7 @@ export const LoadUnitsProvider = ({ children }: LoadUnitsProviderProps) => {
 
       setUnits(data ?? []);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     } finally {
       setIsLoading(false);
     }

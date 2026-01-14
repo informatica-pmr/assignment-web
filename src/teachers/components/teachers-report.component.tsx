@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Row } from '../../shared/components/row';
 import { Select } from '../../shared/components/select.component';
 import { SelectUnits } from '../../units/components/select-units.component';
@@ -12,13 +12,14 @@ import { useLoadUnits } from '../../units/contexts/load-units.context';
 export const TeachersReport = () => {
   const { yearId } = useAuth();
   const { units } = useLoadUnits();
-  const { teachers, findManyTeachers } = useReportTeachers();
+  const { findManyTeachers } = useReportTeachers();
   const { unitId, changeUnitId } = useTeachersFilters();
   const { changeUnit, changeName } = useTeachersOrderBy();
 
   const [sort, setSort] = useState<string>('');
 
-  const handleExportClick = () => {
+  const handleExportClick = async () => {
+    const teachers = await findManyTeachers();
     const filters = ``;
     const unit =
       unitId !== 'all'
@@ -36,10 +37,6 @@ export const TeachersReport = () => {
     report.create();
     report.export();
   };
-
-  useEffect(() => {
-    findManyTeachers();
-  }, [findManyTeachers]);
 
   return (
     <>

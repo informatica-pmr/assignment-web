@@ -29,7 +29,7 @@ export const YearsProvider = ({ children }: YearsProviderProps) => {
 
       return data;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     }
   }, []);
   const findManyYears = useCallback(async () => {
@@ -47,7 +47,7 @@ export const YearsProvider = ({ children }: YearsProviderProps) => {
       setYears(data ?? []);
       changePagination(pagination);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     }
   }, [filters, page, size, changePagination]);
   const createYear = useCallback(async (createYearDTO: CreateYearsInputDTO) => {
@@ -58,7 +58,7 @@ export const YearsProvider = ({ children }: YearsProviderProps) => {
 
       return true;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
       return false;
     }
   }, []);
@@ -70,7 +70,7 @@ export const YearsProvider = ({ children }: YearsProviderProps) => {
 
       return true;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
       return false;
     }
   }, []);
@@ -82,7 +82,7 @@ export const YearsProvider = ({ children }: YearsProviderProps) => {
 
       return true;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
       return false;
     }
   }, []);

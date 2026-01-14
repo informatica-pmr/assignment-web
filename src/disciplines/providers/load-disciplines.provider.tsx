@@ -28,7 +28,7 @@ export const LoadDisciplinesProvider = ({ children }: LoadDisciplinesProviderPro
 
       setDisciplines(data ?? []);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     } finally {
       setIsLoading(false);
     }

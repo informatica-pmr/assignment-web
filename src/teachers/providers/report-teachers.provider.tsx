@@ -1,4 +1,4 @@
-import { useCallback, useState, type ReactNode } from 'react';
+import { useCallback, type ReactNode } from 'react';
 import { Fetch } from '../../shared/lib/fetch';
 import type { FindManyTeachersOutputDTO } from '../dtos/outputs/find-many-teachers.output.dto';
 import { useTeachersFilters } from '../contexts/teachers-filters.context';
@@ -22,7 +22,6 @@ export const ReportTeachersProvider = ({ children }: ReportTeachersProviderProps
   const { yearId } = useAuth();
   const filters = useTeachersFilters();
   const orderBy = useTeachersOrderBy();
-  const [teachers, setTeachers] = useState<FindManyTeachersOutputDTO[]>([]);
 
   fetch.setAccessToken(getAccessTokenOrThrow());
 
@@ -40,15 +39,15 @@ export const ReportTeachersProvider = ({ children }: ReportTeachersProviderProps
         orderBy,
       });
 
-      setTeachers(data ?? []);
+      return data ?? [];
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
+      return [];
     }
   }, [filters, orderBy, yearId]);
   return (
     <ReportTeachersContext.Provider
       value={{
-        teachers,
         findManyTeachers,
       }}>
       {children}

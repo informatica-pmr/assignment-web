@@ -1,8 +1,9 @@
-import { createContext, useContext } from "react";
-import type { CreateTitlesInputDTO } from "../dtos/inputs/create-titles.input.dto";
-import type { UpdateTitlesInputDTO } from "../dtos/inputs/update-titles.input.dto";
-import type { FindManyTitlesOutputDTO } from "../dtos/outputs/find-many-titles.output.dto";
-import type { FindOneTitlesOutputDTO } from "../dtos/outputs/find-one-titles.output.dto";
+import { createContext, useContext } from 'react';
+import type { CreateTitlesInputDTO } from '../dtos/inputs/create-titles.input.dto';
+import type { UpdateTitlesInputDTO } from '../dtos/inputs/update-titles.input.dto';
+import type { FindManyTitlesOutputDTO } from '../dtos/outputs/find-many-titles.output.dto';
+import type { FindOneTitlesOutputDTO } from '../dtos/outputs/find-one-titles.output.dto';
+import type { ImportTitlesInputDTO } from '../dtos/inputs/import-titles.input.dto';
 
 export type TitlesContextProps = {
   titles: FindManyTitlesOutputDTO[];
@@ -11,6 +12,7 @@ export type TitlesContextProps = {
   createTitle: (createTitleDTO: CreateTitlesInputDTO) => Promise<boolean>;
   updateTitle: (id: string, updateTitleDTO: UpdateTitlesInputDTO) => Promise<boolean>;
   deleteTitle: (id: string) => Promise<boolean>;
+  importTitles: (importDTO: ImportTitlesInputDTO) => Promise<boolean>;
 };
 
 export const TitlesContext = createContext<TitlesContextProps | null>(null);

@@ -33,7 +33,7 @@ export const DisciplinesProvider = ({ children }: DisciplinesProviderProps) => {
 
       return data;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     }
   }, []);
   const findManyDisciplines = useCallback(async () => {
@@ -52,7 +52,7 @@ export const DisciplinesProvider = ({ children }: DisciplinesProviderProps) => {
       setDisciplines(data ?? []);
       changePagination(pagination);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     }
   }, [filters, page, size, changePagination]);
   const createDiscipline = useCallback(async (createDisciplineDTO: CreateDisciplinesInputDTO) => {
@@ -63,7 +63,7 @@ export const DisciplinesProvider = ({ children }: DisciplinesProviderProps) => {
 
       return true;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
       return false;
     }
   }, []);
@@ -76,7 +76,7 @@ export const DisciplinesProvider = ({ children }: DisciplinesProviderProps) => {
 
         return true;
       } catch (err) {
-        console.error(err);
+        fetch.handleError(err);
         return false;
       }
     },
@@ -90,7 +90,7 @@ export const DisciplinesProvider = ({ children }: DisciplinesProviderProps) => {
 
       return true;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
       return false;
     }
   }, []);

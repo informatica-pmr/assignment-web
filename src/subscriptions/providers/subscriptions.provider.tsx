@@ -35,7 +35,7 @@ export const SubscriptionsProvider = ({ children }: SubscriptionsProviderProps) 
 
       return data;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     }
   }, []);
   const findManySubscriptions = useCallback(async () => {
@@ -55,7 +55,7 @@ export const SubscriptionsProvider = ({ children }: SubscriptionsProviderProps) 
       setSubscriptions(data ?? []);
       changePagination(pagination);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     }
   }, [filters, page, size, changePagination, yearId]);
   const createSubscription = useCallback(
@@ -69,7 +69,7 @@ export const SubscriptionsProvider = ({ children }: SubscriptionsProviderProps) 
 
         return true;
       } catch (err) {
-        console.error(err);
+        fetch.handleError(err);
         return false;
       }
     },
@@ -84,7 +84,7 @@ export const SubscriptionsProvider = ({ children }: SubscriptionsProviderProps) 
 
         return true;
       } catch (err) {
-        console.error(err);
+        fetch.handleError(err);
         return false;
       }
     },
@@ -98,7 +98,7 @@ export const SubscriptionsProvider = ({ children }: SubscriptionsProviderProps) 
 
       return true;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
       return false;
     }
   }, []);

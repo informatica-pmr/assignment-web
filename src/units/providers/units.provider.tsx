@@ -33,7 +33,7 @@ export const UnitsProvider = ({ children }: UnitsProviderProps) => {
 
       return data;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     }
   }, []);
   const findManyUnits = useCallback(async () => {
@@ -51,7 +51,7 @@ export const UnitsProvider = ({ children }: UnitsProviderProps) => {
       setUnits(data ?? []);
       changePagination(pagination);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     }
   }, [filters, page, size, changePagination]);
   const createUnit = useCallback(async (createUnitDTO: CreateUnitsInputDTO) => {
@@ -62,7 +62,7 @@ export const UnitsProvider = ({ children }: UnitsProviderProps) => {
 
       return true;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
       return false;
     }
   }, []);
@@ -74,7 +74,7 @@ export const UnitsProvider = ({ children }: UnitsProviderProps) => {
 
       return true;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
       return false;
     }
   }, []);
@@ -86,7 +86,7 @@ export const UnitsProvider = ({ children }: UnitsProviderProps) => {
 
       return true;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
       return false;
     }
   }, []);

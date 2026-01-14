@@ -22,7 +22,7 @@ export const LoadRolesProvider = ({ children }: LoadRolesProviderProps) => {
       const { data } = await fetch.get<FindManyRolesOutputDTO[]>({});
       setRoles(data ?? []);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     } finally {
       setIsLoading(false);
     }

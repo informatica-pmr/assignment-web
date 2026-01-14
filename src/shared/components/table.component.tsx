@@ -13,6 +13,7 @@ type TableProps = {
   editHandle?: () => void;
   deleteHandle?: () => void;
   exportHandle?: () => void;
+  importHandle?: () => void;
 };
 
 export type TableElement = {
@@ -20,7 +21,7 @@ export type TableElement = {
 };
 
 export const Table = forwardRef<TableElement, TableProps>(
-  ({ headers, rows, createHandle, editHandle, deleteHandle, exportHandle }, ref) => {
+  ({ headers, rows, createHandle, editHandle, deleteHandle, exportHandle, importHandle }, ref) => {
     const { page, siblingPages, size, pagination, changePagination } = usePagination();
     const [selectedRowId, setSelectedRowId] = useState('');
     const handleSelectRow = (value: boolean, id: string) => {
@@ -73,6 +74,11 @@ export const Table = forwardRef<TableElement, TableProps>(
           {exportHandle && (
             <button type='button' className='btn btn-secondary' onClick={exportHandle}>
               exportar
+            </button>
+          )}
+          {importHandle && (
+            <button type='button' className='btn btn-warning' onClick={importHandle}>
+              importar
             </button>
           )}
         </div>

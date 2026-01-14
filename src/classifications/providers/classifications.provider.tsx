@@ -32,15 +32,34 @@ export const ClassificationsProvider = ({ children }: ClassificationsProviderPro
 
       setClassifications(data ?? []);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     }
   }, [filters]);
+
+  const findManyClassificationsRP = async () => {
+    try {
+      const { data } = await fetch.get<
+        FindManyClassificationsOutputDTO[],
+        FindManyClassificationsInputDTO
+      >({
+        filters: {
+          ...filters,
+        },
+      });
+
+      return data ?? [];
+    } catch (err) {
+      fetch.handleError(err);
+      return [];
+    }
+  };
 
   return (
     <ClassificationsContext.Provider
       value={{
         classifications,
         findManyClassifications,
+        findManyClassificationsRP,
       }}>
       {children}
     </ClassificationsContext.Provider>

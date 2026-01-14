@@ -4,6 +4,7 @@ import type { FindManyClassificationsOutputDTO } from '../dtos/outputs/find-many
 export type ClassificationsContextProps = {
   classifications: FindManyClassificationsOutputDTO[];
   findManyClassifications: () => Promise<void>;
+  findManyClassificationsRP: () => Promise<FindManyClassificationsOutputDTO[]>;
 };
 
 export const ClassificationsContext = createContext<ClassificationsContextProps | null>(null);

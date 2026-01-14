@@ -33,7 +33,7 @@ export const PositionsProvider = ({ children }: PositionsProviderProps) => {
 
       return data;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     }
   }, []);
   const findManyPositions = useCallback(async () => {
@@ -52,7 +52,7 @@ export const PositionsProvider = ({ children }: PositionsProviderProps) => {
       setPositions(data ?? []);
       changePagination(pagination);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     }
   }, [filters, page, size, changePagination]);
   const createPosition = useCallback(async (createPositionDTO: CreatePositionsInputDTO) => {
@@ -63,7 +63,7 @@ export const PositionsProvider = ({ children }: PositionsProviderProps) => {
 
       return true;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
       return false;
     }
   }, []);
@@ -76,7 +76,7 @@ export const PositionsProvider = ({ children }: PositionsProviderProps) => {
 
         return true;
       } catch (err) {
-        console.error(err);
+        fetch.handleError(err);
         return false;
       }
     },
@@ -90,7 +90,7 @@ export const PositionsProvider = ({ children }: PositionsProviderProps) => {
 
       return true;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
       return false;
     }
   }, []);

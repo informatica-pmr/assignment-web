@@ -33,7 +33,7 @@ export const SituationsProvider = ({ children }: SituationsProviderProps) => {
 
       return data;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     }
   }, []);
   const findManySituations = useCallback(async () => {
@@ -52,7 +52,7 @@ export const SituationsProvider = ({ children }: SituationsProviderProps) => {
       setSituations(data ?? []);
       changePagination(pagination);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     }
   }, [filters, page, size, changePagination]);
   const createSituation = useCallback(async (createSituationDTO: CreateSituationsInputDTO) => {
@@ -63,7 +63,7 @@ export const SituationsProvider = ({ children }: SituationsProviderProps) => {
 
       return true;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
       return false;
     }
   }, []);
@@ -76,7 +76,7 @@ export const SituationsProvider = ({ children }: SituationsProviderProps) => {
 
         return true;
       } catch (err) {
-        console.error(err);
+        fetch.handleError(err);
         return false;
       }
     },
@@ -90,7 +90,7 @@ export const SituationsProvider = ({ children }: SituationsProviderProps) => {
 
       return true;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
       return false;
     }
   }, []);

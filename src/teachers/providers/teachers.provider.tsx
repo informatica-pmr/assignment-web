@@ -11,6 +11,7 @@ import { usePagination } from '../../shared/contexts/pagination.context';
 import type { FindManyTeachersInputDTO } from '../dtos/inputs/find-many-teachers.input.dto';
 import { useAuth } from '../../auth/contexts/auth.context';
 import { useNookies } from '../../shared/contexts/nookies.context';
+import type { ImportTeachersInputDTO } from '../dtos/inputs/import-teachers.input.dto';
 
 type TeachersProviderProps = {
   children: ReactNode;
@@ -35,7 +36,7 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
 
       return data;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     }
   }, []);
   const findManyTeachers = useCallback(async () => {
@@ -55,7 +56,7 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
       setTeachers(data ?? []);
       changePagination(pagination);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     }
   }, [filters, page, size, changePagination, yearId]);
   const createTeacher = useCallback(async (createTeacherDTO: CreateTeachersInputDTO) => {
@@ -66,7 +67,7 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
 
       return true;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
       return false;
     }
   }, []);
@@ -79,7 +80,7 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
 
         return true;
       } catch (err) {
-        console.error(err);
+        fetch.handleError(err);
         return false;
       }
     },
@@ -93,10 +94,24 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
 
       return true;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
       return false;
     }
   }, []);
+
+  const importTeachers = useCallback(async (importDTO: ImportTeachersInputDTO) => {
+    try {
+      await fetch.post<ImportTeachersInputDTO>(importDTO, 'import');
+
+      alert('Professores importados com sucesso');
+
+      return true;
+    } catch (err) {
+      fetch.handleError(err);
+      return false;
+    }
+  }, []);
+
   return (
     <TeachersContext.Provider
       value={{
@@ -106,6 +121,7 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
         createTeacher,
         updateTeacher,
         deleteTeacher,
+        importTeachers,
       }}>
       {children}
     </TeachersContext.Provider>

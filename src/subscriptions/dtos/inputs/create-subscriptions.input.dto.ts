@@ -3,7 +3,6 @@ export type CreateSubscriptionsInputDTO = {
   teacherId: number;
   preferenceId: number;
   titles: CreateSubscriptionsTitlesInputDTO[];
-  points: CreateSubscriptionsPointsInputDTO[];
 };
 
 export type CreateSubscriptionsTitlesInputDTO = {

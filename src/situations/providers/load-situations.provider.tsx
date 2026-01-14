@@ -26,7 +26,7 @@ export const LoadSituationsProvider = ({ children }: LoadSituationsProviderProps
 
       setSituations(data ?? []);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     } finally {
       setIsLoading(false);
     }

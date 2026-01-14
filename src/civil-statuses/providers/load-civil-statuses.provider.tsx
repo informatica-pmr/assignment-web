@@ -29,7 +29,7 @@ export const LoadCivilStatusesProvider = ({ children }: LoadCivilStatusesProvide
 
       setCivilStatuses(data ?? []);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     } finally {
       setIsLoading(false);
     }

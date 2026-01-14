@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { InputText } from '../../shared/components/input-text.component';
 import { Row } from '../../shared/components/row';
 import { useClassificationsFilters } from '../contexts/classifications-filters.context';
@@ -48,17 +47,18 @@ export const ClassificationsFilter = () => {
     changeRobotics,
     changeMusic,
   } = useClassificationsFilters();
-  const { findManyClassifications, classifications } = useClassifications();
+  const { findManyClassificationsRP } = useClassifications();
 
-  const handleExportClick = () => {
+  const handleExportClick = async () => {
+    const classifications = await findManyClassificationsRP();
     const filters = ``;
     const position =
       positionId !== 'all'
-        ? positions.find((p) => p.positionId === Number(positionId))!.name.toUpperCase()
+        ? `${positions.find((p) => p.positionId === Number(positionId))!.name.toUpperCase()} - `
         : '';
     const situation =
       situationId !== 'all'
-        ? situations.find((s) => s.situationId === Number(situationId))!.name.toUpperCase()
+        ? `${situations.find((s) => s.situationId === Number(situationId))!.name.toUpperCase()} - `
         : '';
     const unit =
       unitId !== 'all'
@@ -66,42 +66,38 @@ export const ClassificationsFilter = () => {
         : 'GERAL';
     let flag = '';
     if (adido === 'Sim') {
-      flag += 'ADIDO ';
+      flag += 'ADIDO - ';
     }
     if (readapted === 'Sim') {
-      flag += 'READAPTADO ';
+      flag += 'READAPTADO - ';
     }
     if (remove === 'Sim') {
-      flag += 'REMOÇÃO';
+      flag += 'REMOÇÃO - ';
     }
     if (readingRoom === 'Sim') {
-      flag += 'SALA DE LEITURA ';
+      flag += 'SALA DE LEITURA - ';
     }
     if (computing === 'Sim') {
-      flag += 'INFORMÁTICA ';
+      flag += 'INFORMÁTICA - ';
     }
     if (tutoring === 'Sim') {
-      flag += 'REFORÇO ';
+      flag += 'REFORÇO - ';
     }
     if (ambientalEducation === 'Sim') {
-      flag += 'EDUCAÇÃO AMBIENTAL';
+      flag += 'EDUCAÇÃO AMBIENTAL - ';
     }
     if (robotics === 'Sim') {
-      flag += 'ROBÓTICA ';
+      flag += 'ROBÓTICA - ';
     }
     if (music === 'Sim') {
-      flag += 'MÚSICA ';
+      flag += 'MÚSICA - ';
     }
-    const fileName = `${position} - ${situation}${flag} - ${unit}`;
+    const fileName = `${position}${situation}${flag}${unit}`;
     const fileReference = `${yearId}`;
     const report = new Report(classifications, fileName, fileReference, filters);
     report.create();
     report.export();
   };
-
-  useEffect(() => {
-    findManyClassifications();
-  }, [findManyClassifications]);
 
   return (
     <>

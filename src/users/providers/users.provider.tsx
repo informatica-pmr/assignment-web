@@ -31,7 +31,7 @@ export const UsersProvider = ({ children }: UsersProviderProps) => {
       const { data } = await fetch.get<FindOneUsersOutputDTO>({ id: username });
       return data;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
       return undefined;
     }
   }, []);
@@ -53,7 +53,7 @@ export const UsersProvider = ({ children }: UsersProviderProps) => {
       setUsers(data ?? []);
       changePagination(pagination);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     }
   }, [changePagination, filters, orderBy, page, size]);
 
@@ -63,7 +63,7 @@ export const UsersProvider = ({ children }: UsersProviderProps) => {
       alert('Usuário criado com sucesso!');
       return true;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
       return false;
     }
   }, []);
@@ -74,7 +74,7 @@ export const UsersProvider = ({ children }: UsersProviderProps) => {
       alert('Usuário atualizado com sucesso!');
       return true;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
       return false;
     }
   }, []);
@@ -85,7 +85,7 @@ export const UsersProvider = ({ children }: UsersProviderProps) => {
       alert('Usuário deletado com sucesso!');
       return true;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
       return false;
     }
   }, []);

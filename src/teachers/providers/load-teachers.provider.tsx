@@ -28,7 +28,7 @@ export const LoadTeachersProvider = ({ children }: LoadTeachersProviderProps) =>
 
       setTeachers(data ?? []);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     } finally {
       setIsLoading(false);
     }

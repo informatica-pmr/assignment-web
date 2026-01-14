@@ -36,7 +36,7 @@ export class ReportTeachers {
     const date = new Date();
     const month = date.getMonth() + 1;
     const monthFormatted = month.toString().length === 1 ? `0${month}` : month;
-    this.#pdf.output('dataurlnewwindow', {
+    this.#pdf.output('pdfobjectnewwindow', {
       filename: `relacao_professores_${date.getDate()}${monthFormatted}${date.getFullYear()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}`,
     });
   }

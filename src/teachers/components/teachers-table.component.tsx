@@ -1,21 +1,20 @@
-import { useRef } from "react";
-import {
-  Table,
-  type TableElement,
-} from "../../shared/components/table.component";
-import { useTeachers } from "../contexts/teachers.context";
-import { usePages } from "../../shared/contexts/pages.context";
-import { TeachersCreatePage } from "../pages/teachers-create.page";
-import { TeachersUpdatePage } from "../pages/teechers-update.page";
-import { useLoadUnits } from "../../units/contexts/load-units.context";
-import { Formatter } from "../../shared/toolkit/formatter";
-import { useLoadPositions } from "../../positions/contexts/load-positions.context";
-import { useLoadSituations } from "../../situations/contexts/load-situations.context";
+import { useRef } from 'react';
+import { Table, type TableElement } from '../../shared/components/table.component';
+import { useTeachers } from '../contexts/teachers.context';
+import { usePages } from '../../shared/contexts/pages.context';
+import { TeachersCreatePage } from '../pages/teachers-create.page';
+import { TeachersUpdatePage } from '../pages/teechers-update.page';
+import { useLoadUnits } from '../../units/contexts/load-units.context';
+import { Formatter } from '../../shared/toolkit/formatter';
+import { useLoadPositions } from '../../positions/contexts/load-positions.context';
+import { useLoadSituations } from '../../situations/contexts/load-situations.context';
+import { useAuth } from '../../auth/contexts/auth.context';
 
 const formatter = new Formatter();
 
 export const TeachersTable = () => {
-  const { teachers, deleteTeacher, findManyTeachers } = useTeachers();
+  const { yearId } = useAuth();
+  const { teachers, deleteTeacher, importTeachers, findManyTeachers } = useTeachers();
   const { changePage } = usePages();
   const { units } = useLoadUnits();
   const { positions } = useLoadPositions();
@@ -27,12 +26,12 @@ export const TeachersTable = () => {
     <Table
       ref={tableRef}
       headers={[
-        { id: 1, value: "nome" },
-        { id: 2, value: "unidade" },
-        { id: 3, value: "nascimento" },
-        { id: 4, value: "celular" },
-        { id: 5, value: "cargo" },
-        { id: 6, value: "situação" },
+        { id: 1, value: 'nome' },
+        { id: 2, value: 'unidade' },
+        { id: 3, value: 'nascimento' },
+        { id: 4, value: 'celular' },
+        { id: 5, value: 'cargo' },
+        { id: 6, value: 'situação' },
       ]}
       rows={teachers.map((x) => ({
         id: x.teacherId,
@@ -41,7 +40,7 @@ export const TeachersTable = () => {
           { id: `name_${x.name}`, value: x.name ?? '' },
           {
             id: `unit_${x.unitId}`,
-            value: units.find((u) => u.unitId === x.unitId)?.name ?? "",
+            value: units.find((u) => u.unitId === x.unitId)?.name ?? '',
           },
           {
             id: `birthAt_${x.birthAt}`,
@@ -53,28 +52,33 @@ export const TeachersTable = () => {
           },
           {
             id: `position_${x.positionId}`,
-            value:
-              positions.find((p) => p.positionId === x.positionId)?.name ?? "",
+            value: positions.find((p) => p.positionId === x.positionId)?.name ?? '',
           },
           {
             id: `situation_${x.situationId}`,
-            value:
-              situations.find((s) => s.situationId === x.situationId)?.name ?? "",
+            value: situations.find((s) => s.situationId === x.situationId)?.name ?? '',
           },
         ],
       }))}
       createHandle={() => changePage(<TeachersCreatePage />)}
       editHandle={() =>
-        changePage(
-          <TeachersUpdatePage id={tableRef.current?.getSelectedRow() ?? ""} />
-        )
+        changePage(<TeachersUpdatePage id={tableRef.current?.getSelectedRow() ?? ''} />)
       }
       deleteHandle={async () => {
-        const anwser = confirm("deseja remover este(a) professor(a)?");
+        const anwser = confirm('deseja remover este(a) professor(a)?');
         if (anwser) {
-          const id = tableRef.current?.getSelectedRow() ?? "";
+          const id = tableRef.current?.getSelectedRow() ?? '';
           const deleted = await deleteTeacher(id);
           if (deleted) {
+            await findManyTeachers();
+          }
+        }
+      }}
+      importHandle={async () => {
+        const anwser = confirm('deseja importar os professores do ano anterior?');
+        if (anwser) {
+          const imported = await importTeachers({ yearId });
+          if (imported) {
             await findManyTeachers();
           }
         }

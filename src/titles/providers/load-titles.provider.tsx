@@ -30,7 +30,7 @@ export const LoadTitlesProvider = ({ children }: LoadTitlesProviderProps) => {
 
       setTitles(data ?? []);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     } finally {
       setIsLoading(false);
     }

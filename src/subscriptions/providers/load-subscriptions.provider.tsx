@@ -33,7 +33,7 @@ export const LoadSubscriptionsProvider = ({ children }: LoadSubscriptionsProvide
 
       setSubscriptions(data ?? []);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     } finally {
       setIsLoading(false);
     }

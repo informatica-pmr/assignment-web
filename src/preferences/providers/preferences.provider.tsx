@@ -33,7 +33,7 @@ export const PreferencesProvider = ({ children }: PreferencesProviderProps) => {
 
       return data;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     }
   }, []);
   const findManyPreferences = useCallback(async () => {
@@ -52,7 +52,7 @@ export const PreferencesProvider = ({ children }: PreferencesProviderProps) => {
       setPreferences(data ?? []);
       changePagination(pagination);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     }
   }, [filters, page, size, changePagination]);
   const createPreference = useCallback(async (createPreferenceDTO: CreatePreferencesInputDTO) => {
@@ -63,7 +63,7 @@ export const PreferencesProvider = ({ children }: PreferencesProviderProps) => {
 
       return true;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
       return false;
     }
   }, []);
@@ -76,7 +76,7 @@ export const PreferencesProvider = ({ children }: PreferencesProviderProps) => {
 
         return true;
       } catch (err) {
-        console.error(err);
+        fetch.handleError(err);
         return false;
       }
     },
@@ -90,7 +90,7 @@ export const PreferencesProvider = ({ children }: PreferencesProviderProps) => {
 
       return true;
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
       return false;
     }
   }, []);

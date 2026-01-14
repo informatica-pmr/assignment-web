@@ -22,7 +22,7 @@ export const LoadYearsProvider = ({ children }: LoadYearsProviderProps) => {
 
       setYears(data ?? []);
     } catch (err) {
-      console.error(err);
+      fetch.handleError(err);
     } finally {
       setIsLoading(false);
     }
