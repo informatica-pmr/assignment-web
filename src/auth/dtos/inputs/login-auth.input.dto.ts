@@ -1,5 +1,5 @@
 export type LoginAuthInputDTO = {
-  yearId: number;
+  yearId: number | null;
   username: string;
   password: string;
 };

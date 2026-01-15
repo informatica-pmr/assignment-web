@@ -12,6 +12,7 @@ import type { FindManyTitlesInputDTO } from '../dtos/inputs/find-many-titles.inp
 import { useAuth } from '../../auth/contexts/auth.context';
 import { useNookies } from '../../shared/contexts/nookies.context';
 import type { ImportTitlesInputDTO } from '../dtos/inputs/import-titles.input.dto';
+import { toast } from 'react-toastify';
 
 type TitlesProviderProps = {
   children: ReactNode;
@@ -79,15 +80,11 @@ export const TitlesProvider = ({ children }: TitlesProviderProps) => {
     try {
       await fetch.put<UpdateTitlesInputDTO>(id, updateTitleDTO);
 
-      alert('título atualizado com sucesso');
+      toast('título atualizado com sucesso', { type: 'success' });
 
       return true;
     } catch (err) {
-      if (err instanceof FetchError && err.statusCode >= 400 && err.statusCode < 500) {
-        alert(err.errors?.join('\n') || 'erro ao atualizar título');
-      } else {
-        fetch.handleError(err);
-      }
+      fetch.handleError(err);
       return false;
     }
   }, []);

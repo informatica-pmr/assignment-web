@@ -15,7 +15,11 @@ export const LoginAuthForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const success = await login({ yearId: Number(yearId), username, password });
+    const success = await login({
+      yearId: yearId === '' ? null : Number(yearId),
+      username,
+      password,
+    });
     if (success) {
       changePage(<HomePage />);
     }

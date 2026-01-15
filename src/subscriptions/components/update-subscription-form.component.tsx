@@ -46,7 +46,6 @@ export const UpdateSubscriptionForm = ({ id }: UpdateSubscriptionFormProps) => {
 
   const handleSubmit = async () => {
     const titles = subscriptionTitlesRef.current?.getTitles() || [];
-    const points = subscriptionTitlesRef.current?.getPoints() || [];
 
     if (!teacherId || teacherId === '') {
       alert('campo professor inválido');
@@ -63,7 +62,6 @@ export const UpdateSubscriptionForm = ({ id }: UpdateSubscriptionFormProps) => {
       teacherId: parseInt(teacherId, 10),
       preferenceId: parseInt(preferenceId, 10),
       titles,
-      points,
     });
 
     if (updated) {

@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import type { Pageable } from '../../dtos/inputs/pageable';
 import type { SuccessResponseDTO } from '../../dtos/outputs/success-response.dto';
 
@@ -48,7 +49,8 @@ export class Fetch {
         alert('Endereço do servidor não encontrado.');
       }
       if (response.status === 401) {
-        throw new FetchError({ statusCode: 401, errors: [] });
+        const data: { errors: string[] } = await response.json();
+        throw new FetchError({ statusCode: 401, errors: data.errors });
       }
       throw new FetchError(await response.json());
     }
@@ -189,7 +191,8 @@ export class Fetch {
 
   handleError(error: FetchError | unknown) {
     if (error instanceof FetchError) {
-      alert(error.errors.join('\n'));
+      //alert(error.errors.join('\n'));
+      toast(error.errors.join('\n'), { type: 'error' });
     } else {
       console.error(error);
     }
