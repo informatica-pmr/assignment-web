@@ -43,7 +43,7 @@ export const TeachersReport = () => {
       <Row>
         <SelectUnits all col={6} unitId={unitId} setUnitId={changeUnitId} />
         <Select
-          all
+          default
           col={6}
           label='ordenar por'
           value={sort}

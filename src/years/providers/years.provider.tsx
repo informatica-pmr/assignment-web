@@ -9,6 +9,9 @@ import type { CreateYearsOutputDTO } from '../dtos/outputs/create-years.output.d
 import type { UpdateYearsInputDTO } from '../dtos/inputs/update-years.input.dto';
 import { usePagination } from '../../shared/contexts/pagination.context';
 import type { FindManyYearsInputDTO } from '../dtos/inputs/find-many-years.input.dto';
+import { toast } from 'react-toastify';
+import { useYearsOrderBy } from '../contexts/years-order-by.context';
+import type { OrderByYearsInputDTO } from '../dtos/inputs/order-by-years.input.dto';
 
 type YearsProviderProps = {
   children: ReactNode;
@@ -19,6 +22,7 @@ const fetch = new Fetch('years');
 export const YearsProvider = ({ children }: YearsProviderProps) => {
   const { page, size, changePagination } = usePagination();
   const filters = useYearsFilters();
+  const orderBy = useYearsOrderBy();
   const [years, setYears] = useState<FindManyYearsOutputDTO[]>([]);
 
   const findOneYear = useCallback(async (id: string) => {
@@ -34,27 +38,30 @@ export const YearsProvider = ({ children }: YearsProviderProps) => {
   }, []);
   const findManyYears = useCallback(async () => {
     try {
-      const { data, pagination } = await fetch.get<FindManyYearsOutputDTO[], FindManyYearsInputDTO>(
-        {
-          filters: {
-            ...filters,
-            page,
-            size,
-          },
+      const { data, pagination } = await fetch.get<
+        FindManyYearsOutputDTO[],
+        FindManyYearsInputDTO,
+        OrderByYearsInputDTO
+      >({
+        filters: {
+          ...filters,
+          page,
+          size,
         },
-      );
+        orderBy,
+      });
 
       setYears(data ?? []);
       changePagination(pagination);
     } catch (err) {
       fetch.handleError(err);
     }
-  }, [filters, page, size, changePagination]);
+  }, [filters, orderBy, page, size, changePagination]);
   const createYear = useCallback(async (createYearDTO: CreateYearsInputDTO) => {
     try {
       await fetch.post<CreateYearsOutputDTO, CreateYearsInputDTO>(createYearDTO);
 
-      alert('ano criado com sucesso');
+      toast('ano criado com sucesso', { type: 'success' });
 
       return true;
     } catch (err) {
@@ -66,7 +73,7 @@ export const YearsProvider = ({ children }: YearsProviderProps) => {
     try {
       await fetch.put<UpdateYearsInputDTO>(id, updateYearDTO);
 
-      alert('ano atualizado com sucesso');
+      toast('ano atualizado com sucesso', { type: 'success' });
 
       return true;
     } catch (err) {
@@ -78,7 +85,7 @@ export const YearsProvider = ({ children }: YearsProviderProps) => {
     try {
       await fetch.delete(id);
 
-      alert('ano deletado com sucesso');
+      toast('ano deletado com sucesso', { type: 'success' });
 
       return true;
     } catch (err) {

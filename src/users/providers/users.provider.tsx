@@ -6,10 +6,12 @@ import type { CreateUsersInputDTO } from '../dtos/inputs/create-users.input.dto'
 import type { UpdateUsersInputDTO } from '../dtos/inputs/update-users.input.dto';
 import { usePagination } from '../../shared/contexts/pagination.context';
 import { useUsersFilters } from '../contexts/users-filters.context';
-import { useUsersOrderBy, type UsersOrderByContextProps } from '../contexts/users-order-by.context';
+import { useUsersOrderBy } from '../contexts/users-order-by.context';
 import type { FindManyUsersOutputDTO } from '../dtos/outputs/find-many-users.output.dto';
 import type { FindManyUsersInputDTO } from '../dtos/inputs/find-many-users.input.dto';
 import { useNookies } from '../../shared/contexts/nookies.context';
+import { toast } from 'react-toastify';
+import type { OrderByUsersInputDTO } from '../dtos/inputs/order-by-users.input.dto';
 
 type UsersProviderProps = {
   children: ReactNode;
@@ -41,7 +43,7 @@ export const UsersProvider = ({ children }: UsersProviderProps) => {
       const { data, pagination } = await fetch.get<
         FindManyUsersOutputDTO[],
         FindManyUsersInputDTO,
-        UsersOrderByContextProps
+        OrderByUsersInputDTO
       >({
         filters: {
           ...filters,
@@ -60,7 +62,7 @@ export const UsersProvider = ({ children }: UsersProviderProps) => {
   const createUser = useCallback(async (createUserDTO: CreateUsersInputDTO) => {
     try {
       await fetch.post<CreateUsersInputDTO>(createUserDTO);
-      alert('Usuário criado com sucesso!');
+      toast('Usuário criado com sucesso!', { type: 'success' });
       return true;
     } catch (err) {
       fetch.handleError(err);
@@ -71,7 +73,7 @@ export const UsersProvider = ({ children }: UsersProviderProps) => {
   const updateUser = useCallback(async (username: string, updateUserDTO: UpdateUsersInputDTO) => {
     try {
       await fetch.put<UpdateUsersInputDTO>(username, updateUserDTO);
-      alert('Usuário atualizado com sucesso!');
+      toast('Usuário atualizado com sucesso!', { type: 'success' });
       return true;
     } catch (err) {
       fetch.handleError(err);
@@ -82,7 +84,7 @@ export const UsersProvider = ({ children }: UsersProviderProps) => {
   const deleteUser = useCallback(async (username: string) => {
     try {
       await fetch.delete<UpdateUsersInputDTO>(username);
-      alert('Usuário deletado com sucesso!');
+      toast('Usuário deletado com sucesso!', { type: 'success' });
       return true;
     } catch (err) {
       fetch.handleError(err);

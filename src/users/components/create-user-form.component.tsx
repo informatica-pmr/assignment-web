@@ -8,6 +8,7 @@ import { InputEmail } from '../../shared/components/input-email.component';
 import { InputPassword } from '../../shared/components/input-password.component';
 import { useUsers } from '../contexts/users.context';
 import { SelectUnits } from '../../units/components/select-units.component';
+import { toast } from 'react-toastify';
 
 export const CreateUserForm: React.FC = () => {
   // Component implementation
@@ -24,33 +25,34 @@ export const CreateUserForm: React.FC = () => {
   const handleSubmit = async () => {
     // Handle form submission logic
     if (!name || name.length === 0) {
-      alert('O nome é obrigatório');
+      toast('O nome é obrigatório', { type: 'error' });
       return;
     }
     if (!email || email.length === 0) {
-      alert('O email é obrigatório');
+      toast('O email é obrigatório', { type: 'error' });
       return;
     }
     if (!username || username.length < 3) {
-      alert('O username deve ter pelo menos 3 caracteres');
+      toast('O username deve ter pelo menos 3 caracteres', { type: 'error' });
       return;
     }
     if (!password || password.length < 6) {
-      alert('A senha deve ter pelo menos 6 caracteres');
+      toast('A senha deve ter pelo menos 6 caracteres', { type: 'error' });
       return;
     }
     if (!password || password.length > 12) {
-      alert('A senha deve ter no máximo 12 caracteres');
+      toast('A senha deve ter no máximo 12 caracteres', { type: 'error' });
       return;
     }
     if (!roleId || roleId.length === 0) {
-      alert('O perfil é obrigatório');
+      toast('O perfil é obrigatório', { type: 'error' });
       return;
     }
     if (!unitId || unitId.length === 0) {
-      alert('A unidade é obrigatória');
+      toast('A unidade é obrigatória', { type: 'error' });
       return;
     }
+
     const created = await createUser({
       name,
       email,

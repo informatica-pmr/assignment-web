@@ -1,15 +1,23 @@
-import { useRef } from "react";
-import {
-  Table,
-  type TableElement,
-} from "../../shared/components/table.component";
-import { useYears } from "../contexts/years.context";
-import { usePages } from "../../shared/contexts/pages.context";
-import { YearsCreatePage } from "../pages/years-create.page";
-import { YearsUpdatePage } from "../pages/years-update.page";
+import { useRef } from 'react';
+import { Table, type TableElement } from '../../shared/components/table.component';
+import { useYears } from '../contexts/years.context';
+import { usePages } from '../../shared/contexts/pages.context';
+import { YearsCreatePage } from '../pages/years-create.page';
+import { YearsUpdatePage } from '../pages/years-update.page';
+import { useYearsOrderBy } from '../contexts/years-order-by.context';
 
 export const YearsTable = () => {
   const { years, deleteYear, findManyYears } = useYears();
+  const {
+    yearId,
+    record,
+    resolution,
+    isBlocked,
+    changeYearId,
+    changeRecord,
+    changeResolution,
+    changeIsBlocked,
+  } = useYearsOrderBy();
   const { changePage } = usePages();
 
   const tableRef = useRef<TableElement>(null);
@@ -18,10 +26,10 @@ export const YearsTable = () => {
     <Table
       ref={tableRef}
       headers={[
-        { id: 1, value: "ano" },
-        { id: 2, value: "ficha" },
-        { id: 3, value: "resolução" },
-        { id: 4, value: "bloqueado" },
+        { id: 1, value: 'ano', sort: yearId, changeSort: changeYearId },
+        { id: 2, value: 'ficha', sort: record, changeSort: changeRecord },
+        { id: 3, value: 'resolução', sort: resolution, changeSort: changeResolution },
+        { id: 4, value: 'bloqueado', sort: isBlocked, changeSort: changeIsBlocked },
       ]}
       rows={years.map((x) => ({
         id: x.yearId,
@@ -30,19 +38,17 @@ export const YearsTable = () => {
           { id: `${x.yearId}_${x.yearId}`, value: x.yearId.toString() },
           { id: `${x.yearId}_${x.record}`, value: x.record },
           { id: `${x.yearId}_${x.resolution}`, value: x.resolution },
-          { id: `${x.yearId}_${x.isBlocked}`, value: x.isBlocked === 'S' ? 'sim' : 'não'},
+          { id: `${x.yearId}_${x.isBlocked}`, value: x.isBlocked === 'S' ? 'sim' : 'não' },
         ],
       }))}
       createHandle={() => changePage(<YearsCreatePage />)}
       editHandle={() =>
-        changePage(
-          <YearsUpdatePage id={tableRef.current?.getSelectedRow() ?? ""} />
-        )
+        changePage(<YearsUpdatePage id={tableRef.current?.getSelectedRow() ?? ''} />)
       }
       deleteHandle={async () => {
-        const anwser = confirm("deseja remover este ano?");
+        const anwser = confirm('deseja remover este ano?');
         if (anwser) {
-          const id = tableRef.current?.getSelectedRow() ?? "";
+          const id = tableRef.current?.getSelectedRow() ?? '';
           const deleted = await deleteYear(id);
           if (deleted) {
             await findManyYears();

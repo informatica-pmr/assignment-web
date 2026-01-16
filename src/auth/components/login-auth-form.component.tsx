@@ -5,16 +5,34 @@ import { InputText } from '../../shared/components/input-text.component';
 import { InputPassword } from '../../shared/components/input-password.component';
 import { usePages } from '../../shared/contexts/pages.context';
 import { HomePage } from '../../home/pages/home.page';
+import { toast } from 'react-toastify';
 
 export const LoginAuthForm = () => {
   const { login } = useAuth();
   const { changePage } = usePages();
-  const [yearId, setYearId] = useState('2025');
+  const [yearId, setYearId] = useState(new Date().getFullYear().toString());
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (yearId === '') {
+      toast('campo ano obrigatório', { type: 'error' });
+      return;
+    }
+    if (username === '') {
+      toast('campo usuário obrigatório', { type: 'error' });
+      return;
+    }
+    if (password === '') {
+      toast('campo senha obrigatório', { type: 'error' });
+      return;
+    }
+    if (password.length < 6 || password.length > 12) {
+      toast('campo senha deve conter entre 6 e 12 caracteres', { type: 'error' });
+      return;
+    }
+
     const success = await login({
       yearId: yearId === '' ? null : Number(yearId),
       username,

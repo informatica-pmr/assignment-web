@@ -1,15 +1,14 @@
-import { useRef } from "react";
-import {
-  Table,
-  type TableElement,
-} from "../../shared/components/table.component";
-import { useUnits } from "../contexts/units.context";
-import { usePages } from "../../shared/contexts/pages.context";
-import { UnitsCreatePage } from "../pages/units-create.page";
-import { UnitsUpdatePage } from "../pages/units-update.page";
+import { useRef } from 'react';
+import { Table, type TableElement } from '../../shared/components/table.component';
+import { useUnits } from '../contexts/units.context';
+import { usePages } from '../../shared/contexts/pages.context';
+import { UnitsCreatePage } from '../pages/units-create.page';
+import { UnitsUpdatePage } from '../pages/units-update.page';
+import { useUnitsOrderBy } from '../contexts/units-order-by.context';
 
 export const UnitsTable = () => {
   const { units, deleteUnit, findManyUnits } = useUnits();
+  const { name, changeName } = useUnitsOrderBy();
   const { changePage } = usePages();
 
   const tableRef = useRef<TableElement>(null);
@@ -17,26 +16,20 @@ export const UnitsTable = () => {
   return (
     <Table
       ref={tableRef}
-      headers={[
-        { id: 1, value: "nome" },
-      ]}
+      headers={[{ id: 1, value: 'nome', sort: name, changeSort: changeName }]}
       rows={units.map((x) => ({
         id: x.unitId,
         checked: false,
-        cols: [
-          { id: `${x.unitId}_${x.name}`, value: x.name },
-        ],
+        cols: [{ id: `${x.unitId}_${x.name}`, value: x.name }],
       }))}
       createHandle={() => changePage(<UnitsCreatePage />)}
       editHandle={() =>
-        changePage(
-          <UnitsUpdatePage id={tableRef.current?.getSelectedRow() ?? ""} />
-        )
+        changePage(<UnitsUpdatePage id={tableRef.current?.getSelectedRow() ?? ''} />)
       }
       deleteHandle={async () => {
-        const anwser = confirm("deseja remover esta unidade?");
+        const anwser = confirm('deseja remover esta unidade?');
         if (anwser) {
-          const id = tableRef.current?.getSelectedRow() ?? "";
+          const id = tableRef.current?.getSelectedRow() ?? '';
           const deleted = await deleteUnit(id);
           if (deleted) {
             await findManyUnits();

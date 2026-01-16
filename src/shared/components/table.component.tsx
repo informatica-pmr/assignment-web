@@ -2,7 +2,12 @@ import { forwardRef, useImperativeHandle, useState } from 'react';
 import { usePagination } from '../contexts/pagination.context';
 
 type TableProps = {
-  headers: { id: number; value: string }[];
+  headers: {
+    id: number;
+    value: string;
+    sort: string;
+    changeSort: (sort: string) => void;
+  }[];
   rows: {
     id: number | string;
     checked: boolean;
@@ -88,7 +93,14 @@ export const Table = forwardRef<TableElement, TableProps>(
               <tr>
                 <th style={{ width: '35px' }}></th>
                 {headers.map((head) => (
-                  <th key={head.id}>{head.value}</th>
+                  <th
+                    key={head.id}
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => {
+                      head.changeSort(head.sort === '' ? 'a' : head.sort === 'a' ? 'd' : '');
+                    }}>
+                    {head.value}
+                  </th>
                 ))}
               </tr>
             </thead>

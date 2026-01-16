@@ -130,7 +130,7 @@ export class Fetch {
   async post<T = object, Y = object>(
     createDTO: Y,
     action?: string,
-  ): Promise<SuccessResponseDTO<T>> {
+  ): Promise<SuccessResponseDTO<T> | undefined> {
     const url = action
       ? `${this.baseUrl}${this.resource}/${action}`
       : `${this.baseUrl}${this.resource}`;
@@ -145,9 +145,11 @@ export class Fetch {
 
     await this.handleStatus(response);
 
-    const body: SuccessResponseDTO<T> = await response.json();
+    if (response.status === 201) {
+      const body: SuccessResponseDTO<T> = await response.json();
 
-    return body;
+      return body;
+    }
   }
 
   async put<T = object>(id: string, updateDTO: T): Promise<void> {
@@ -191,7 +193,6 @@ export class Fetch {
 
   handleError(error: FetchError | unknown) {
     if (error instanceof FetchError) {
-      //alert(error.errors.join('\n'));
       toast(error.errors.join('\n'), { type: 'error' });
     } else {
       console.error(error);

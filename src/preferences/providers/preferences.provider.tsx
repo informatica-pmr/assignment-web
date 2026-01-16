@@ -10,6 +10,9 @@ import type { UpdatePreferencesInputDTO } from '../dtos/inputs/update-preference
 import { usePagination } from '../../shared/contexts/pagination.context';
 import type { FindManyPreferencesInputDTO } from '../dtos/inputs/find-many-preferences.input.dto';
 import { useNookies } from '../../shared/contexts/nookies.context';
+import { toast } from 'react-toastify';
+import { usePreferencesOrderBy } from '../contexts/preferences-order-by.context';
+import type { OrderByPreferencesInputDTO } from '../dtos/inputs/order-by-preferences.input.dto';
 
 type PreferencesProviderProps = {
   children: ReactNode;
@@ -21,6 +24,7 @@ export const PreferencesProvider = ({ children }: PreferencesProviderProps) => {
   const { getAccessTokenOrThrow } = useNookies();
   const { page, size, changePagination } = usePagination();
   const filters = usePreferencesFilters();
+  const orderBy = usePreferencesOrderBy();
   const [preferences, setPreferences] = useState<FindManyPreferencesOutputDTO[]>([]);
 
   fetch.setAccessToken(getAccessTokenOrThrow());
@@ -40,13 +44,15 @@ export const PreferencesProvider = ({ children }: PreferencesProviderProps) => {
     try {
       const { data, pagination } = await fetch.get<
         FindManyPreferencesOutputDTO[],
-        FindManyPreferencesInputDTO
+        FindManyPreferencesInputDTO,
+        OrderByPreferencesInputDTO
       >({
         filters: {
           ...filters,
           page,
           size,
         },
+        orderBy,
       });
 
       setPreferences(data ?? []);
@@ -54,12 +60,12 @@ export const PreferencesProvider = ({ children }: PreferencesProviderProps) => {
     } catch (err) {
       fetch.handleError(err);
     }
-  }, [filters, page, size, changePagination]);
+  }, [filters, orderBy, page, size, changePagination]);
   const createPreference = useCallback(async (createPreferenceDTO: CreatePreferencesInputDTO) => {
     try {
       await fetch.post<CreatePreferencesOutputDTO, CreatePreferencesInputDTO>(createPreferenceDTO);
 
-      alert('preferência criada com sucesso');
+      toast('preferência criada com sucesso', { type: 'success' });
 
       return true;
     } catch (err) {
@@ -72,7 +78,7 @@ export const PreferencesProvider = ({ children }: PreferencesProviderProps) => {
       try {
         await fetch.put<UpdatePreferencesInputDTO>(id, updatePreferenceDTO);
 
-        alert('preferência atualizada com sucesso');
+        toast('preferência atualizada com sucesso', { type: 'success' });
 
         return true;
       } catch (err) {
@@ -86,7 +92,7 @@ export const PreferencesProvider = ({ children }: PreferencesProviderProps) => {
     try {
       await fetch.delete(id);
 
-      alert('preferência deletada com sucesso');
+      toast('preferência deletada com sucesso', { type: 'success' });
 
       return true;
     } catch (err) {

@@ -1,6 +1,6 @@
 import { useCallback, useState, type ReactNode } from 'react';
 import { TitlesContext } from '../contexts/titles.context';
-import { Fetch, FetchError } from '../../shared/lib/fetch';
+import { Fetch } from '../../shared/lib/fetch';
 import type { FindManyTitlesOutputDTO } from '../dtos/outputs/find-many-titles.output.dto';
 import type { FindOneTitlesOutputDTO } from '../dtos/outputs/find-one-titles.output.dto';
 import { useTitlesFilters } from '../contexts/titles-filters.context';
@@ -13,6 +13,8 @@ import { useAuth } from '../../auth/contexts/auth.context';
 import { useNookies } from '../../shared/contexts/nookies.context';
 import type { ImportTitlesInputDTO } from '../dtos/inputs/import-titles.input.dto';
 import { toast } from 'react-toastify';
+import { useTitlesOrderBy } from '../contexts/titles-order-by.context';
+import type { OrderByTitlesInputDTO } from '../dtos/inputs/order-by-titles.input.dto';
 
 type TitlesProviderProps = {
   children: ReactNode;
@@ -25,6 +27,7 @@ export const TitlesProvider = ({ children }: TitlesProviderProps) => {
   const { yearId } = useAuth();
   const { page, size, changePagination } = usePagination();
   const filters = useTitlesFilters();
+  const orderBy = useTitlesOrderBy();
   const [titles, setTitles] = useState<FindManyTitlesOutputDTO[]>([]);
 
   fetch.setAccessToken(getAccessTokenOrThrow());
@@ -44,7 +47,8 @@ export const TitlesProvider = ({ children }: TitlesProviderProps) => {
     try {
       const { data, pagination } = await fetch.get<
         FindManyTitlesOutputDTO[],
-        FindManyTitlesInputDTO
+        FindManyTitlesInputDTO,
+        OrderByTitlesInputDTO
       >({
         filters: {
           ...filters,
@@ -52,6 +56,7 @@ export const TitlesProvider = ({ children }: TitlesProviderProps) => {
           page,
           size,
         },
+        orderBy,
       });
 
       setTitles(data ?? []);
@@ -59,20 +64,16 @@ export const TitlesProvider = ({ children }: TitlesProviderProps) => {
     } catch (err) {
       fetch.handleError(err);
     }
-  }, [filters, page, size, changePagination, yearId]);
+  }, [filters, orderBy, page, size, changePagination, yearId]);
   const createTitle = useCallback(async (createTitleDTO: CreateTitlesInputDTO) => {
     try {
       await fetch.post<CreateTitlesOutputDTO, CreateTitlesInputDTO>(createTitleDTO);
 
-      alert('título criado com sucesso');
+      toast('título criado com sucesso', { type: 'success' });
 
       return true;
     } catch (err) {
-      if (err instanceof FetchError && err.statusCode >= 400 && err.statusCode < 500) {
-        alert(err.errors?.join('\n') || 'erro ao criar título');
-      } else {
-        fetch.handleError(err);
-      }
+      fetch.handleError(err);
       return false;
     }
   }, []);
@@ -92,15 +93,11 @@ export const TitlesProvider = ({ children }: TitlesProviderProps) => {
     try {
       await fetch.delete(id);
 
-      alert('título deletado com sucesso');
+      toast('título deletado com sucesso', { type: 'success' });
 
       return true;
     } catch (err) {
-      if (err instanceof FetchError && err.statusCode >= 400 && err.statusCode < 500) {
-        alert(err.errors?.join('\n') || 'erro ao deletar título');
-      } else {
-        fetch.handleError(err);
-      }
+      fetch.handleError(err);
       return false;
     }
   }, []);
@@ -109,7 +106,7 @@ export const TitlesProvider = ({ children }: TitlesProviderProps) => {
     try {
       await fetch.post<ImportTitlesInputDTO>(importDTO, 'import');
 
-      alert('Títulos importados com sucesso');
+      toast('Títulos importados com sucesso', { type: 'success' });
 
       return true;
     } catch (err) {

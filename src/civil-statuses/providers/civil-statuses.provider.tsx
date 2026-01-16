@@ -10,6 +10,9 @@ import type { UpdateCivilStatusesInputDTO } from '../dtos/inputs/update-civil-st
 import { usePagination } from '../../shared/contexts/pagination.context';
 import type { FindManyCivilStatusesInputDTO } from '../dtos/inputs/find-many-civil-statuses.input.dto';
 import { useNookies } from '../../shared/contexts/nookies.context';
+import { toast } from 'react-toastify';
+import { useCivilStatusesOrderBy } from '../contexts/civil-statuses-order-by.context';
+import type { OrderByCivilStatusesInputDTO } from '../dtos/inputs/order-by-civil-statuses.input.dto';
 
 type CivilStatusesProviderProps = {
   children: ReactNode;
@@ -21,6 +24,7 @@ export const CivilStatusesProvider = ({ children }: CivilStatusesProviderProps) 
   const { getAccessTokenOrThrow } = useNookies();
   const { page, size, changePagination } = usePagination();
   const filters = useCivilStatusesFilters();
+  const orderBy = useCivilStatusesOrderBy();
   const [civilStatuses, setCivilStatuses] = useState<FindManyCivilStatusesOutputDTO[]>([]);
 
   fetch.setAccessToken(getAccessTokenOrThrow());
@@ -40,13 +44,15 @@ export const CivilStatusesProvider = ({ children }: CivilStatusesProviderProps) 
     try {
       const { data, pagination } = await fetch.get<
         FindManyCivilStatusesOutputDTO[],
-        FindManyCivilStatusesInputDTO
+        FindManyCivilStatusesInputDTO,
+        OrderByCivilStatusesInputDTO
       >({
         filters: {
           ...filters,
           page,
           size,
         },
+        orderBy,
       });
 
       setCivilStatuses(data ?? []);
@@ -54,7 +60,7 @@ export const CivilStatusesProvider = ({ children }: CivilStatusesProviderProps) 
     } catch (err) {
       fetch.handleError(err);
     }
-  }, [filters, page, size, changePagination]);
+  }, [filters, orderBy, page, size, changePagination]);
   const createCivilStatus = useCallback(
     async (createCivilStatusDTO: CreateCivilStatusesInputDTO) => {
       try {
@@ -62,7 +68,7 @@ export const CivilStatusesProvider = ({ children }: CivilStatusesProviderProps) 
           createCivilStatusDTO,
         );
 
-        alert('estado civil criado com sucesso');
+        toast('estado civil criado com sucesso', { type: 'success' });
 
         return true;
       } catch (err) {
@@ -77,7 +83,7 @@ export const CivilStatusesProvider = ({ children }: CivilStatusesProviderProps) 
       try {
         await fetch.put<UpdateCivilStatusesInputDTO>(id, updateCivilStatusDTO);
 
-        alert('estado civil atualizado com sucesso');
+        toast('estado civil atualizado com sucesso', { type: 'success' });
 
         return true;
       } catch (err) {
@@ -91,7 +97,7 @@ export const CivilStatusesProvider = ({ children }: CivilStatusesProviderProps) 
     try {
       await fetch.delete(id);
 
-      alert('estado civil deletado com sucesso');
+      toast('estado civil deletado com sucesso', { type: 'success' });
 
       return true;
     } catch (err) {

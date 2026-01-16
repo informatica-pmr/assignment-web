@@ -4,10 +4,12 @@ import { usePages } from '../../shared/contexts/pages.context';
 import { useUsers } from '../contexts/users.context';
 import { UsersCreatePage } from '../pages/users-create.page';
 import { UsersUpdatePage } from '../pages/users-update.page';
+import { useUsersOrderBy } from '../contexts/users-order-by.context';
 
 export const UsersTable = () => {
   const { changePage } = usePages();
   const { users } = useUsers();
+  const { username, name, active, changeName, changeUsername, changeActive } = useUsersOrderBy();
 
   const tableRef = useRef<TableElement>(null);
 
@@ -15,10 +17,17 @@ export const UsersTable = () => {
     <Table
       ref={tableRef}
       headers={[
-        { id: 1, value: 'login' },
-        { id: 2, value: 'nome' },
-        { id: 3, value: 'perfil' },
-        { id: 4, value: 'ativo' },
+        { id: 1, value: 'login', sort: username, changeSort: changeUsername },
+        { id: 2, value: 'nome', sort: name, changeSort: changeName },
+        {
+          id: 3,
+          value: 'perfil',
+          sort: '',
+          changeSort: (value: string) => {
+            console.log(value, 'ainda não implementado');
+          },
+        },
+        { id: 4, value: 'ativo', sort: active, changeSort: changeActive },
       ]}
       rows={users.map((x) => ({
         id: x.username,

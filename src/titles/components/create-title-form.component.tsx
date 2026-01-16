@@ -8,6 +8,7 @@ import { InputNumber } from '../../shared/components/input-number.component';
 import { Select } from '../../shared/components/select.component';
 import { useAuth } from '../../auth/contexts/auth.context';
 import { InputDecimal } from '../../shared/components/input-decimal.component';
+import { toast } from 'react-toastify';
 
 export const CreateTitleForm = () => {
   const { yearId } = useAuth();
@@ -23,23 +24,23 @@ export const CreateTitleForm = () => {
 
   const handleSubmit = async () => {
     if (!description || description === '') {
-      alert('campo descrição obrigatório');
+      toast('campo descrição inválido', { type: 'error' });
       return;
     }
     if (!alias || alias === '') {
-      alert('campo sigla obrigatório');
+      toast('campo sigla obrigatório', { type: 'error' });
       return;
     }
     if (weight < 0.001 || weight > 100) {
-      alert('campo peso deve conter um valor entre 0,001 e 100');
+      toast('campo peso deve conter um valor entre 0,001 e 100', { type: 'error' });
       return;
     }
     if (max <= 0 || max > 999999) {
-      alert('campo máximo deve conter um valor entre 1 e 999999');
+      toast('campo máximo deve conter um valor entre 1 e 999999', { type: 'error' });
       return;
     }
     if (order <= 0 || order > 22) {
-      alert('campo ordem deve conter um valor entre 1 e 22');
+      toast('campo ordem deve conter um valor entre 1 e 22', { type: 'error' });
       return;
     }
 

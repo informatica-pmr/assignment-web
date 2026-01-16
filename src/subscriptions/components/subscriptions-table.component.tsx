@@ -1,15 +1,15 @@
-import { useRef } from "react";
-import {
-  Table,
-  type TableElement,
-} from "../../shared/components/table.component";
-import { useSubscriptions } from "../contexts/subscriptions.context";
-import { usePages } from "../../shared/contexts/pages.context";
-import { SubscriptionsCreatePage } from "../pages/subscriptions-create.page";
-import { SubscriptionsUpdatePage } from "../pages/subscriptions-update.page";
+import { useRef } from 'react';
+import { Table, type TableElement } from '../../shared/components/table.component';
+import { useSubscriptions } from '../contexts/subscriptions.context';
+import { usePages } from '../../shared/contexts/pages.context';
+import { SubscriptionsCreatePage } from '../pages/subscriptions-create.page';
+import { SubscriptionsUpdatePage } from '../pages/subscriptions-update.page';
+import { useSubscriptionsOrderBy } from '../contexts/subscriptions-order-by.context';
 
 export const SubscriptionsTable = () => {
   const { subscriptions, deleteSubscription, findManySubscriptions } = useSubscriptions();
+  const { unit, teacher, preference, changePreference, changeTeacher, changeUnit } =
+    useSubscriptionsOrderBy();
   const { changePage } = usePages();
 
   const tableRef = useRef<TableElement>(null);
@@ -18,9 +18,9 @@ export const SubscriptionsTable = () => {
     <Table
       ref={tableRef}
       headers={[
-        { id: 2, value: "professor(a)" },
-        { id: 3, value: "unidade" },
-        { id: 4, value: "preferência" },
+        { id: 2, value: 'professor(a)', sort: teacher, changeSort: changeTeacher },
+        { id: 3, value: 'unidade', sort: unit, changeSort: changeUnit },
+        { id: 4, value: 'preferência', sort: preference, changeSort: changePreference },
       ]}
       rows={subscriptions.map((x) => ({
         id: x.subscriptionId,
@@ -33,14 +33,12 @@ export const SubscriptionsTable = () => {
       }))}
       createHandle={() => changePage(<SubscriptionsCreatePage />)}
       editHandle={() =>
-        changePage(
-          <SubscriptionsUpdatePage id={tableRef.current?.getSelectedRow() ?? ""} />
-        )
+        changePage(<SubscriptionsUpdatePage id={tableRef.current?.getSelectedRow() ?? ''} />)
       }
       deleteHandle={async () => {
-        const anwser = confirm("deseja remover esta inscrição?");
+        const anwser = confirm('deseja remover esta inscrição?');
         if (anwser) {
-          const id = tableRef.current?.getSelectedRow() ?? "";
+          const id = tableRef.current?.getSelectedRow() ?? '';
           const deleted = await deleteSubscription(id);
           if (deleted) {
             await findManySubscriptions();

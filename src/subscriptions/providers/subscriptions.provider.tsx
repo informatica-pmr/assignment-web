@@ -11,6 +11,9 @@ import { usePagination } from '../../shared/contexts/pagination.context';
 import type { FindManySubscriptionsInputDTO } from '../dtos/inputs/find-many-subscriptions.input.dto';
 import { useAuth } from '../../auth/contexts/auth.context';
 import { useNookies } from '../../shared/contexts/nookies.context';
+import { toast } from 'react-toastify';
+import { useSubscriptionsOrderBy } from '../contexts/subscriptions-order-by.context';
+import type { OrderBySubscriptionsInputDTO } from '../dtos/inputs/order-by-subscriptions.input.dto';
 
 type SubscriptionsProviderProps = {
   children: ReactNode;
@@ -23,6 +26,7 @@ export const SubscriptionsProvider = ({ children }: SubscriptionsProviderProps) 
   const { yearId } = useAuth();
   const { page, size, changePagination } = usePagination();
   const filters = useSubscriptionsFilters();
+  const orderBy = useSubscriptionsOrderBy();
   const [subscriptions, setSubscriptions] = useState<FindManySubscriptionsOutputDTO[]>([]);
 
   fetch.setAccessToken(getAccessTokenOrThrow());
@@ -42,7 +46,8 @@ export const SubscriptionsProvider = ({ children }: SubscriptionsProviderProps) 
     try {
       const { data, pagination } = await fetch.get<
         FindManySubscriptionsOutputDTO[],
-        FindManySubscriptionsInputDTO
+        FindManySubscriptionsInputDTO,
+        OrderBySubscriptionsInputDTO
       >({
         filters: {
           ...filters,
@@ -50,6 +55,7 @@ export const SubscriptionsProvider = ({ children }: SubscriptionsProviderProps) 
           page,
           size,
         },
+        orderBy,
       });
 
       setSubscriptions(data ?? []);
@@ -57,7 +63,7 @@ export const SubscriptionsProvider = ({ children }: SubscriptionsProviderProps) 
     } catch (err) {
       fetch.handleError(err);
     }
-  }, [filters, page, size, changePagination, yearId]);
+  }, [filters, orderBy, page, size, changePagination, yearId]);
   const createSubscription = useCallback(
     async (createSubscriptionDTO: CreateSubscriptionsInputDTO) => {
       try {
@@ -65,7 +71,7 @@ export const SubscriptionsProvider = ({ children }: SubscriptionsProviderProps) 
           createSubscriptionDTO,
         );
 
-        alert('inscrição criada com sucesso');
+        toast('inscrição criada com sucesso', { type: 'success' });
 
         return true;
       } catch (err) {
@@ -80,7 +86,7 @@ export const SubscriptionsProvider = ({ children }: SubscriptionsProviderProps) 
       try {
         await fetch.put<UpdateSubscriptionsInputDTO>(id, updateSubscriptionDTO);
 
-        alert('inscrição atualizada com sucesso');
+        toast('inscrição atualizada com sucesso', { type: 'success' });
 
         return true;
       } catch (err) {
@@ -94,7 +100,7 @@ export const SubscriptionsProvider = ({ children }: SubscriptionsProviderProps) 
     try {
       await fetch.delete(id);
 
-      alert('inscrição deletada com sucesso');
+      toast('inscrição deletada com sucesso', { type: 'success' });
 
       return true;
     } catch (err) {

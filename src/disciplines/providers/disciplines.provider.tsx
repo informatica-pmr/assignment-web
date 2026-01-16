@@ -10,6 +10,9 @@ import type { UpdateDisciplinesInputDTO } from '../dtos/inputs/update-discipline
 import { usePagination } from '../../shared/contexts/pagination.context';
 import type { FindManyDisciplinesInputDTO } from '../dtos/inputs/find-many-disciplines.input.dto';
 import { useNookies } from '../../shared/contexts/nookies.context';
+import { toast } from 'react-toastify';
+import type { OrderByDisciplinesInputDTO } from '../dtos/inputs/order-by-disciplines.input.dto';
+import { useDisciplinesOrderBy } from '../contexts/disciplines-order-by.context';
 
 type DisciplinesProviderProps = {
   children: ReactNode;
@@ -21,6 +24,7 @@ export const DisciplinesProvider = ({ children }: DisciplinesProviderProps) => {
   const { getAccessTokenOrThrow } = useNookies();
   const { page, size, changePagination } = usePagination();
   const filters = useDisciplinesFilters();
+  const orderBy = useDisciplinesOrderBy();
   const [disciplines, setDisciplines] = useState<FindManyDisciplinesOutputDTO[]>([]);
 
   fetch.setAccessToken(getAccessTokenOrThrow());
@@ -40,13 +44,15 @@ export const DisciplinesProvider = ({ children }: DisciplinesProviderProps) => {
     try {
       const { data, pagination } = await fetch.get<
         FindManyDisciplinesOutputDTO[],
-        FindManyDisciplinesInputDTO
+        FindManyDisciplinesInputDTO,
+        OrderByDisciplinesInputDTO
       >({
         filters: {
           ...filters,
           page,
           size,
         },
+        orderBy,
       });
 
       setDisciplines(data ?? []);
@@ -54,12 +60,12 @@ export const DisciplinesProvider = ({ children }: DisciplinesProviderProps) => {
     } catch (err) {
       fetch.handleError(err);
     }
-  }, [filters, page, size, changePagination]);
+  }, [filters, orderBy, page, size, changePagination]);
   const createDiscipline = useCallback(async (createDisciplineDTO: CreateDisciplinesInputDTO) => {
     try {
       await fetch.post<CreateDisciplinesOutputDTO, CreateDisciplinesInputDTO>(createDisciplineDTO);
 
-      alert('disciplina criada com sucesso');
+      toast('disciplina criada com sucesso', { type: 'success' });
 
       return true;
     } catch (err) {
@@ -72,7 +78,7 @@ export const DisciplinesProvider = ({ children }: DisciplinesProviderProps) => {
       try {
         await fetch.put<UpdateDisciplinesInputDTO>(id, updateDisciplineDTO);
 
-        alert('disciplina atualizada com sucesso');
+        toast('disciplina atualizada com sucesso', { type: 'success' });
 
         return true;
       } catch (err) {
@@ -86,7 +92,7 @@ export const DisciplinesProvider = ({ children }: DisciplinesProviderProps) => {
     try {
       await fetch.delete(id);
 
-      alert('disciplina deletada com sucesso');
+      toast('disciplina deletada com sucesso', { type: 'success' });
 
       return true;
     } catch (err) {

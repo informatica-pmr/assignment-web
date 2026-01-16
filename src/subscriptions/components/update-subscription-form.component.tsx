@@ -10,6 +10,7 @@ import {
 } from './subscription-titles-form.component';
 import { SelectPreferences } from '../../preferences/components/select-preferences.component';
 import { SelectTeachers } from '../../teachers/components/select-teachers.component';
+import { toast } from 'react-toastify';
 
 type UpdateSubscriptionFormProps = {
   id: string;
@@ -48,12 +49,12 @@ export const UpdateSubscriptionForm = ({ id }: UpdateSubscriptionFormProps) => {
     const titles = subscriptionTitlesRef.current?.getTitles() || [];
 
     if (!teacherId || teacherId === '') {
-      alert('campo professor inválido');
+      toast('campo professor inválido', { type: 'error' });
       return;
     }
 
     if (!preferenceId || preferenceId === '') {
-      alert('campo preferência inválido');
+      toast('campo preferência inválido', { type: 'error' });
       return;
     }
 

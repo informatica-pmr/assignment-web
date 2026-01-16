@@ -10,6 +10,9 @@ import type { UpdateSituationsInputDTO } from '../dtos/inputs/update-situations.
 import { usePagination } from '../../shared/contexts/pagination.context';
 import type { FindManySituationsInputDTO } from '../dtos/inputs/find-many-situations.input.dto';
 import { useNookies } from '../../shared/contexts/nookies.context';
+import { toast } from 'react-toastify';
+import { useSituationsOrderBy } from '../contexts/situations-order-by.context';
+import type { OrderBySituationsInputDTO } from '../dtos/inputs/order-by-situations.input.dto';
 
 type SituationsProviderProps = {
   children: ReactNode;
@@ -21,6 +24,7 @@ export const SituationsProvider = ({ children }: SituationsProviderProps) => {
   const { getAccessTokenOrThrow } = useNookies();
   const { page, size, changePagination } = usePagination();
   const filters = useSituationsFilters();
+  const orderBy = useSituationsOrderBy();
   const [situations, setSituations] = useState<FindManySituationsOutputDTO[]>([]);
 
   fetch.setAccessToken(getAccessTokenOrThrow());
@@ -40,13 +44,15 @@ export const SituationsProvider = ({ children }: SituationsProviderProps) => {
     try {
       const { data, pagination } = await fetch.get<
         FindManySituationsOutputDTO[],
-        FindManySituationsInputDTO
+        FindManySituationsInputDTO,
+        OrderBySituationsInputDTO
       >({
         filters: {
           ...filters,
           page,
           size,
         },
+        orderBy,
       });
 
       setSituations(data ?? []);
@@ -54,12 +60,12 @@ export const SituationsProvider = ({ children }: SituationsProviderProps) => {
     } catch (err) {
       fetch.handleError(err);
     }
-  }, [filters, page, size, changePagination]);
+  }, [filters, orderBy, page, size, changePagination]);
   const createSituation = useCallback(async (createSituationDTO: CreateSituationsInputDTO) => {
     try {
       await fetch.post<CreateSituationsOutputDTO, CreateSituationsInputDTO>(createSituationDTO);
 
-      alert('situação criada com sucesso');
+      toast('situação criada com sucesso', { type: 'success' });
 
       return true;
     } catch (err) {
@@ -72,7 +78,7 @@ export const SituationsProvider = ({ children }: SituationsProviderProps) => {
       try {
         await fetch.put<UpdateSituationsInputDTO>(id, updateSituationDTO);
 
-        alert('situação atualizada com sucesso');
+        toast('situação atualizada com sucesso', { type: 'success' });
 
         return true;
       } catch (err) {
@@ -86,7 +92,7 @@ export const SituationsProvider = ({ children }: SituationsProviderProps) => {
     try {
       await fetch.delete(id);
 
-      alert('situação deletada com sucesso');
+      toast('situação deletada com sucesso', { type: 'success' });
 
       return true;
     } catch (err) {

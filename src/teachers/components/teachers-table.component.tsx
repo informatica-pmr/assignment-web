@@ -9,12 +9,27 @@ import { Formatter } from '../../shared/toolkit/formatter';
 import { useLoadPositions } from '../../positions/contexts/load-positions.context';
 import { useLoadSituations } from '../../situations/contexts/load-situations.context';
 import { useAuth } from '../../auth/contexts/auth.context';
+import { useTeachersOrderBy } from '../contexts/teachers-order-by.context';
 
 const formatter = new Formatter();
 
 export const TeachersTable = () => {
   const { yearId } = useAuth();
   const { teachers, deleteTeacher, importTeachers, findManyTeachers } = useTeachers();
+  const {
+    name,
+    unit,
+    birthAt,
+    cellphone,
+    position,
+    situation,
+    changeName,
+    changeUnit,
+    changeBirthAt,
+    changeCellphone,
+    changePosition,
+    changeSituation,
+  } = useTeachersOrderBy();
   const { changePage } = usePages();
   const { units } = useLoadUnits();
   const { positions } = useLoadPositions();
@@ -26,12 +41,12 @@ export const TeachersTable = () => {
     <Table
       ref={tableRef}
       headers={[
-        { id: 1, value: 'nome' },
-        { id: 2, value: 'unidade' },
-        { id: 3, value: 'nascimento' },
-        { id: 4, value: 'celular' },
-        { id: 5, value: 'cargo' },
-        { id: 6, value: 'situação' },
+        { id: 1, value: 'nome', sort: name, changeSort: changeName },
+        { id: 2, value: 'unidade', sort: unit, changeSort: changeUnit },
+        { id: 3, value: 'nascimento', sort: birthAt, changeSort: changeBirthAt },
+        { id: 4, value: 'celular', sort: cellphone, changeSort: changeCellphone },
+        { id: 5, value: 'cargo', sort: position, changeSort: changePosition },
+        { id: 6, value: 'situação', sort: situation, changeSort: changeSituation },
       ]}
       rows={teachers.map((x) => ({
         id: x.teacherId,

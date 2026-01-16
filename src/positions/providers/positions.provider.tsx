@@ -10,6 +10,9 @@ import type { UpdatePositionsInputDTO } from '../dtos/inputs/update-positions.in
 import { usePagination } from '../../shared/contexts/pagination.context';
 import type { FindManyPositionsInputDTO } from '../dtos/inputs/find-many-positions.input.dto';
 import { useNookies } from '../../shared/contexts/nookies.context';
+import { toast } from 'react-toastify';
+import { usePositionsOrderBy } from '../contexts/positions-order-by.context';
+import type { OrderByPositionsInputDTO } from '../dtos/inputs/order-by-positions.input.dto';
 
 type PositionsProviderProps = {
   children: ReactNode;
@@ -21,6 +24,7 @@ export const PositionsProvider = ({ children }: PositionsProviderProps) => {
   const { getAccessTokenOrThrow } = useNookies();
   const { page, size, changePagination } = usePagination();
   const filters = usePositionsFilters();
+  const orderBy = usePositionsOrderBy();
   const [positions, setPositions] = useState<FindManyPositionsOutputDTO[]>([]);
 
   fetch.setAccessToken(getAccessTokenOrThrow());
@@ -40,13 +44,15 @@ export const PositionsProvider = ({ children }: PositionsProviderProps) => {
     try {
       const { data, pagination } = await fetch.get<
         FindManyPositionsOutputDTO[],
-        FindManyPositionsInputDTO
+        FindManyPositionsInputDTO,
+        OrderByPositionsInputDTO
       >({
         filters: {
           ...filters,
           page,
           size,
         },
+        orderBy,
       });
 
       setPositions(data ?? []);
@@ -54,12 +60,12 @@ export const PositionsProvider = ({ children }: PositionsProviderProps) => {
     } catch (err) {
       fetch.handleError(err);
     }
-  }, [filters, page, size, changePagination]);
+  }, [filters, orderBy, page, size, changePagination]);
   const createPosition = useCallback(async (createPositionDTO: CreatePositionsInputDTO) => {
     try {
       await fetch.post<CreatePositionsOutputDTO, CreatePositionsInputDTO>(createPositionDTO);
 
-      alert('cargo criado com sucesso');
+      toast('cargo criado com sucesso', { type: 'success' });
 
       return true;
     } catch (err) {
@@ -72,7 +78,7 @@ export const PositionsProvider = ({ children }: PositionsProviderProps) => {
       try {
         await fetch.put<UpdatePositionsInputDTO>(id, updatePositionDTO);
 
-        alert('cargo atualizado com sucesso');
+        toast('cargo atualizado com sucesso', { type: 'success' });
 
         return true;
       } catch (err) {
@@ -86,7 +92,7 @@ export const PositionsProvider = ({ children }: PositionsProviderProps) => {
     try {
       await fetch.delete(id);
 
-      alert('cargo deletado com sucesso');
+      toast('cargo deletado com sucesso', { type: 'success' });
 
       return true;
     } catch (err) {

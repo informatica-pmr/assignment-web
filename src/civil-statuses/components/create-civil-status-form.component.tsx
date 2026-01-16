@@ -1,19 +1,20 @@
-import { useState } from "react";
-import { useCivilStatuses } from "../contexts/civil-statuses.context";
-import { usePages } from "../../shared/contexts/pages.context";
-import { Row } from "../../shared/components/row";
-import { InputText } from "../../shared/components/input-text.component";
-import { CivilStatusesIndexPage } from "../pages/civil-statuses-index.page";
+import { useState } from 'react';
+import { useCivilStatuses } from '../contexts/civil-statuses.context';
+import { usePages } from '../../shared/contexts/pages.context';
+import { Row } from '../../shared/components/row';
+import { InputText } from '../../shared/components/input-text.component';
+import { CivilStatusesIndexPage } from '../pages/civil-statuses-index.page';
+import { toast } from 'react-toastify';
 
 export const CreateCivilStatusForm = () => {
   const { createCivilStatus } = useCivilStatuses();
   const { changePage } = usePages();
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
 
   const handleSubmit = async () => {
-    if (!name || name === "") {
-      alert("campo nome inválido");
+    if (!name || name === '') {
+      toast('campo nome inválido', { type: 'error' });
       return;
     }
 
@@ -29,25 +30,20 @@ export const CreateCivilStatusForm = () => {
   return (
     <>
       <Row>
-        <InputText col={12} label="nome" value={name} setValue={setName} />
+        <InputText col={12} label='nome' value={name} setValue={setName} />
       </Row>
       <hr />
       <Row>
-        <div className="col-sm-2">
+        <div className='col-sm-2'>
           <button
-            type="button"
-            className="btn btn-primary w-100"
-            onClick={() => changePage(<CivilStatusesIndexPage />)}
-          >
+            type='button'
+            className='btn btn-primary w-100'
+            onClick={() => changePage(<CivilStatusesIndexPage />)}>
             voltar
           </button>
         </div>
-        <div className="col-sm-2 ms-auto">
-          <button
-            type="submit"
-            className="btn btn-success w-100"
-            onClick={() => handleSubmit()}
-          >
+        <div className='col-sm-2 ms-auto'>
+          <button type='submit' className='btn btn-success w-100' onClick={() => handleSubmit()}>
             salvar
           </button>
         </div>

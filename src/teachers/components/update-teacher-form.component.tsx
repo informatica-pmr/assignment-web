@@ -17,6 +17,7 @@ import { Textarea } from '../../shared/components/textarea.component';
 import { SelectSituations } from '../../situations/components/select-situations.component';
 import { SelectUnits } from '../../units/components/select-units.component';
 import { Formatter } from '../../shared/toolkit/formatter';
+import { toast } from 'react-toastify';
 
 type UpdateTeacherFormProps = {
   id: string;
@@ -104,63 +105,63 @@ export const UpdateTeacherForm = ({ id }: UpdateTeacherFormProps) => {
 
   const handleSubmit = async () => {
     if (!name || name === '') {
-      alert('campo nome inválido');
+      toast('campo nome inválido', { type: 'error' });
       return;
     }
     if (!identity || identity === '') {
-      alert('campo rg inválido');
+      toast('campo rg inválido', { type: 'error' });
       return;
     }
     if (!document || document === '') {
-      alert('campo cpf inválido');
+      toast('campo cpf inválido', { type: 'error' });
       return;
     }
     if (!birthAt || birthAt === '') {
-      alert('campo nascimento inválido');
+      toast('campo nascimento inválido', { type: 'error' });
       return;
     }
     if (!address || address === '') {
-      alert('campo endereço inválido');
+      toast('campo endereço inválido', { type: 'error' });
       return;
     }
     if (!neighborhood || neighborhood === '') {
-      alert('campo bairro inválido');
+      toast('campo bairro inválido', { type: 'error' });
       return;
     }
     if (!city || city === '') {
-      alert('campo cidade inválido');
+      toast('campo cidade inválido', { type: 'error' });
       return;
     }
     if (!postalCode || postalCode === '') {
-      alert('campo cep inválido');
+      toast('campo cep inválido', { type: 'error' });
       return;
     }
     if (!phone || phone === '') {
-      alert('campo telefone inválido');
+      toast('campo telefone inválido', { type: 'error' });
       return;
     }
     if (!cellphone || cellphone === '') {
-      alert('campo celular inválido');
+      toast('campo celular inválido', { type: 'error' });
       return;
     }
     if (!email || email === '') {
-      alert('campo e-mail inválido');
+      toast('campo e-mail inválido', { type: 'error' });
       return;
     }
     if (!unitId || unitId === 0) {
-      alert('campo unidade inválido');
+      toast('campo unidade inválido', { type: 'error' });
       return;
     }
     if (!positionId || positionId === 0) {
-      alert('campo cargo inválido');
+      toast('campo cargo inválido', { type: 'error' });
       return;
     }
     if (!situationId || situationId === 0) {
-      alert('campo situação inválido');
+      toast('campo situação inválido', { type: 'error' });
       return;
     }
     if (!civilStatusId || civilStatusId === 0) {
-      alert('campo estado civil inválido');
+      toast('campo estado civil inválido', { type: 'error' });
       return;
     }
 

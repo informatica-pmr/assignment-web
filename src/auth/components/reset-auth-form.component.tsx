@@ -4,6 +4,7 @@ import { InputText } from '../../shared/components/input-text.component';
 import { InputPassword } from '../../shared/components/input-password.component';
 import { usePages } from '../../shared/contexts/pages.context';
 import { AuthLoginPage } from '../pages/auth-login.page';
+import { toast } from 'react-toastify';
 
 export const ResetAuthForm = () => {
   const { userId, reset, logout } = useAuth();
@@ -15,15 +16,15 @@ export const ResetAuthForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password.length < 6 || password.length > 12) {
-      alert('A senha atual contém entre 6 e 12 caracteres.');
+      toast('A senha atual contém entre 6 e 12 caracteres.', { type: 'error' });
       return;
     }
     if (newPassword.length < 6 || newPassword.length > 12) {
-      alert('A nova senha contém entre 6 e 12 caracteres.');
+      toast('A nova senha contém entre 6 e 12 caracteres.', { type: 'error' });
       return;
     }
     if (newPassword !== newPasswordConfirm) {
-      alert('A nova senha não confere.');
+      toast('A nova senha não confere.', { type: 'error' });
       return;
     }
     const success = await reset(userId, { password, newPassword });

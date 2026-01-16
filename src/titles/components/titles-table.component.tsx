@@ -5,10 +5,12 @@ import { usePages } from '../../shared/contexts/pages.context';
 import { TitlesCreatePage } from '../pages/titles-create.page';
 import { TitlesUpdatePage } from '../pages/titles-update.page';
 import { useAuth } from '../../auth/contexts/auth.context';
+import { useTitlesOrderBy } from '../contexts/titles-order-by.context';
 
 export const TitlesTable = () => {
   const { yearId } = useAuth();
   const { titles, deleteTitle, importTitles, findManyTitles } = useTitles();
+  const { description, changeDescription } = useTitlesOrderBy();
   const { changePage } = usePages();
 
   const tableRef = useRef<TableElement>(null);
@@ -16,7 +18,7 @@ export const TitlesTable = () => {
   return (
     <Table
       ref={tableRef}
-      headers={[{ id: 1, value: 'descrição' }]}
+      headers={[{ id: 1, value: 'descrição', sort: description, changeSort: changeDescription }]}
       rows={titles.map((x) => ({
         id: x.titleId,
         checked: false,

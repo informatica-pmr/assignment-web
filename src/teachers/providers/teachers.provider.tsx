@@ -12,6 +12,9 @@ import type { FindManyTeachersInputDTO } from '../dtos/inputs/find-many-teachers
 import { useAuth } from '../../auth/contexts/auth.context';
 import { useNookies } from '../../shared/contexts/nookies.context';
 import type { ImportTeachersInputDTO } from '../dtos/inputs/import-teachers.input.dto';
+import { toast } from 'react-toastify';
+import { useTeachersOrderBy } from '../contexts/teachers-order-by.context';
+import type { OrderByTeachersInputDTO } from '../dtos/inputs/order-by-teachers.input.dto';
 
 type TeachersProviderProps = {
   children: ReactNode;
@@ -24,6 +27,7 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
   const { yearId } = useAuth();
   const { page, size, changePagination } = usePagination();
   const filters = useTeachersFilters();
+  const orderBy = useTeachersOrderBy();
   const [teachers, setTeachers] = useState<FindManyTeachersOutputDTO[]>([]);
 
   fetch.setAccessToken(getAccessTokenOrThrow());
@@ -43,7 +47,8 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
     try {
       const { data, pagination } = await fetch.get<
         FindManyTeachersOutputDTO[],
-        FindManyTeachersInputDTO
+        FindManyTeachersInputDTO,
+        OrderByTeachersInputDTO
       >({
         filters: {
           ...filters,
@@ -51,6 +56,7 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
           page,
           size,
         },
+        orderBy,
       });
 
       setTeachers(data ?? []);
@@ -58,12 +64,12 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
     } catch (err) {
       fetch.handleError(err);
     }
-  }, [filters, page, size, changePagination, yearId]);
+  }, [filters, orderBy, page, size, changePagination, yearId]);
   const createTeacher = useCallback(async (createTeacherDTO: CreateTeachersInputDTO) => {
     try {
       await fetch.post<CreateTeachersOutputDTO, CreateTeachersInputDTO>(createTeacherDTO);
 
-      alert('professor(a) criado(a) com sucesso');
+      toast('professor(a) criado(a) com sucesso', { type: 'success' });
 
       return true;
     } catch (err) {
@@ -76,7 +82,7 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
       try {
         await fetch.put<UpdateTeachersInputDTO>(id, updateTeacherDTO);
 
-        alert('professor(a) atualizado(a) com sucesso');
+        toast('professor(a) atualizado(a) com sucesso', { type: 'success' });
 
         return true;
       } catch (err) {
@@ -90,7 +96,7 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
     try {
       await fetch.delete(id);
 
-      alert('professor(a) deletado(a) com sucesso');
+      toast('professor(a) deletado(a) com sucesso', { type: 'success' });
 
       return true;
     } catch (err) {
@@ -103,7 +109,7 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
     try {
       await fetch.post<ImportTeachersInputDTO>(importDTO, 'import');
 
-      alert('Professores importados com sucesso');
+      toast('Professores importados com sucesso', { type: 'success' });
 
       return true;
     } catch (err) {
