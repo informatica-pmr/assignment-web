@@ -36,7 +36,7 @@ export class Fetch {
     const origin = document.location.origin;
     const path = origin.includes('localhost')
       ? `${origin}/_/url.json`
-      : `${origin}/atribui/_/url.json`;
+      : `${origin}/educacao/atribui-v2/_/url.json`;
     const response = await fetch(path, {});
     const data = await response.json();
 
@@ -145,7 +145,7 @@ export class Fetch {
 
     await this.handleStatus(response);
 
-    if (response.status === 201) {
+    if (response.status !== 204) {
       const body: SuccessResponseDTO<T> = await response.json();
 
       return body;
