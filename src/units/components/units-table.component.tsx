@@ -1,15 +1,13 @@
 import { useRef } from 'react';
 import { Table, type TableElement } from '../../shared/components/table.component';
 import { useUnits } from '../contexts/units.context';
-import { usePages } from '../../shared/contexts/pages.context';
-import { UnitsCreatePage } from '../pages/units-create.page';
-import { UnitsUpdatePage } from '../pages/units-update.page';
 import { useUnitsOrderBy } from '../contexts/units-order-by.context';
+import { useNavigate } from 'react-router';
 
 export const UnitsTable = () => {
   const { units, deleteUnit, findManyUnits } = useUnits();
   const { name, changeName } = useUnitsOrderBy();
-  const { changePage } = usePages();
+  const navigate = useNavigate();
 
   const tableRef = useRef<TableElement>(null);
 
@@ -22,10 +20,8 @@ export const UnitsTable = () => {
         checked: false,
         cols: [{ id: `${x.unitId}_${x.name}`, value: x.name }],
       }))}
-      createHandle={() => changePage(<UnitsCreatePage />)}
-      editHandle={() =>
-        changePage(<UnitsUpdatePage id={tableRef.current?.getSelectedRow() ?? ''} />)
-      }
+      createHandle={() => navigate('/units/create')}
+      editHandle={() => navigate(`/units/${tableRef.current?.getSelectedRow() ?? ''}`)}
       deleteHandle={async () => {
         const anwser = confirm('deseja remover esta unidade?');
         if (anwser) {

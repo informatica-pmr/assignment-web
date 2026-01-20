@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTeachers } from '../contexts/teachers.context';
-import { usePages } from '../../shared/contexts/pages.context';
 import { Row } from '../../shared/components/row';
 import { InputText } from '../../shared/components/input-text.component';
-import { TeachersIndexPage } from '../pages/teachers-index.page';
 import { SelectCivilStatuses } from '../../civil-statuses/components/select-civil-statuses.component';
 import { SelectDisciplines } from '../../disciplines/components/select-disciplines.component';
 import { SelectPositions } from '../../positions/components/select-positions.component';
@@ -18,6 +16,7 @@ import { SelectSituations } from '../../situations/components/select-situations.
 import { SelectUnits } from '../../units/components/select-units.component';
 import { Formatter } from '../../shared/toolkit/formatter';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
 type UpdateTeacherFormProps = {
   id: string;
@@ -27,7 +26,7 @@ const formatter = new Formatter();
 
 export const UpdateTeacherForm = ({ id }: UpdateTeacherFormProps) => {
   const { findOneTeacher, updateTeacher } = useTeachers();
-  const { changePage } = usePages();
+  const navigate = useNavigate();
 
   const [name, setName] = useState('');
   const [identity, setIdentity] = useState('');
@@ -199,7 +198,7 @@ export const UpdateTeacherForm = ({ id }: UpdateTeacherFormProps) => {
     });
 
     if (updated) {
-      changePage(<TeachersIndexPage />);
+      navigate('/teachers');
     }
   };
 
@@ -372,7 +371,7 @@ export const UpdateTeacherForm = ({ id }: UpdateTeacherFormProps) => {
           <button
             type='button'
             className='btn btn-primary w-100'
-            onClick={() => changePage(<TeachersIndexPage />)}>
+            onClick={() => navigate('/teachers')}>
             voltar
           </button>
         </div>

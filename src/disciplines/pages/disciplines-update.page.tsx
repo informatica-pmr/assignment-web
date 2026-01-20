@@ -1,16 +1,14 @@
-import { UpdateDisciplineForm } from "../components/update-discipline-form.component";
-import { DisciplinesLayout } from "../layout";
+import { useParams } from 'react-router';
+import { UpdateDisciplineForm } from '../components/update-discipline-form.component';
+import { DisciplinesLayout } from '../layout';
 
-type DisciplinesUpdatePageProps = {
-  id: string;
-};
-
-export const DisciplinesUpdatePage = ({id}: DisciplinesUpdatePageProps) => {
+export const DisciplinesUpdatePage = () => {
+  const { id } = useParams<{ id: string }>();
   return (
     <DisciplinesLayout>
-      <h2 className="mt-3 text-center">Editar Disciplina</h2>
+      <h2 className='mt-3 text-center'>Editar Disciplina</h2>
       <hr />
-      <UpdateDisciplineForm id={id} />
+      <UpdateDisciplineForm id={id ?? ''} />
     </DisciplinesLayout>
   );
 };

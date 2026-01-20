@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSubscriptions } from '../contexts/subscriptions.context';
-import { usePages } from '../../shared/contexts/pages.context';
 import { Row } from '../../shared/components/row';
-import { SubscriptionsIndexPage } from '../pages/subscriptions-index.page';
 import { useAuth } from '../../auth/contexts/auth.context';
 import {
   SubscriptionTitlesForm,
@@ -11,6 +9,7 @@ import {
 import { SelectPreferences } from '../../preferences/components/select-preferences.component';
 import { SelectTeachers } from '../../teachers/components/select-teachers.component';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
 type UpdateSubscriptionFormProps = {
   id: string;
@@ -19,7 +18,7 @@ type UpdateSubscriptionFormProps = {
 export const UpdateSubscriptionForm = ({ id }: UpdateSubscriptionFormProps) => {
   const { yearId } = useAuth();
   const { findOneSubscription, updateSubscription } = useSubscriptions();
-  const { changePage } = usePages();
+  const navigate = useNavigate();
 
   const [teacherId, setTeacherId] = useState('');
   const [preferenceId, setPreferenceId] = useState('');
@@ -66,7 +65,7 @@ export const UpdateSubscriptionForm = ({ id }: UpdateSubscriptionFormProps) => {
     });
 
     if (updated) {
-      changePage(<SubscriptionsIndexPage />);
+      navigate('/subscriptions');
     }
   };
 
@@ -89,7 +88,7 @@ export const UpdateSubscriptionForm = ({ id }: UpdateSubscriptionFormProps) => {
           <button
             type='button'
             className='btn btn-primary w-100'
-            onClick={() => changePage(<SubscriptionsIndexPage />)}>
+            onClick={() => navigate('/subscriptions')}>
             voltar
           </button>
         </div>

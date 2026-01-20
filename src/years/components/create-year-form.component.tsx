@@ -1,16 +1,15 @@
 import { useState } from 'react';
 import { useYears } from '../contexts/years.context';
-import { usePages } from '../../shared/contexts/pages.context';
-import { YearsIndexPage } from '../pages/years-index.page';
 import { Row } from '../../shared/components/row';
 import { InputNumber } from '../../shared/components/input-number.component';
 import { InputText } from '../../shared/components/input-text.component';
 import { Select } from '../../shared/components/select.component';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
 export const CreateYearForm = () => {
   const { createYear } = useYears();
-  const { changePage } = usePages();
+  const navigate = useNavigate();
 
   const [year, setYear] = useState(new Date().getFullYear());
   const [record, setRecord] = useState('');
@@ -46,7 +45,7 @@ export const CreateYearForm = () => {
     });
 
     if (created) {
-      changePage(<YearsIndexPage />);
+      navigate('/years');
     }
   };
 
@@ -73,7 +72,7 @@ export const CreateYearForm = () => {
           <button
             type='button'
             className='btn btn-primary w-100'
-            onClick={() => changePage(<YearsIndexPage />)}>
+            onClick={() => navigate('/years')}>
             voltar
           </button>
         </div>

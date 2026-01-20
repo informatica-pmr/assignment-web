@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { usePositions } from '../contexts/positions.context';
-import { usePages } from '../../shared/contexts/pages.context';
 import { Row } from '../../shared/components/row';
 import { InputText } from '../../shared/components/input-text.component';
-import { PositionsIndexPage } from '../pages/positions-index.page';
 import { Select } from '../../shared/components/select.component';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
 type UpdatePositionFormProps = {
   id: string;
@@ -13,7 +12,7 @@ type UpdatePositionFormProps = {
 
 export const UpdatePositionForm = ({ id }: UpdatePositionFormProps) => {
   const { findOnePosition, updatePosition } = usePositions();
-  const { changePage } = usePages();
+  const navigate = useNavigate();
 
   const [name, setName] = useState('');
   const [active, setActive] = useState('');
@@ -45,7 +44,7 @@ export const UpdatePositionForm = ({ id }: UpdatePositionFormProps) => {
     });
 
     if (updated) {
-      changePage(<PositionsIndexPage />);
+      navigate('/positions');
     }
   };
 
@@ -70,7 +69,7 @@ export const UpdatePositionForm = ({ id }: UpdatePositionFormProps) => {
           <button
             type='button'
             className='btn btn-primary w-100'
-            onClick={() => changePage(<PositionsIndexPage />)}>
+            onClick={() => navigate('/positions')}>
             voltar
           </button>
         </div>

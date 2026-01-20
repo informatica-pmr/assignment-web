@@ -1,15 +1,13 @@
 import { useRef } from 'react';
 import { Table, type TableElement } from '../../shared/components/table.component';
 import { useCivilStatuses } from '../contexts/civil-statuses.context';
-import { usePages } from '../../shared/contexts/pages.context';
-import { CivilStatusesCreatePage } from '../pages/civil-statuses-create.page';
-import { CivilStatusesUpdatePage } from '../pages/civil-statuses-update.page';
 import { useCivilStatusesOrderBy } from '../contexts/civil-statuses-order-by.context';
+import { useNavigate } from 'react-router';
 
 export const CivilStatusesTable = () => {
   const { civilStatuses, deleteCivilStatus, findManyCivilStatuses } = useCivilStatuses();
   const { name, changeName } = useCivilStatusesOrderBy();
-  const { changePage } = usePages();
+  const navigate = useNavigate();
 
   const tableRef = useRef<TableElement>(null);
 
@@ -22,10 +20,8 @@ export const CivilStatusesTable = () => {
         checked: false,
         cols: [{ id: `${x.civilStatusId}_${x.name}`, value: x.name }],
       }))}
-      createHandle={() => changePage(<CivilStatusesCreatePage />)}
-      editHandle={() =>
-        changePage(<CivilStatusesUpdatePage id={tableRef.current?.getSelectedRow() ?? ''} />)
-      }
+      createHandle={() => navigate('/civil-statuses/create')}
+      editHandle={() => navigate(`/civil-statuses/${tableRef.current?.getSelectedRow() ?? ''}`)}
       deleteHandle={async () => {
         const anwser = confirm('deseja remover este estado civil?');
         if (anwser) {

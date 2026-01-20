@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { useTeachers } from '../contexts/teachers.context';
-import { usePages } from '../../shared/contexts/pages.context';
 import { Row } from '../../shared/components/row';
 import { InputText } from '../../shared/components/input-text.component';
-import { TeachersIndexPage } from '../pages/teachers-index.page';
 import { InputDocument } from '../../shared/components/input-document.component';
 import { InputDate } from '../../shared/components/input-date.component';
 import { Select } from '../../shared/components/select.component';
@@ -19,13 +17,14 @@ import { SelectPositions } from '../../positions/components/select-positions.com
 import { SelectDisciplines } from '../../disciplines/components/select-disciplines.component';
 import { SelectSituations } from '../../situations/components/select-situations.component';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
 const formatter = new Formatter();
 
 export const CreateTeacherForm = () => {
   const { yearId } = useAuth();
   const { createTeacher } = useTeachers();
-  const { changePage } = usePages();
+  const navigate = useNavigate();
 
   const [name, setName] = useState('');
   const [identity, setIdentity] = useState('');
@@ -153,7 +152,7 @@ export const CreateTeacherForm = () => {
     });
 
     if (created) {
-      changePage(<TeachersIndexPage />);
+      navigate('/teachers');
     }
   };
 
@@ -326,7 +325,7 @@ export const CreateTeacherForm = () => {
           <button
             type='button'
             className='btn btn-primary w-100'
-            onClick={() => changePage(<TeachersIndexPage />)}>
+            onClick={() => navigate('/teachers')}>
             voltar
           </button>
         </div>

@@ -2,14 +2,13 @@ import React, { useEffect } from 'react';
 import { Row } from '../../shared/components/row';
 import { InputText } from '../../shared/components/input-text.component';
 import { SelectRoles } from '../../roles/components/select-roles.component';
-import { usePages } from '../../shared/contexts/pages.context';
-import { UsersIndexPage } from '../pages/users-index.page';
 import { InputEmail } from '../../shared/components/input-email.component';
 import { InputPassword } from '../../shared/components/input-password.component';
 import { useUsers } from '../contexts/users.context';
 import { SelectUnits } from '../../units/components/select-units.component';
 import { Select } from '../../shared/components/select.component';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
 type UpdateUserFormProps = {
   id: string;
@@ -17,7 +16,7 @@ type UpdateUserFormProps = {
 
 export const UpdateUserForm: React.FC<UpdateUserFormProps> = ({ id }) => {
   // Component implementation
-  const { changePage } = usePages();
+  const navigate = useNavigate();
   const { updateUser, findOneUser } = useUsers();
 
   const [name, setName] = React.useState('');
@@ -82,7 +81,7 @@ export const UpdateUserForm: React.FC<UpdateUserFormProps> = ({ id }) => {
       roleId: Number(roleId),
       unitId: unitId === '' ? undefined : Number(unitId),
     });
-    if (updated) changePage(<UsersIndexPage />);
+    if (updated) navigate('/users');
   };
 
   return (
@@ -113,7 +112,7 @@ export const UpdateUserForm: React.FC<UpdateUserFormProps> = ({ id }) => {
           <button
             type='button'
             className='btn btn-primary w-100'
-            onClick={() => changePage(<UsersIndexPage />)}>
+            onClick={() => navigate('/users')}>
             voltar
           </button>
         </div>

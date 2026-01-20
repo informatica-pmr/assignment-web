@@ -1,17 +1,15 @@
 import { useRef } from 'react';
 import { Table, type TableElement } from '../../shared/components/table.component';
 import { useTitles } from '../contexts/titles.context';
-import { usePages } from '../../shared/contexts/pages.context';
-import { TitlesCreatePage } from '../pages/titles-create.page';
-import { TitlesUpdatePage } from '../pages/titles-update.page';
 import { useAuth } from '../../auth/contexts/auth.context';
 import { useTitlesOrderBy } from '../contexts/titles-order-by.context';
+import { useNavigate } from 'react-router';
 
 export const TitlesTable = () => {
   const { yearId } = useAuth();
   const { titles, deleteTitle, importTitles, findManyTitles } = useTitles();
   const { description, changeDescription } = useTitlesOrderBy();
-  const { changePage } = usePages();
+  const navigate = useNavigate();
 
   const tableRef = useRef<TableElement>(null);
 
@@ -24,10 +22,8 @@ export const TitlesTable = () => {
         checked: false,
         cols: [{ id: `description_${x.description}`, value: x.description }],
       }))}
-      createHandle={() => changePage(<TitlesCreatePage />)}
-      editHandle={() =>
-        changePage(<TitlesUpdatePage id={tableRef.current?.getSelectedRow() ?? ''} />)
-      }
+      createHandle={() => navigate('/titles/create')}
+      editHandle={() => navigate(`/titles/${tableRef.current?.getSelectedRow() ?? ''}`)}
       deleteHandle={async () => {
         const anwser = confirm('deseja remover este título?');
         if (anwser) {

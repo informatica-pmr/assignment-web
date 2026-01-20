@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { usePreferences } from '../contexts/preferences.context';
-import { usePages } from '../../shared/contexts/pages.context';
 import { Row } from '../../shared/components/row';
 import { InputText } from '../../shared/components/input-text.component';
-import { PreferencesIndexPage } from '../pages/preferences-index.page';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
 type UpdatePreferenceFormProps = {
   id: string;
@@ -12,7 +11,7 @@ type UpdatePreferenceFormProps = {
 
 export const UpdatePreferenceForm = ({ id }: UpdatePreferenceFormProps) => {
   const { findOnePreference, updatePreference } = usePreferences();
-  const { changePage } = usePages();
+  const navigate = useNavigate();
 
   const [name, setName] = useState('');
 
@@ -41,7 +40,7 @@ export const UpdatePreferenceForm = ({ id }: UpdatePreferenceFormProps) => {
     });
 
     if (updated) {
-      changePage(<PreferencesIndexPage />);
+      navigate('/preferences');
     }
   };
 
@@ -56,7 +55,7 @@ export const UpdatePreferenceForm = ({ id }: UpdatePreferenceFormProps) => {
           <button
             type='button'
             className='btn btn-primary w-100'
-            onClick={() => changePage(<PreferencesIndexPage />)}>
+            onClick={() => navigate('/preferences')}>
             voltar
           </button>
         </div>

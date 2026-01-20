@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDisciplines } from '../contexts/disciplines.context';
-import { usePages } from '../../shared/contexts/pages.context';
 import { Row } from '../../shared/components/row';
 import { InputText } from '../../shared/components/input-text.component';
-import { DisciplinesIndexPage } from '../pages/disciplines-index.page';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
 type UpdateDisciplineFormProps = {
   id: string;
@@ -12,7 +11,7 @@ type UpdateDisciplineFormProps = {
 
 export const UpdateDisciplineForm = ({ id }: UpdateDisciplineFormProps) => {
   const { findOneDiscipline, updateDiscipline } = useDisciplines();
-  const { changePage } = usePages();
+  const navigate = useNavigate();
 
   const [name, setName] = useState('');
 
@@ -41,7 +40,7 @@ export const UpdateDisciplineForm = ({ id }: UpdateDisciplineFormProps) => {
     });
 
     if (updated) {
-      changePage(<DisciplinesIndexPage />);
+      navigate('/disciplines');
     }
   };
 
@@ -56,7 +55,7 @@ export const UpdateDisciplineForm = ({ id }: UpdateDisciplineFormProps) => {
           <button
             type='button'
             className='btn btn-primary w-100'
-            onClick={() => changePage(<DisciplinesIndexPage />)}>
+            onClick={() => navigate('/disciplines')}>
             voltar
           </button>
         </div>

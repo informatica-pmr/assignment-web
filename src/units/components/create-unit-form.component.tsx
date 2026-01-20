@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { useUnits } from '../contexts/units.context';
-import { usePages } from '../../shared/contexts/pages.context';
 import { Row } from '../../shared/components/row';
 import { InputText } from '../../shared/components/input-text.component';
-import { UnitsIndexPage } from '../pages/units-index.page';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
 export const CreateUnitForm = () => {
   const { createUnit } = useUnits();
-  const { changePage } = usePages();
+  const navigate = useNavigate();
 
   const [name, setName] = useState('');
 
@@ -23,7 +22,7 @@ export const CreateUnitForm = () => {
     });
 
     if (created) {
-      changePage(<UnitsIndexPage />);
+      navigate('/units');
     }
   };
 
@@ -38,7 +37,7 @@ export const CreateUnitForm = () => {
           <button
             type='button'
             className='btn btn-primary w-100'
-            onClick={() => changePage(<UnitsIndexPage />)}>
+            onClick={() => navigate('/units')}>
             voltar
           </button>
         </div>

@@ -1,15 +1,13 @@
 import { useRef } from 'react';
 import { Table, type TableElement } from '../../shared/components/table.component';
 import { useSituations } from '../contexts/situations.context';
-import { usePages } from '../../shared/contexts/pages.context';
-import { SituationsCreatePage } from '../pages/situations-create.page';
-import { SituationsUpdatePage } from '../pages/situations-update.page';
 import { useSituationsOrderBy } from '../contexts/situations-order-by.context';
+import { useNavigate } from 'react-router';
 
 export const SituationsTable = () => {
   const { situations, deleteSituation, findManySituations } = useSituations();
   const { name, changeName } = useSituationsOrderBy();
-  const { changePage } = usePages();
+  const navigate = useNavigate();
 
   const tableRef = useRef<TableElement>(null);
 
@@ -22,10 +20,8 @@ export const SituationsTable = () => {
         checked: false,
         cols: [{ id: `${x.situationId}_${x.name}`, value: x.name }],
       }))}
-      createHandle={() => changePage(<SituationsCreatePage />)}
-      editHandle={() =>
-        changePage(<SituationsUpdatePage id={tableRef.current?.getSelectedRow() ?? ''} />)
-      }
+      createHandle={() => navigate('/situations/create')}
+      editHandle={() => navigate(`/situations/${tableRef.current?.getSelectedRow() ?? ''}`)}
       deleteHandle={async () => {
         const anwser = confirm('deseja remover esta situação?');
         if (anwser) {

@@ -1,13 +1,11 @@
 import { useRef } from 'react';
 import { Table, type TableElement } from '../../shared/components/table.component';
-import { usePages } from '../../shared/contexts/pages.context';
 import { useUsers } from '../contexts/users.context';
-import { UsersCreatePage } from '../pages/users-create.page';
-import { UsersUpdatePage } from '../pages/users-update.page';
 import { useUsersOrderBy } from '../contexts/users-order-by.context';
+import { useNavigate } from 'react-router';
 
 export const UsersTable = () => {
-  const { changePage } = usePages();
+  const navigate = useNavigate();
   const { users } = useUsers();
   const { username, name, active, changeName, changeUsername, changeActive } = useUsersOrderBy();
 
@@ -40,11 +38,9 @@ export const UsersTable = () => {
         ],
       }))}
       createHandle={() => {
-        changePage(<UsersCreatePage />);
+        navigate('/users/create');
       }}
-      editHandle={() =>
-        changePage(<UsersUpdatePage id={tableRef.current?.getSelectedRow() ?? ''} />)
-      }
+      editHandle={() => navigate(`/users/${tableRef.current?.getSelectedRow() ?? ''}`)}
     />
   );
 };

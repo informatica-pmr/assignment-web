@@ -3,13 +3,12 @@ import { SelectYears } from '../../years/components/select-years.component';
 import { useAuth } from '../contexts/auth.context';
 import { InputText } from '../../shared/components/input-text.component';
 import { InputPassword } from '../../shared/components/input-password.component';
-import { usePages } from '../../shared/contexts/pages.context';
-import { HomePage } from '../../home/pages/home.page';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
 export const LoginAuthForm = () => {
   const { login } = useAuth();
-  const { changePage } = usePages();
+  const navigate = useNavigate();
   const [yearId, setYearId] = useState(new Date().getFullYear().toString());
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -39,7 +38,7 @@ export const LoginAuthForm = () => {
       password,
     });
     if (success) {
-      changePage(<HomePage />);
+      navigate('/');
     }
   };
 

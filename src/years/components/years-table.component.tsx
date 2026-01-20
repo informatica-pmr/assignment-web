@@ -1,12 +1,11 @@
 import { useRef } from 'react';
 import { Table, type TableElement } from '../../shared/components/table.component';
 import { useYears } from '../contexts/years.context';
-import { usePages } from '../../shared/contexts/pages.context';
-import { YearsCreatePage } from '../pages/years-create.page';
-import { YearsUpdatePage } from '../pages/years-update.page';
 import { useYearsOrderBy } from '../contexts/years-order-by.context';
+import { useNavigate } from 'react-router';
 
 export const YearsTable = () => {
+  const navigate = useNavigate();
   const { years, deleteYear, findManyYears } = useYears();
   const {
     yearId,
@@ -18,7 +17,6 @@ export const YearsTable = () => {
     changeResolution,
     changeIsBlocked,
   } = useYearsOrderBy();
-  const { changePage } = usePages();
 
   const tableRef = useRef<TableElement>(null);
 
@@ -41,10 +39,8 @@ export const YearsTable = () => {
           { id: `${x.yearId}_${x.isBlocked}`, value: x.isBlocked === 'S' ? 'sim' : 'não' },
         ],
       }))}
-      createHandle={() => changePage(<YearsCreatePage />)}
-      editHandle={() =>
-        changePage(<YearsUpdatePage id={tableRef.current?.getSelectedRow() ?? ''} />)
-      }
+      createHandle={() => navigate('/years/create')}
+      editHandle={() => navigate(`/years/${tableRef.current?.getSelectedRow() ?? ''}`)}
       deleteHandle={async () => {
         const anwser = confirm('deseja remover este ano?');
         if (anwser) {

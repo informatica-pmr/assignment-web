@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { useSituations } from '../contexts/situations.context';
-import { usePages } from '../../shared/contexts/pages.context';
 import { Row } from '../../shared/components/row';
 import { InputText } from '../../shared/components/input-text.component';
-import { SituationsIndexPage } from '../pages/situations-index.page';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
 export const CreateSituationForm = () => {
   const { createSituation } = useSituations();
-  const { changePage } = usePages();
+  const navigate = useNavigate();
 
   const [name, setName] = useState('');
 
@@ -23,7 +22,7 @@ export const CreateSituationForm = () => {
     });
 
     if (created) {
-      changePage(<SituationsIndexPage />);
+      navigate('/situations');
     }
   };
 
@@ -38,7 +37,7 @@ export const CreateSituationForm = () => {
           <button
             type='button'
             className='btn btn-primary w-100'
-            onClick={() => changePage(<SituationsIndexPage />)}>
+            onClick={() => navigate('/situations')}>
             voltar
           </button>
         </div>

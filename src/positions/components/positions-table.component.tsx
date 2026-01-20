@@ -1,15 +1,13 @@
 import { useRef } from 'react';
 import { Table, type TableElement } from '../../shared/components/table.component';
 import { usePositions } from '../contexts/positions.context';
-import { usePages } from '../../shared/contexts/pages.context';
-import { PositionsCreatePage } from '../pages/positions-create.page';
-import { PositionsUpdatePage } from '../pages/positions-update.page';
 import { usePositionsOrderBy } from '../contexts/positions-order-by.context';
+import { useNavigate } from 'react-router';
 
 export const PositionsTable = () => {
   const { positions, deletePosition, findManyPositions } = usePositions();
   const { name, active, changeActive, changeName } = usePositionsOrderBy();
-  const { changePage } = usePages();
+  const navigate = useNavigate();
 
   const tableRef = useRef<TableElement>(null);
 
@@ -28,10 +26,8 @@ export const PositionsTable = () => {
           { id: `${x.positionId}_${x.active}`, value: x.active === 'S' ? 'sim' : 'não' },
         ],
       }))}
-      createHandle={() => changePage(<PositionsCreatePage />)}
-      editHandle={() =>
-        changePage(<PositionsUpdatePage id={tableRef.current?.getSelectedRow() ?? ''} />)
-      }
+      createHandle={() => navigate('/positions/create')}
+      editHandle={() => navigate(`/positions/${tableRef.current?.getSelectedRow() ?? ''}`)}
       deleteHandle={async () => {
         const anwser = confirm('deseja remover este cargo?');
         if (anwser) {

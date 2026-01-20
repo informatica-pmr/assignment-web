@@ -1,15 +1,13 @@
 import { useRef } from 'react';
 import { Table, type TableElement } from '../../shared/components/table.component';
 import { usePreferences } from '../contexts/preferences.context';
-import { usePages } from '../../shared/contexts/pages.context';
-import { PreferencesCreatePage } from '../pages/preferences-create.page';
-import { PreferencesUpdatePage } from '../pages/preferences-update.page';
 import { usePreferencesOrderBy } from '../contexts/preferences-order-by.context';
+import { useNavigate } from 'react-router';
 
 export const PreferencesTable = () => {
   const { preferences, deletePreference, findManyPreferences } = usePreferences();
   const { name, changeName } = usePreferencesOrderBy();
-  const { changePage } = usePages();
+  const navigate = useNavigate();
 
   const tableRef = useRef<TableElement>(null);
 
@@ -22,10 +20,8 @@ export const PreferencesTable = () => {
         checked: false,
         cols: [{ id: `${x.preferenceId}_${x.name}`, value: x.name }],
       }))}
-      createHandle={() => changePage(<PreferencesCreatePage />)}
-      editHandle={() =>
-        changePage(<PreferencesUpdatePage id={tableRef.current?.getSelectedRow() ?? ''} />)
-      }
+      createHandle={() => navigate('/preferences/create')}
+      editHandle={() => navigate(`/preferences/${tableRef.current?.getSelectedRow() ?? ''}`)}
       deleteHandle={async () => {
         const anwser = confirm('deseja remover esta preferência?');
         if (anwser) {

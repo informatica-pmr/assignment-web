@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { useCivilStatuses } from '../contexts/civil-statuses.context';
-import { usePages } from '../../shared/contexts/pages.context';
 import { Row } from '../../shared/components/row';
 import { InputText } from '../../shared/components/input-text.component';
-import { CivilStatusesIndexPage } from '../pages/civil-statuses-index.page';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
 export const CreateCivilStatusForm = () => {
   const { createCivilStatus } = useCivilStatuses();
-  const { changePage } = usePages();
+  const navigate = useNavigate();
 
   const [name, setName] = useState('');
 
@@ -23,7 +22,7 @@ export const CreateCivilStatusForm = () => {
     });
 
     if (created) {
-      changePage(<CivilStatusesIndexPage />);
+      navigate('/civil-statuses');
     }
   };
 
@@ -38,7 +37,7 @@ export const CreateCivilStatusForm = () => {
           <button
             type='button'
             className='btn btn-primary w-100'
-            onClick={() => changePage(<CivilStatusesIndexPage />)}>
+            onClick={() => navigate('/civil-statuses')}>
             voltar
           </button>
         </div>

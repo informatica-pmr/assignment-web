@@ -2,13 +2,12 @@ import { useState } from 'react';
 import { useAuth } from '../contexts/auth.context';
 import { InputText } from '../../shared/components/input-text.component';
 import { InputPassword } from '../../shared/components/input-password.component';
-import { usePages } from '../../shared/contexts/pages.context';
-import { AuthLoginPage } from '../pages/auth-login.page';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
 export const ResetAuthForm = () => {
   const { userId, reset, logout } = useAuth();
-  const { changePage } = usePages();
+  const navigate = useNavigate();
   const [password, setPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [newPasswordConfirm, setNewPasswordConfirm] = useState('');
@@ -30,7 +29,7 @@ export const ResetAuthForm = () => {
     const success = await reset(userId, { password, newPassword });
     if (success) {
       logout();
-      changePage(<AuthLoginPage />);
+      navigate('/auth/login');
     }
   };
 

@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useTitles } from '../contexts/titles.context';
-import { usePages } from '../../shared/contexts/pages.context';
 import { Row } from '../../shared/components/row';
 import { InputText } from '../../shared/components/input-text.component';
-import { TitlesIndexPage } from '../pages/titles-index.page';
 import { InputNumber } from '../../shared/components/input-number.component';
 import { Select } from '../../shared/components/select.component';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
 type UpdateTitleFormProps = {
   id: string;
@@ -14,7 +13,7 @@ type UpdateTitleFormProps = {
 
 export const UpdateTitleForm = ({ id }: UpdateTitleFormProps) => {
   const { findOneTitle, updateTitle } = useTitles();
-  const { changePage } = usePages();
+  const navigate = useNavigate();
 
   const [yearId, setYearId] = useState(0);
   const [description, setDescription] = useState('');
@@ -80,7 +79,7 @@ export const UpdateTitleForm = ({ id }: UpdateTitleFormProps) => {
     });
 
     if (updated) {
-      changePage(<TitlesIndexPage />);
+      navigate('/titles');
     }
   };
 
@@ -111,7 +110,7 @@ export const UpdateTitleForm = ({ id }: UpdateTitleFormProps) => {
           <button
             type='button'
             className='btn btn-primary w-100'
-            onClick={() => changePage(<TitlesIndexPage />)}>
+            onClick={() => navigate('/titles')}>
             voltar
           </button>
         </div>

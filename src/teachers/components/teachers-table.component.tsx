@@ -1,15 +1,13 @@
 import { useRef } from 'react';
 import { Table, type TableElement } from '../../shared/components/table.component';
 import { useTeachers } from '../contexts/teachers.context';
-import { usePages } from '../../shared/contexts/pages.context';
-import { TeachersCreatePage } from '../pages/teachers-create.page';
-import { TeachersUpdatePage } from '../pages/teechers-update.page';
 import { useLoadUnits } from '../../units/contexts/load-units.context';
 import { Formatter } from '../../shared/toolkit/formatter';
 import { useLoadPositions } from '../../positions/contexts/load-positions.context';
 import { useLoadSituations } from '../../situations/contexts/load-situations.context';
 import { useAuth } from '../../auth/contexts/auth.context';
 import { useTeachersOrderBy } from '../contexts/teachers-order-by.context';
+import { useNavigate } from 'react-router';
 
 const formatter = new Formatter();
 
@@ -30,7 +28,7 @@ export const TeachersTable = () => {
     changePosition,
     changeSituation,
   } = useTeachersOrderBy();
-  const { changePage } = usePages();
+  const navigate = useNavigate();
   const { units } = useLoadUnits();
   const { positions } = useLoadPositions();
   const { situations } = useLoadSituations();
@@ -75,10 +73,8 @@ export const TeachersTable = () => {
           },
         ],
       }))}
-      createHandle={() => changePage(<TeachersCreatePage />)}
-      editHandle={() =>
-        changePage(<TeachersUpdatePage id={tableRef.current?.getSelectedRow() ?? ''} />)
-      }
+      createHandle={() => navigate('/teachers/create')}
+      editHandle={() => navigate(`/teachers/${tableRef.current?.getSelectedRow() ?? ''}`)}
       deleteHandle={async () => {
         const anwser = confirm('deseja remover este(a) professor(a)?');
         if (anwser) {

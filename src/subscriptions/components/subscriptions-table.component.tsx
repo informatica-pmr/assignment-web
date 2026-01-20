@@ -1,16 +1,14 @@
 import { useRef } from 'react';
 import { Table, type TableElement } from '../../shared/components/table.component';
 import { useSubscriptions } from '../contexts/subscriptions.context';
-import { usePages } from '../../shared/contexts/pages.context';
-import { SubscriptionsCreatePage } from '../pages/subscriptions-create.page';
-import { SubscriptionsUpdatePage } from '../pages/subscriptions-update.page';
 import { useSubscriptionsOrderBy } from '../contexts/subscriptions-order-by.context';
+import { useNavigate } from 'react-router';
 
 export const SubscriptionsTable = () => {
   const { subscriptions, deleteSubscription, findManySubscriptions } = useSubscriptions();
   const { unit, teacher, preference, changePreference, changeTeacher, changeUnit } =
     useSubscriptionsOrderBy();
-  const { changePage } = usePages();
+  const navigate = useNavigate();
 
   const tableRef = useRef<TableElement>(null);
 
@@ -31,10 +29,8 @@ export const SubscriptionsTable = () => {
           { id: `preferenceId_${x.preferenceId}`, value: x.preferenceName },
         ],
       }))}
-      createHandle={() => changePage(<SubscriptionsCreatePage />)}
-      editHandle={() =>
-        changePage(<SubscriptionsUpdatePage id={tableRef.current?.getSelectedRow() ?? ''} />)
-      }
+      createHandle={() => navigate('/subscriptions/create')}
+      editHandle={() => navigate(`/subscriptions/${tableRef.current?.getSelectedRow() ?? ''}`)}
       deleteHandle={async () => {
         const anwser = confirm('deseja remover esta inscrição?');
         if (anwser) {

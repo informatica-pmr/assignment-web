@@ -1,8 +1,6 @@
 import { useRef, useState } from 'react';
 import { useSubscriptions } from '../contexts/subscriptions.context';
-import { usePages } from '../../shared/contexts/pages.context';
 import { Row } from '../../shared/components/row';
-import { SubscriptionsIndexPage } from '../pages/subscriptions-index.page';
 import { useAuth } from '../../auth/contexts/auth.context';
 import { SelectPreferences } from '../../preferences/components/select-preferences.component';
 import { SelectTeachers } from '../../teachers/components/select-teachers.component';
@@ -11,11 +9,12 @@ import {
   type SubscriptionTitlesFormElement,
 } from './subscription-titles-form.component';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
 export const CreateSubscriptionForm = () => {
   const { yearId } = useAuth();
   const { createSubscription } = useSubscriptions();
-  const { changePage } = usePages();
+  const navigate = useNavigate();
 
   const [teacherId, setTeacherId] = useState('');
   const [preferenceId, setPreferenceId] = useState('');
@@ -43,7 +42,7 @@ export const CreateSubscriptionForm = () => {
     });
 
     if (created) {
-      changePage(<SubscriptionsIndexPage />);
+      navigate('/subscriptions');
     }
   };
 
@@ -66,7 +65,7 @@ export const CreateSubscriptionForm = () => {
           <button
             type='button'
             className='btn btn-primary w-100'
-            onClick={() => changePage(<SubscriptionsIndexPage />)}>
+            onClick={() => navigate('/subscriptions')}>
             voltar
           </button>
         </div>

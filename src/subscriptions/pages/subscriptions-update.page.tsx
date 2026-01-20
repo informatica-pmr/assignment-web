@@ -1,16 +1,14 @@
-import { UpdateSubscriptionForm } from "../components/update-subscription-form.component";
-import { SubscriptionsLayout } from "../layout";
+import { useParams } from 'react-router';
+import { UpdateSubscriptionForm } from '../components/update-subscription-form.component';
+import { SubscriptionsLayout } from '../layout';
 
-type SubscriptionsUpdatePageProps = {
-  id: string;
-};
-
-export const SubscriptionsUpdatePage = ({id}: SubscriptionsUpdatePageProps) => {
+export const SubscriptionsUpdatePage = () => {
+  const { id } = useParams<{ id: string }>();
   return (
     <SubscriptionsLayout>
-      <h2 className="mt-3 text-center">Editar Inscrição</h2>
+      <h2 className='mt-3 text-center'>Editar Inscrição</h2>
       <hr />
-      <UpdateSubscriptionForm id={id} />
+      <UpdateSubscriptionForm id={id ?? ''} />
     </SubscriptionsLayout>
   );
 };

@@ -1,31 +1,15 @@
+import { Link, useNavigate } from 'react-router';
 import { useAuth } from '../../auth/contexts/auth.context';
-import { AuthLoginPage } from '../../auth/pages/auth-login.page';
-import { AuthResetPage } from '../../auth/pages/auth-reset.page';
-import { CivilStatusesIndexPage } from '../../civil-statuses/pages/civil-statuses-index.page';
-import { ClassificationsIndexPage } from '../../classifications/pages/classifications-index.page';
-import { DisciplinesIndexPage } from '../../disciplines/pages/disciplines-index.page';
-import { HomePage } from '../../home/pages/home.page';
-import { PositionsIndexPage } from '../../positions/pages/positions-index.page';
-import { PreferencesIndexPage } from '../../preferences/pages/preferences-index.page';
-import { SituationsIndexPage } from '../../situations/pages/situations-index.page';
-import { SubscriptionsIndexPage } from '../../subscriptions/pages/subscriptions-index.page';
-import { TeachersIndexPage } from '../../teachers/pages/teachers-index.page';
-import { TeachersReportPage } from '../../teachers/pages/teachers-report.page';
-import { TitlesIndexPage } from '../../titles/pages/titles-index.page';
-import { UnitsIndexPage } from '../../units/pages/units-index.page';
-import { UsersIndexPage } from '../../users/pages/users-index.page';
-import { YearsIndexPage } from '../../years/pages/years-index.page';
-import { usePages } from '../contexts/pages.context';
 
 export const Header = () => {
-  const { changePage } = usePages();
+  const navigate = useNavigate();
   const { username, yearId, role, logout } = useAuth();
   return (
     <nav className='navbar navbar-expand-lg bg-body-tertiary'>
       <div className=' container container-fluid'>
-        <a className='navbar-brand' href='/'>
+        <Link className='navbar-brand' to='/'>
           Atribui
-        </a>
+        </Link>
         <button
           className='navbar-toggler'
           type='button'
@@ -40,13 +24,13 @@ export const Header = () => {
           <div className='collapse navbar-collapse' id='navbarNavDropdown'>
             <ul className='navbar-nav me-auto mb-2 mb-lg-0'>
               <li className='nav-item'>
-                <a
+                <Link
                   className='nav-link active'
                   aria-current='page'
-                  href='/'
-                  onClick={() => changePage(<HomePage />)}>
+                  to='/'
+                  onClick={() => navigate('/')}>
                   início
-                </a>
+                </Link>
               </li>
               <li className='nav-item dropdown'>
                 <a
@@ -59,86 +43,56 @@ export const Header = () => {
                 </a>
                 <ul className='dropdown-menu'>
                   <li>
-                    <a
-                      className='dropdown-item'
-                      href='#'
-                      onClick={() => changePage(<YearsIndexPage />)}>
+                    <Link className='dropdown-item' to='/years'>
                       anos
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      className='dropdown-item'
-                      href='#'
-                      onClick={() => changePage(<UnitsIndexPage />)}>
+                    <Link className='dropdown-item' to='/units'>
                       unidades
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      className='dropdown-item'
-                      href='#'
-                      onClick={() => changePage(<DisciplinesIndexPage />)}>
+                    <Link className='dropdown-item' to='/disciplines'>
                       disciplinas
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      className='dropdown-item'
-                      href='#'
-                      onClick={() => changePage(<SituationsIndexPage />)}>
+                    <Link className='dropdown-item' to='/situations'>
                       situações
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      className='dropdown-item'
-                      href='#'
-                      onClick={() => changePage(<PreferencesIndexPage />)}>
+                    <Link className='dropdown-item' to='/preferences'>
                       preferências
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      className='dropdown-item'
-                      href='#'
-                      onClick={() => changePage(<CivilStatusesIndexPage />)}>
+                    <Link className='dropdown-item' to='/civil-statuses'>
                       estados civis
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      className='dropdown-item'
-                      href='#'
-                      onClick={() => changePage(<PositionsIndexPage />)}>
+                    <Link className='dropdown-item' to='/positions'>
                       cargos
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      className='dropdown-item'
-                      href='#'
-                      onClick={() => changePage(<TeachersIndexPage />)}>
+                    <Link className='dropdown-item' to='/teachers'>
                       professores(as)
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      className='dropdown-item'
-                      href='#'
-                      onClick={() => changePage(<TitlesIndexPage />)}>
+                    <Link className='dropdown-item' to='/titles'>
                       títulos
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </li>
               <li className='nav-item'>
-                <a
-                  className='nav-link'
-                  href='#'
-                  onClick={() => changePage(<SubscriptionsIndexPage />)}>
+                <Link className='nav-link' to='/subscriptions'>
                   inscricões
-                </a>
+                </Link>
               </li>
               <li className='nav-item dropdown'>
                 <a
@@ -151,20 +105,14 @@ export const Header = () => {
                 </a>
                 <ul className='dropdown-menu'>
                   <li>
-                    <a
-                      className='dropdown-item'
-                      href='#'
-                      onClick={() => changePage(<TeachersReportPage />)}>
+                    <Link className='dropdown-item' to='/teachers/report'>
                       professores
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      className='dropdown-item'
-                      href='#'
-                      onClick={() => changePage(<ClassificationsIndexPage />)}>
+                    <Link className='dropdown-item' to='/classifications'>
                       classificação
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </li>
@@ -180,12 +128,9 @@ export const Header = () => {
                   </a>
                   <ul className='dropdown-menu'>
                     <li>
-                      <a
-                        className='dropdown-item'
-                        href='#'
-                        onClick={() => changePage(<UsersIndexPage />)}>
+                      <Link className='dropdown-item' to='/users'>
                         usuários
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </li>
@@ -203,25 +148,14 @@ export const Header = () => {
                 </a>
                 <ul className='dropdown-menu'>
                   <li>
-                    <a
-                      className='dropdown-item'
-                      href='#'
-                      onClick={() => {
-                        changePage(<AuthResetPage />);
-                      }}>
+                    <Link className='dropdown-item' to='/auth/reset'>
                       mudar senha
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      className='dropdown-item'
-                      href='#'
-                      onClick={() => {
-                        logout();
-                        changePage(<AuthLoginPage />);
-                      }}>
+                    <Link className='dropdown-item' onClick={() => logout()} to='/auth/login'>
                       sair
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </li>

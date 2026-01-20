@@ -1,16 +1,14 @@
-import { UpdateSituationForm } from "../components/update-situation-form.component";
-import { SituationsLayout } from "../layout";
+import { useParams } from 'react-router';
+import { UpdateSituationForm } from '../components/update-situation-form.component';
+import { SituationsLayout } from '../layout';
 
-type SituationsUpdatePageProps = {
-  id: string;
-};
-
-export const SituationsUpdatePage = ({id}: SituationsUpdatePageProps) => {
+export const SituationsUpdatePage = () => {
+  const { id } = useParams<{ id: string }>();
   return (
     <SituationsLayout>
-      <h2 className="mt-3 text-center">Editar Situação</h2>
+      <h2 className='mt-3 text-center'>Editar Situação</h2>
       <hr />
-      <UpdateSituationForm id={id} />
+      <UpdateSituationForm id={id ?? ''} />
     </SituationsLayout>
   );
 };
