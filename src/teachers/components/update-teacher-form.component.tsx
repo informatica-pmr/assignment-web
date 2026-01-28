@@ -16,7 +16,8 @@ import { SelectSituations } from '../../situations/components/select-situations.
 import { SelectUnits } from '../../units/components/select-units.component';
 import { Formatter } from '../../shared/toolkit/formatter';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router';
+import { useNavigate } from '../../shared/contexts/navigate.context';
+import { FormFooter } from '../../shared/components/form-footer.component';
 
 type UpdateTeacherFormProps = {
   id: string;
@@ -210,35 +211,35 @@ export const UpdateTeacherForm = ({ id }: UpdateTeacherFormProps) => {
           unitId={unitId.toString()}
           setUnitId={(e) => setUnitId(formatter.number(e as string))}
         />
-        <InputText col={8} label='nome' value={name} setValue={setName} />
+        <InputText col={8} label='Nome' value={name} setValue={setName} />
       </Row>
       <Row>
-        <InputText col={2} label='rg:' value={identity} setValue={setIdentity} />
-        <InputDocument col={3} label='cpf:' value={document} setValue={setDocument} />
-        <InputDate col={2} label='data de nascimento' value={birthAt} setValue={setBirthAt} />
+        <InputText col={2} label='RG:' value={identity} setValue={setIdentity} />
+        <InputDocument col={3} label='CPF:' value={document} setValue={setDocument} />
+        <InputDate col={2} label='Data de Nascimento' value={birthAt} setValue={setBirthAt} />
         <SelectCivilStatuses
           col={3}
           civilStatusId={civilStatusId.toString()}
           setCivilStatusId={(v) => setCivilStatusId(formatter.number(v as string))}
         />
-        <InputNumber col={2} label='nº dependentes:' value={dependents} setValue={setDependents} />
+        <InputNumber col={2} label='Nº Dependentes:' value={dependents} setValue={setDependents} />
       </Row>
       <Row>
-        <InputText col={4} label='endereço:' value={address} setValue={setAddress} />
-        <InputText col={3} label='bairro:' value={neighborhood} setValue={setNeighborhood} />
-        <InputText col={3} label='cidade:' value={city} setValue={setCity} />
-        <InputText col={2} label='cep:' value={postalCode} setValue={setPostalCode} />
+        <InputText col={4} label='Endereço:' value={address} setValue={setAddress} />
+        <InputText col={3} label='Bairro:' value={neighborhood} setValue={setNeighborhood} />
+        <InputText col={3} label='Cidade:' value={city} setValue={setCity} />
+        <InputText col={2} label='CEP:' value={postalCode} setValue={setPostalCode} />
       </Row>
       <Row>
-        <InputPhone col={2} label='telefone:' value={phone} setValue={setPhone} />
-        <InputPhone col={2} label='celular:' value={cellphone} setValue={setCellphone} />
-        <InputEmail col={8} label='e-mail:' value={email} setValue={setEmail} />
+        <InputPhone col={2} label='Telefone:' value={phone} setValue={setPhone} />
+        <InputPhone col={2} label='Celular:' value={cellphone} setValue={setCellphone} />
+        <InputEmail col={8} label='E-mail:' value={email} setValue={setEmail} />
       </Row>
       <Row>
         <Textarea
           col={12}
           rows={3}
-          label='observações:'
+          label='Observações:'
           value={observations}
           setValue={setObservations}
         />
@@ -261,7 +262,7 @@ export const UpdateTeacherForm = ({ id }: UpdateTeacherFormProps) => {
         />
         <Select
           col={2}
-          label='remocão:'
+          label='Remocão:'
           value={remove}
           setValue={setRemove}
           data={[
@@ -273,7 +274,7 @@ export const UpdateTeacherForm = ({ id }: UpdateTeacherFormProps) => {
       <Row>
         <Select
           col={2}
-          label='adido:'
+          label='Adido:'
           value={adido}
           setValue={setAdido}
           data={[
@@ -283,7 +284,7 @@ export const UpdateTeacherForm = ({ id }: UpdateTeacherFormProps) => {
         />
         <Select
           col={2}
-          label='readaptado:'
+          label='Readaptado:'
           value={readapted}
           setValue={setReadapted}
           data={[
@@ -293,7 +294,7 @@ export const UpdateTeacherForm = ({ id }: UpdateTeacherFormProps) => {
         />
         <Select
           col={2}
-          label='sala de leitura:'
+          label='Sala de leitura:'
           value={readingRoom}
           setValue={setReadingRoom}
           data={[
@@ -303,7 +304,7 @@ export const UpdateTeacherForm = ({ id }: UpdateTeacherFormProps) => {
         />
         <Select
           col={2}
-          label='informática:'
+          label='Informática:'
           value={computing}
           setValue={setComputing}
           data={[
@@ -313,7 +314,7 @@ export const UpdateTeacherForm = ({ id }: UpdateTeacherFormProps) => {
         />
         <Select
           col={2}
-          label='reforço:'
+          label='Reforço:'
           value={tutoring}
           setValue={setTutoring}
           data={[
@@ -323,7 +324,7 @@ export const UpdateTeacherForm = ({ id }: UpdateTeacherFormProps) => {
         />
         <Select
           col={2}
-          label='educação ambiental:'
+          label='Educação Ambiental:'
           value={ambientalEducation}
           setValue={setAmbientalEducation}
           data={[
@@ -335,7 +336,7 @@ export const UpdateTeacherForm = ({ id }: UpdateTeacherFormProps) => {
       <Row>
         <Select
           col={2}
-          label='robotica:'
+          label='Robótica:'
           value={robotics}
           setValue={setRobotics}
           data={[
@@ -345,7 +346,7 @@ export const UpdateTeacherForm = ({ id }: UpdateTeacherFormProps) => {
         />
         <Select
           col={2}
-          label='música:'
+          label='Música:'
           value={music}
           setValue={setMusic}
           data={[
@@ -355,7 +356,7 @@ export const UpdateTeacherForm = ({ id }: UpdateTeacherFormProps) => {
         />
         <Select
           col={2}
-          label='carga suplementar:'
+          label='Carga Suplementar:'
           value={supplementCharge}
           setValue={setSupplementCharge}
           data={[
@@ -363,24 +364,10 @@ export const UpdateTeacherForm = ({ id }: UpdateTeacherFormProps) => {
             { value: 'N', display: 'não' },
           ]}
         />
-        <InputText col={6} label='especialidade' value={speciality} setValue={setSpeciality} />
+        <InputText col={6} label='Especialidade' value={speciality} setValue={setSpeciality} />
       </Row>
       <hr />
-      <Row>
-        <div className='col-sm-2'>
-          <button
-            type='button'
-            className='btn btn-primary w-100'
-            onClick={() => navigate('/teachers')}>
-            voltar
-          </button>
-        </div>
-        <div className='col-sm-2 ms-auto'>
-          <button type='submit' className='btn btn-success w-100' onClick={() => handleSubmit()}>
-            salvar
-          </button>
-        </div>
-      </Row>
+      <FormFooter handleSubmit={handleSubmit} />
     </>
   );
 };

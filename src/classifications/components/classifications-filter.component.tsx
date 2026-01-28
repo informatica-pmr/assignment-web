@@ -102,7 +102,7 @@ export const ClassificationsFilter = () => {
   return (
     <>
       <Row>
-        <InputText col={12} label='nome' value={name} setValue={changeName} />
+        <InputText col={12} label='Nome' value={name} setValue={changeName} />
       </Row>
       <Row>
         <SelectPositions all col={4} positionId={positionId} setPositionId={changePositionId} />
@@ -118,7 +118,7 @@ export const ClassificationsFilter = () => {
         <Select
           all
           col={1}
-          label='adido:'
+          label='Adido:'
           value={adido}
           setValue={changeAdido}
           data={[
@@ -129,7 +129,7 @@ export const ClassificationsFilter = () => {
         <Select
           all
           col={1}
-          label='readaptado:'
+          label='Readaptado:'
           value={readapted}
           setValue={changeReadapted}
           data={[
@@ -140,7 +140,7 @@ export const ClassificationsFilter = () => {
         <Select
           all
           col={2}
-          label='sala de leitura:'
+          label='Sala de Leitura:'
           value={readingRoom}
           setValue={changeReadingRoom}
           data={[
@@ -151,7 +151,7 @@ export const ClassificationsFilter = () => {
         <Select
           all
           col={1}
-          label='informática:'
+          label='Informática:'
           value={computing}
           setValue={changeComputing}
           data={[
@@ -162,7 +162,7 @@ export const ClassificationsFilter = () => {
         <Select
           all
           col={1}
-          label='reforço:'
+          label='Reforço:'
           value={tutoring}
           setValue={changeTutoring}
           data={[
@@ -173,7 +173,7 @@ export const ClassificationsFilter = () => {
         <Select
           all
           col={1}
-          label='edu. amb.:'
+          label='Edu. Amb.:'
           value={ambientalEducation}
           setValue={changeAmbientalEducation}
           data={[
@@ -184,7 +184,7 @@ export const ClassificationsFilter = () => {
         <Select
           all
           col={1}
-          label='robotica:'
+          label='Robótica:'
           value={robotics}
           setValue={changeRobotics}
           data={[
@@ -195,7 +195,7 @@ export const ClassificationsFilter = () => {
         <Select
           all
           col={1}
-          label='música:'
+          label='Música:'
           value={music}
           setValue={changeMusic}
           data={[
@@ -206,7 +206,7 @@ export const ClassificationsFilter = () => {
         <Select
           all
           col={2}
-          label='carga suplementar:'
+          label='Carga Suplementar:'
           value={supplementCharge}
           setValue={changeSupplementCharge}
           data={[
@@ -217,7 +217,7 @@ export const ClassificationsFilter = () => {
         <Select
           all
           col={1}
-          label='remocão:'
+          label='Remocão:'
           value={remove}
           setValue={changeRemove}
           data={[

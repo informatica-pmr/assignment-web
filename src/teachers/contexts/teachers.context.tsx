@@ -13,6 +13,7 @@ export type TeachersContextProps = {
   updateTeacher: (id: string, updateTeacherDTO: UpdateTeachersInputDTO) => Promise<boolean>;
   deleteTeacher: (id: string) => Promise<boolean>;
   importTeachers: (importDTO: ImportTeachersInputDTO) => Promise<boolean>;
+  isTeachersImported: () => Promise<boolean>;
 };
 
 export const TeachersContext = createContext<TeachersContextProps | null>(null);

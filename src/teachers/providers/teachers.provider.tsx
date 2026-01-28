@@ -118,6 +118,22 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
     }
   }, []);
 
+  const isTeachersImported = useCallback(async () => {
+    try {
+      const { data } = await fetch.get<boolean, { yearId: string; type: string }>({
+        filters: { yearId: yearId.toString(), type: 'teachers' },
+        action: 'exists',
+      });
+      if (data === undefined) {
+        return false;
+      }
+      return data;
+    } catch (err) {
+      fetch.handleError(err);
+      return false;
+    }
+  }, [yearId]);
+
   return (
     <TeachersContext.Provider
       value={{
@@ -128,6 +144,7 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
         updateTeacher,
         deleteTeacher,
         importTeachers,
+        isTeachersImported,
       }}>
       {children}
     </TeachersContext.Provider>

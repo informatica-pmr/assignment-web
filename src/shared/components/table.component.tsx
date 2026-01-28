@@ -55,7 +55,7 @@ export const Table = forwardRef<TableElement, TableProps>(
         <div className='d-flex col-sm-12 gap-2 justify-content-center'>
           {createHandle && (
             <button type='button' className='btn btn-success' onClick={createHandle}>
-              novo
+              Novo
             </button>
           )}
           {editHandle && (
@@ -64,7 +64,7 @@ export const Table = forwardRef<TableElement, TableProps>(
               className='btn btn-primary'
               disabled={selectedRowId === ''}
               onClick={editHandle}>
-              editar
+              Editar
             </button>
           )}
           {deleteHandle && (
@@ -73,22 +73,22 @@ export const Table = forwardRef<TableElement, TableProps>(
               className='btn btn-danger'
               disabled={selectedRowId === ''}
               onClick={deleteHandle}>
-              deletar
+              Deletar
             </button>
           )}
           {exportHandle && (
             <button type='button' className='btn btn-secondary' onClick={exportHandle}>
-              exportar
+              Exportar
             </button>
           )}
           {importHandle && (
             <button type='button' className='btn btn-warning' onClick={importHandle}>
-              importar
+              Importar
             </button>
           )}
         </div>
-        <div className='table-responsive'>
-          <table className='table mb-0'>
+        <div className='table-responsive mt-2'>
+          <table className='table table-bordered table-striped mb-0'>
             <thead>
               <tr>
                 <th style={{ width: '35px' }}></th>
@@ -129,7 +129,7 @@ export const Table = forwardRef<TableElement, TableProps>(
             <thead>
               <tr>
                 <th style={{ width: '300px' }}>
-                  página {page} de {pagination?.totalPages}, {pagination?.totalRecords} registros
+                  Página {page} de {pagination?.totalPages}, {pagination?.totalRecords} registros
                 </th>
                 <td align='right'>
                   <button
@@ -183,7 +183,7 @@ export const Table = forwardRef<TableElement, TableProps>(
                     {'>>'}
                   </button>
                 </td>
-                <th style={{ width: '73px' }}>registros:</th>
+                <th style={{ width: '73px' }}>Registros:</th>
                 <td style={{ width: '48px' }}>
                   <select
                     id='size'

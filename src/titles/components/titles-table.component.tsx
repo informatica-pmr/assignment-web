@@ -3,11 +3,12 @@ import { Table, type TableElement } from '../../shared/components/table.componen
 import { useTitles } from '../contexts/titles.context';
 import { useAuth } from '../../auth/contexts/auth.context';
 import { useTitlesOrderBy } from '../contexts/titles-order-by.context';
-import { useNavigate } from 'react-router';
+import { useNavigate } from '../../shared/contexts/navigate.context';
+import { toast } from 'react-toastify';
 
 export const TitlesTable = () => {
   const { yearId } = useAuth();
-  const { titles, deleteTitle, importTitles, findManyTitles } = useTitles();
+  const { titles, deleteTitle, importTitles, isTitlesImported, findManyTitles } = useTitles();
   const { description, changeDescription } = useTitlesOrderBy();
   const navigate = useNavigate();
 
@@ -16,7 +17,7 @@ export const TitlesTable = () => {
   return (
     <Table
       ref={tableRef}
-      headers={[{ id: 1, value: 'descrição', sort: description, changeSort: changeDescription }]}
+      headers={[{ id: 1, value: 'Descrição', sort: description, changeSort: changeDescription }]}
       rows={titles.map((x) => ({
         id: x.titleId,
         checked: false,
@@ -25,7 +26,7 @@ export const TitlesTable = () => {
       createHandle={() => navigate('/titles/create')}
       editHandle={() => navigate(`/titles/${tableRef.current?.getSelectedRow() ?? ''}`)}
       deleteHandle={async () => {
-        const anwser = confirm('deseja remover este título?');
+        const anwser = confirm('Deseja remover este título?');
         if (anwser) {
           const id = tableRef.current?.getSelectedRow() ?? '';
           const deleted = await deleteTitle(id);
@@ -35,10 +36,16 @@ export const TitlesTable = () => {
         }
       }}
       importHandle={async () => {
-        const anwser = confirm('deseja importar os títulos do ano anterior?');
+        const anwser = confirm('Deseja importar os títulos do ano anterior?');
         if (anwser) {
+          const isImported = await isTitlesImported();
+          if (isImported) {
+            toast('Títulos da ano anterior já importados', { type: 'info' });
+            return;
+          }
           const imported = await importTitles({ yearId });
           if (imported) {
+            toast('Títulos da ano anterior importados com sucesso', { type: 'success' });
             await findManyTitles();
           }
         }

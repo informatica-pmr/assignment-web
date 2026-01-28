@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { Table, type TableElement } from '../../shared/components/table.component';
 import { useDisciplines } from '../contexts/disciplines.context';
 import { useDisciplinesOrderBy } from '../contexts/disciplines-order-by.context';
-import { useNavigate } from 'react-router';
+import { useNavigate } from '../../shared/contexts/navigate.context';
 
 export const DisciplinesTable = () => {
   const { disciplines, deleteDiscipline, findManyDisciplines } = useDisciplines();
@@ -14,7 +14,7 @@ export const DisciplinesTable = () => {
   return (
     <Table
       ref={tableRef}
-      headers={[{ id: 1, value: 'nome', sort: name, changeSort: changeName }]}
+      headers={[{ id: 1, value: 'Nome', sort: name, changeSort: changeName }]}
       rows={disciplines.map((x) => ({
         id: x.disciplineId,
         checked: false,
@@ -23,7 +23,7 @@ export const DisciplinesTable = () => {
       createHandle={() => navigate('/disciplines/create')}
       editHandle={() => navigate(`/disciplines/${tableRef.current?.getSelectedRow() ?? ''}`)}
       deleteHandle={async () => {
-        const anwser = confirm('deseja remover esta disciplina?');
+        const anwser = confirm('Deseja remover esta disciplina?');
         if (anwser) {
           const id = tableRef.current?.getSelectedRow() ?? '';
           const deleted = await deleteDiscipline(id);

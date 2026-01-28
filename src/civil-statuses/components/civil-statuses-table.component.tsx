@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { Table, type TableElement } from '../../shared/components/table.component';
 import { useCivilStatuses } from '../contexts/civil-statuses.context';
 import { useCivilStatusesOrderBy } from '../contexts/civil-statuses-order-by.context';
-import { useNavigate } from 'react-router';
+import { useNavigate } from '../../shared/contexts/navigate.context';
 
 export const CivilStatusesTable = () => {
   const { civilStatuses, deleteCivilStatus, findManyCivilStatuses } = useCivilStatuses();
@@ -23,7 +23,7 @@ export const CivilStatusesTable = () => {
       createHandle={() => navigate('/civil-statuses/create')}
       editHandle={() => navigate(`/civil-statuses/${tableRef.current?.getSelectedRow() ?? ''}`)}
       deleteHandle={async () => {
-        const anwser = confirm('deseja remover este estado civil?');
+        const anwser = confirm('Deseja remover este estado civil?');
         if (anwser) {
           const id = tableRef.current?.getSelectedRow() ?? '';
           const deleted = await deleteCivilStatus(id);

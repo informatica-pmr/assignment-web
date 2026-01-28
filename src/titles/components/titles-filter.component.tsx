@@ -14,7 +14,7 @@ export const TitlesFilter = () => {
 
   return (
     <Row>
-      <InputText col={12} label='descrição' value={description} setValue={changeDescription} />
+      <InputText col={12} label='Descrição' value={description} setValue={changeDescription} />
     </Row>
   );
 };

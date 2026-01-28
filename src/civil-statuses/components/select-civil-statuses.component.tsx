@@ -1,5 +1,5 @@
-import { Select } from "../../shared/components/select.component";
-import { useLoadCivilStatuses } from "../contexts/load-civil-statuses.context";
+import { Select } from '../../shared/components/select.component';
+import { useLoadCivilStatuses } from '../contexts/load-civil-statuses.context';
 
 type SelectCivilStatusesProps = {
   all?: boolean;
@@ -18,7 +18,7 @@ export const SelectCivilStatuses = (props: SelectCivilStatusesProps) => {
       all={props.all}
       default={!props.all}
       col={props.col}
-      label={props.label ?? "estado civil"}
+      label={props.label ?? 'Estado Civil'}
       disabled={props.disabled}
       value={props.civilStatusId as string}
       setValue={props.setCivilStatusId}

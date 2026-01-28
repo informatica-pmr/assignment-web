@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { Table, type TableElement } from '../../shared/components/table.component';
 import { useSubscriptions } from '../contexts/subscriptions.context';
 import { useSubscriptionsOrderBy } from '../contexts/subscriptions-order-by.context';
-import { useNavigate } from 'react-router';
+import { useNavigate } from '../../shared/contexts/navigate.context';
 
 export const SubscriptionsTable = () => {
   const { subscriptions, deleteSubscription, findManySubscriptions } = useSubscriptions();
@@ -16,9 +16,9 @@ export const SubscriptionsTable = () => {
     <Table
       ref={tableRef}
       headers={[
-        { id: 2, value: 'professor(a)', sort: teacher, changeSort: changeTeacher },
-        { id: 3, value: 'unidade', sort: unit, changeSort: changeUnit },
-        { id: 4, value: 'preferência', sort: preference, changeSort: changePreference },
+        { id: 2, value: 'Professor(a)', sort: teacher, changeSort: changeTeacher },
+        { id: 3, value: 'Unidade', sort: unit, changeSort: changeUnit },
+        { id: 4, value: 'Preferência', sort: preference, changeSort: changePreference },
       ]}
       rows={subscriptions.map((x) => ({
         id: x.subscriptionId,
@@ -32,7 +32,7 @@ export const SubscriptionsTable = () => {
       createHandle={() => navigate('/subscriptions/create')}
       editHandle={() => navigate(`/subscriptions/${tableRef.current?.getSelectedRow() ?? ''}`)}
       deleteHandle={async () => {
-        const anwser = confirm('deseja remover esta inscrição?');
+        const anwser = confirm('Deseja remover esta inscrição?');
         if (anwser) {
           const id = tableRef.current?.getSelectedRow() ?? '';
           const deleted = await deleteSubscription(id);

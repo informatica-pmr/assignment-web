@@ -17,6 +17,7 @@ const fetch = new Fetch('auth');
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const { setAccessToken, deleteAccessToken, getAccessToken } = useNookies();
+  const [isLogged, setIsLogged] = useState(false);
   const [yearId, setYearId] = useState(0);
   const [userId, setUserId] = useState('');
   const [username, setUsername] = useState('');
@@ -28,6 +29,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const payload = token.split('.').at(1) ?? '';
 
       const { sub, user, role, year } = JSON.parse(atob(payload) || '{}');
+      setIsLogged(true);
       setUserId(sub);
       setUsername(user);
       setRole(role);
@@ -51,6 +53,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         const payload = data.accessToken.split('.').at(1) ?? '';
 
         const { sub, user, role, year } = JSON.parse(atob(payload) || '{}');
+        setIsLogged(true);
         setUserId(sub);
         setUsername(user);
         setRole(role);
@@ -69,6 +72,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const logout = useCallback(() => {
     deleteAccessToken();
+    setIsLogged(false);
     setUserId('');
     setUsername('');
     setRole('');
@@ -92,6 +96,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   return (
     <AuthContext.Provider
       value={{
+        isLogged,
         yearId,
         userId,
         username,

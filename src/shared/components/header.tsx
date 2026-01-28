@@ -1,9 +1,8 @@
-import { Link, useNavigate } from 'react-router';
+import { Link } from 'react-router';
 import { useAuth } from '../../auth/contexts/auth.context';
 
 export const Header = () => {
-  const navigate = useNavigate();
-  const { username, yearId, role, logout } = useAuth();
+  const { username, userId, yearId, role, logout } = useAuth();
   return (
     <nav className='navbar navbar-expand-lg bg-body-tertiary'>
       <div className=' container container-fluid'>
@@ -24,12 +23,8 @@ export const Header = () => {
           <div className='collapse navbar-collapse' id='navbarNavDropdown'>
             <ul className='navbar-nav me-auto mb-2 mb-lg-0'>
               <li className='nav-item'>
-                <Link
-                  className='nav-link active'
-                  aria-current='page'
-                  to='/'
-                  onClick={() => navigate('/')}>
-                  início
+                <Link className='nav-link active' aria-current='page' to='/'>
+                  Início
                 </Link>
               </li>
               <li className='nav-item dropdown'>
@@ -39,59 +34,59 @@ export const Header = () => {
                   role='button'
                   data-bs-toggle='dropdown'
                   aria-expanded='false'>
-                  cadastro
+                  Cadastro
                 </a>
                 <ul className='dropdown-menu'>
                   <li>
                     <Link className='dropdown-item' to='/years'>
-                      anos
+                      Anos
                     </Link>
                   </li>
                   <li>
                     <Link className='dropdown-item' to='/units'>
-                      unidades
+                      Unidades
                     </Link>
                   </li>
                   <li>
                     <Link className='dropdown-item' to='/disciplines'>
-                      disciplinas
+                      Disciplinas
                     </Link>
                   </li>
                   <li>
                     <Link className='dropdown-item' to='/situations'>
-                      situações
+                      Situações
                     </Link>
                   </li>
                   <li>
                     <Link className='dropdown-item' to='/preferences'>
-                      preferências
+                      Preferências
                     </Link>
                   </li>
                   <li>
                     <Link className='dropdown-item' to='/civil-statuses'>
-                      estados civis
+                      Estados civis
                     </Link>
                   </li>
                   <li>
                     <Link className='dropdown-item' to='/positions'>
-                      cargos
+                      Cargos
                     </Link>
                   </li>
                   <li>
                     <Link className='dropdown-item' to='/teachers'>
-                      professores(as)
+                      Professores(as)
                     </Link>
                   </li>
                   <li>
                     <Link className='dropdown-item' to='/titles'>
-                      títulos
+                      Títulos
                     </Link>
                   </li>
                 </ul>
               </li>
               <li className='nav-item'>
                 <Link className='nav-link' to='/subscriptions'>
-                  inscricões
+                  Inscrições
                 </Link>
               </li>
               <li className='nav-item dropdown'>
@@ -101,17 +96,17 @@ export const Header = () => {
                   role='button'
                   data-bs-toggle='dropdown'
                   aria-expanded='false'>
-                  relatórios
+                  Relatórios
                 </a>
                 <ul className='dropdown-menu'>
                   <li>
                     <Link className='dropdown-item' to='/teachers/report'>
-                      professores
+                      Professores(as)
                     </Link>
                   </li>
                   <li>
                     <Link className='dropdown-item' to='/classifications'>
-                      classificação
+                      Classificação
                     </Link>
                   </li>
                 </ul>
@@ -124,12 +119,12 @@ export const Header = () => {
                     role='button'
                     data-bs-toggle='dropdown'
                     aria-expanded='false'>
-                    segurança
+                    Segurança
                   </a>
                   <ul className='dropdown-menu'>
                     <li>
                       <Link className='dropdown-item' to='/users'>
-                        usuários
+                        Usuários
                       </Link>
                     </li>
                   </ul>
@@ -147,14 +142,16 @@ export const Header = () => {
                   {username} | {yearId}
                 </a>
                 <ul className='dropdown-menu'>
-                  <li>
-                    <Link className='dropdown-item' to='/auth/reset'>
-                      mudar senha
-                    </Link>
-                  </li>
+                  {userId !== 'admin' && (
+                    <li>
+                      <Link className='dropdown-item' to='/auth/reset'>
+                        Mudar senha
+                      </Link>
+                    </li>
+                  )}
                   <li>
                     <Link className='dropdown-item' onClick={() => logout()} to='/auth/login'>
-                      sair
+                      Sair
                     </Link>
                   </li>
                 </ul>

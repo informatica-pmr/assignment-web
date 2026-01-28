@@ -1,5 +1,5 @@
-import { Select } from "../../shared/components/select.component";
-import { useLoadTitles } from "../contexts/load-tiltes.context";
+import { Select } from '../../shared/components/select.component';
+import { useLoadTitles } from '../contexts/load-tiltes.context';
 
 type SelectTitlesProps = {
   all?: boolean;
@@ -18,7 +18,7 @@ export const SelectTitles = (props: SelectTitlesProps) => {
       all={props.all}
       default={!props.all}
       col={props.col}
-      label={props.label ?? "unidade"}
+      label={props.label ?? 'Título'}
       disabled={props.disabled}
       value={props.titleId as string}
       setValue={props.setTitleId}

@@ -1,5 +1,5 @@
-import { Select } from "../../shared/components/select.component";
-import { useLoadUnits } from "../contexts/load-units.context";
+import { Select } from '../../shared/components/select.component';
+import { useLoadUnits } from '../contexts/load-units.context';
 
 type SelectUnitsProps = {
   all?: boolean;
@@ -18,7 +18,7 @@ export const SelectUnits = (props: SelectUnitsProps) => {
       all={props.all}
       default={!props.all}
       col={props.col}
-      label={props.label ?? "unidade"}
+      label={props.label ?? 'Unidade'}
       disabled={props.disabled}
       value={props.unitId as string}
       setValue={props.setUnitId}

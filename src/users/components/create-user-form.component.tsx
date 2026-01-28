@@ -7,7 +7,8 @@ import { InputPassword } from '../../shared/components/input-password.component'
 import { useUsers } from '../contexts/users.context';
 import { SelectUnits } from '../../units/components/select-units.component';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router';
+import { useNavigate } from '../../shared/contexts/navigate.context';
+import { FormFooter } from '../../shared/components/form-footer.component';
 
 export const CreateUserForm: React.FC = () => {
   // Component implementation
@@ -67,31 +68,17 @@ export const CreateUserForm: React.FC = () => {
   return (
     <>
       <Row>
-        <InputText col={4} label='name' value={name} setValue={setName} />
-        <InputEmail col={4} label='email' value={email} setValue={setEmail} />
+        <InputText col={4} label='Nome' value={name} setValue={setName} />
+        <InputEmail col={4} label='E-mail' value={email} setValue={setEmail} />
         <SelectUnits col={4} unitId={unitId} setUnitId={setUnitId} />
       </Row>
       <Row>
         <SelectRoles empty col={4} roleId={roleId} setRoleId={setRoleId} />
-        <InputText col={4} label='username' value={username} setValue={setUsername} />
-        <InputPassword col={4} label='password' value={password} setValue={setPassword} />
+        <InputText col={4} label='Nome de Usuário' value={username} setValue={setUsername} />
+        <InputPassword col={4} label='Senha' value={password} setValue={setPassword} />
       </Row>
       <hr />
-      <Row>
-        <div className='col-sm-2'>
-          <button
-            type='button'
-            className='btn btn-primary w-100'
-            onClick={() => navigate('/users')}>
-            voltar
-          </button>
-        </div>
-        <div className='col-sm-2 ms-auto'>
-          <button type='submit' className='btn btn-success w-100' onClick={() => handleSubmit()}>
-            salvar
-          </button>
-        </div>
-      </Row>
+      <FormFooter handleSubmit={handleSubmit} />
     </>
   );
 };

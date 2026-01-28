@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/auth.context';
 import { InputText } from '../../shared/components/input-text.component';
 import { InputPassword } from '../../shared/components/input-password.component';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router';
+import { useNavigate } from '../../shared/contexts/navigate.context';
 
 export const ResetAuthForm = () => {
   const { userId, reset, logout } = useAuth();
@@ -35,9 +35,9 @@ export const ResetAuthForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className='w-50 mx-auto'>
-      <InputText col={12} label='usuário' value={userId} disabled />
-      <InputPassword col={12} label='senha atual' value={password} setValue={setPassword} />
-      <InputPassword col={12} label='nova senha' value={newPassword} setValue={setNewPassword} />
+      <InputText col={12} label='Usuário' value={userId} disabled />
+      <InputPassword col={12} label='Senha atual' value={password} setValue={setPassword} />
+      <InputPassword col={12} label='Nova senha' value={newPassword} setValue={setNewPassword} />
       <InputPassword
         col={12}
         label='repetir nova senha'

@@ -4,7 +4,8 @@ import { Row } from '../../shared/components/row';
 import { InputText } from '../../shared/components/input-text.component';
 import { Select } from '../../shared/components/select.component';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router';
+import { useNavigate } from '../../shared/contexts/navigate.context';
+import { FormFooter } from '../../shared/components/form-footer.component';
 
 type UpdatePositionFormProps = {
   id: string;
@@ -51,10 +52,10 @@ export const UpdatePositionForm = ({ id }: UpdatePositionFormProps) => {
   return (
     <>
       <Row>
-        <InputText col={10} label='nome' value={name} setValue={setName} />
+        <InputText col={10} label='Nome' value={name} setValue={setName} />
         <Select
           col={2}
-          label='ativo'
+          label='Ativo'
           value={active}
           setValue={setActive}
           data={[
@@ -64,21 +65,7 @@ export const UpdatePositionForm = ({ id }: UpdatePositionFormProps) => {
         />
       </Row>
       <hr />
-      <Row>
-        <div className='col-sm-2'>
-          <button
-            type='button'
-            className='btn btn-primary w-100'
-            onClick={() => navigate('/positions')}>
-            voltar
-          </button>
-        </div>
-        <div className='col-sm-2 ms-auto'>
-          <button type='submit' className='btn btn-success w-100' onClick={() => handleSubmit()}>
-            salvar
-          </button>
-        </div>
-      </Row>
+      <FormFooter handleSubmit={handleSubmit} />
     </>
   );
 };

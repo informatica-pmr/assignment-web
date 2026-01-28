@@ -14,7 +14,7 @@ export const SituationsFilter = () => {
 
   return (
     <Row>
-      <InputText col={12} label='nome' value={name} setValue={changeName} />
+      <InputText col={12} label='Nome' value={name} setValue={changeName} />
     </Row>
   );
 };

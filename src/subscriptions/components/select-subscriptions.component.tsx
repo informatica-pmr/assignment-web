@@ -1,5 +1,5 @@
-import { Select } from "../../shared/components/select.component";
-import { useLoadSubscriptions } from "../contexts/load-subscriptions.context";
+import { Select } from '../../shared/components/select.component';
+import { useLoadSubscriptions } from '../contexts/load-subscriptions.context';
 
 type SelectSubscriptionsProps = {
   all?: boolean;
@@ -18,7 +18,7 @@ export const SelectSubscriptions = (props: SelectSubscriptionsProps) => {
       all={props.all}
       default={!props.all}
       col={props.col}
-      label={props.label ?? "unidade"}
+      label={props.label ?? 'Inscrição'}
       disabled={props.disabled}
       value={props.subscriptionId as string}
       setValue={props.setSubscriptionId}

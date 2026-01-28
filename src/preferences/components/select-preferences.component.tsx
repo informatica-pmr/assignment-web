@@ -1,5 +1,5 @@
-import { Select } from "../../shared/components/select.component";
-import { useLoadPreferences } from "../contexts/load-preferences.context";
+import { Select } from '../../shared/components/select.component';
+import { useLoadPreferences } from '../contexts/load-preferences.context';
 
 type SelectPreferencesProps = {
   all?: boolean;
@@ -18,7 +18,7 @@ export const SelectPreferences = (props: SelectPreferencesProps) => {
       all={props.all}
       default={!props.all}
       col={props.col}
-      label={props.label ?? "preferência"}
+      label={props.label ?? 'Preferência'}
       disabled={props.disabled}
       value={props.preferenceId as string}
       setValue={props.setPreferenceId}

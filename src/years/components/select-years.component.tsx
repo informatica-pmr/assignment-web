@@ -18,7 +18,7 @@ export const SelectYears = (props: SelectYearsProps) => {
       all={props.all}
       default={!props.all}
       col={props.col}
-      label={props.label ?? 'ano'}
+      label={props.label ?? 'Ano'}
       disabled={props.disabled}
       value={props.yearId as string}
       setValue={props.setYearId}

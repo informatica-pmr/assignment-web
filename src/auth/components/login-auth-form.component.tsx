@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/auth.context';
 import { InputText } from '../../shared/components/input-text.component';
 import { InputPassword } from '../../shared/components/input-password.component';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router';
+import { useNavigate } from '../../shared/contexts/navigate.context';
 
 export const LoginAuthForm = () => {
   const { login } = useAuth();
@@ -45,8 +45,8 @@ export const LoginAuthForm = () => {
   return (
     <form onSubmit={handleSubmit} className='w-50 mx-auto'>
       <SelectYears col={12} yearId={yearId} setYearId={setYearId} />
-      <InputText col={12} label='usuário' value={username} setValue={setUsername} />
-      <InputPassword col={12} label='senha' value={password} setValue={setPassword} />
+      <InputText col={12} label='Usuário' value={username} setValue={setUsername} />
+      <InputPassword col={12} label='Senha' value={password} setValue={setPassword} />
       <hr />
       <button type='submit' className='btn btn-success w-100'>
         Login

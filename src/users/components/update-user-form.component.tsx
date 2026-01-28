@@ -8,7 +8,8 @@ import { useUsers } from '../contexts/users.context';
 import { SelectUnits } from '../../units/components/select-units.component';
 import { Select } from '../../shared/components/select.component';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router';
+import { useNavigate } from '../../shared/contexts/navigate.context';
+import { FormFooter } from '../../shared/components/form-footer.component';
 
 type UpdateUserFormProps = {
   id: string;
@@ -87,15 +88,15 @@ export const UpdateUserForm: React.FC<UpdateUserFormProps> = ({ id }) => {
   return (
     <>
       <Row>
-        <InputText col={4} label='name' value={name} setValue={setName} />
-        <InputEmail col={4} label='email' value={email} setValue={setEmail} />
+        <InputText col={4} label='Nome' value={name} setValue={setName} />
+        <InputEmail col={4} label='E-mail' value={email} setValue={setEmail} />
         <SelectUnits col={4} unitId={unitId} setUnitId={setUnitId} />
       </Row>
       <Row>
         <SelectRoles empty col={2} roleId={roleId} setRoleId={setRoleId} />
         <Select
           col={2}
-          label='ativo'
+          label='Ativo'
           value={active}
           setValue={setActive}
           data={[
@@ -103,25 +104,17 @@ export const UpdateUserForm: React.FC<UpdateUserFormProps> = ({ id }) => {
             { value: 'N', display: 'Não' },
           ]}
         />
-        <InputText col={4} disabled label='username' value={username} setValue={setUsername} />
-        <InputPassword col={4} label='password' value={password ?? ''} setValue={setPassword} />
+        <InputText
+          col={4}
+          disabled
+          label='Nome de Usuário'
+          value={username}
+          setValue={setUsername}
+        />
+        <InputPassword col={4} label='Senha' value={password ?? ''} setValue={setPassword} />
       </Row>
       <hr />
-      <Row>
-        <div className='col-sm-2'>
-          <button
-            type='button'
-            className='btn btn-primary w-100'
-            onClick={() => navigate('/users')}>
-            voltar
-          </button>
-        </div>
-        <div className='col-sm-2 ms-auto'>
-          <button type='submit' className='btn btn-success w-100' onClick={() => handleSubmit()}>
-            salvar
-          </button>
-        </div>
-      </Row>
+      <FormFooter handleSubmit={handleSubmit} />
     </>
   );
 };

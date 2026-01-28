@@ -24,7 +24,7 @@ export const SelectRoles = ({
     <Select
       all={all}
       col={col}
-      label='perfil'
+      label='Perfil'
       default={empty}
       disabled={disabled}
       value={roleId as string}

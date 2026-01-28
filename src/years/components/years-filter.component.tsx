@@ -24,18 +24,18 @@ export const YearsFilter = () => {
 
   return (
     <Row>
-      <InputText col={3} label='ano' value={yearId} setValue={changeYearId} />
-      <InputText col={3} label='ficha' value={record} setValue={changeRecord} />
-      <InputText col={3} label='resolução' value={resolution} setValue={changeResolution} />
+      <InputText col={3} label='Ano' value={yearId} setValue={changeYearId} />
+      <InputText col={3} label='Ficha' value={record} setValue={changeRecord} />
+      <InputText col={3} label='Resolução' value={resolution} setValue={changeResolution} />
       <Select
         col={3}
         all
-        label='bloqueado'
+        label='Bloqueado'
         value={isBlocked}
         setValue={changeIsBlocked}
         data={[
-          { value: 'S', display: 'sim' },
-          { value: 'N', display: 'não' },
+          { value: 'S', display: 'Sim' },
+          { value: 'N', display: 'Não' },
         ]}
       />
     </Row>

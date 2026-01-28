@@ -4,7 +4,6 @@ import { AuthProvider } from './auth/providers/auth.provider';
 import { Layout } from './shared/components/layout';
 import { ToastContainer } from 'react-toastify';
 import { YearsRoutes } from './years/routes';
-import { PagesProvider } from './shared/providers/pages.provider';
 import { UsersRoutes } from './users/routes';
 import { UnitsRoutes } from './units/routes';
 import { TitlesRoutes } from './titles/routes';
@@ -18,11 +17,12 @@ import { DisciplinesRoutes } from './disciplines/routes';
 import { ClassificationsRoutes } from './classifications/routes';
 import { CivilStatusesRoutes } from './civil-statuses/routes';
 import { AuthRoutes } from './auth/routes';
+import { NavigateProvider } from './shared/providers/navigate.provider';
 
 function App() {
   return (
-    <AuthProvider>
-      <PagesProvider>
+    <NavigateProvider>
+      <AuthProvider>
         <Routes>
           <Route element={<Layout />}>
             <Route index element={<HomePage />} />
@@ -31,9 +31,9 @@ function App() {
             {DisciplinesRoutes},{ClassificationsRoutes},{CivilStatusesRoutes},{AuthRoutes}
           </Route>
         </Routes>
-      </PagesProvider>
-      <ToastContainer position='top-right' autoClose={3000} theme='colored' />
-    </AuthProvider>
+        <ToastContainer position='top-right' autoClose={3000} theme='colored' />
+      </AuthProvider>
+    </NavigateProvider>
   );
 }
 

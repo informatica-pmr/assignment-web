@@ -79,11 +79,11 @@ export const SubscriptionTitlesForm = forwardRef<
     <table className='table table-bordered table-sm'>
       <thead>
         <tr>
-          <th>descrição</th>
-          <th>peso</th>
-          <th>máximo</th>
-          <th>valor</th>
-          <th>pontos</th>
+          <th>Descrição</th>
+          <th>Peso</th>
+          <th>Máximo</th>
+          <th>Valor</th>
+          <th>Pontos</th>
         </tr>
       </thead>
 

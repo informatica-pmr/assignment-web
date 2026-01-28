@@ -16,13 +16,13 @@ export const UsersFilters = () => {
 
   return (
     <Row>
-      <InputText col={2} label='login' value={username} setValue={changeUsername} />
-      <InputText col={6} label='name' value={name} setValue={changeName} />
+      <InputText col={2} label='Login' value={username} setValue={changeUsername} />
+      <InputText col={6} label='Nome' value={name} setValue={changeName} />
       <SelectRoles all col={2} roleId={''} setRoleId={() => {}} />
       <Select
         all
         col={2}
-        label='ativo'
+        label='Ativo'
         value={active}
         setValue={changeActive}
         data={[

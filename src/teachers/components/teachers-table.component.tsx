@@ -7,13 +7,15 @@ import { useLoadPositions } from '../../positions/contexts/load-positions.contex
 import { useLoadSituations } from '../../situations/contexts/load-situations.context';
 import { useAuth } from '../../auth/contexts/auth.context';
 import { useTeachersOrderBy } from '../contexts/teachers-order-by.context';
-import { useNavigate } from 'react-router';
+import { useNavigate } from '../../shared/contexts/navigate.context';
+import { toast } from 'react-toastify';
 
 const formatter = new Formatter();
 
 export const TeachersTable = () => {
   const { yearId } = useAuth();
-  const { teachers, deleteTeacher, importTeachers, findManyTeachers } = useTeachers();
+  const { teachers, deleteTeacher, importTeachers, isTeachersImported, findManyTeachers } =
+    useTeachers();
   const {
     name,
     unit,
@@ -39,12 +41,12 @@ export const TeachersTable = () => {
     <Table
       ref={tableRef}
       headers={[
-        { id: 1, value: 'nome', sort: name, changeSort: changeName },
-        { id: 2, value: 'unidade', sort: unit, changeSort: changeUnit },
-        { id: 3, value: 'nascimento', sort: birthAt, changeSort: changeBirthAt },
-        { id: 4, value: 'celular', sort: cellphone, changeSort: changeCellphone },
-        { id: 5, value: 'cargo', sort: position, changeSort: changePosition },
-        { id: 6, value: 'situação', sort: situation, changeSort: changeSituation },
+        { id: 1, value: 'Nome', sort: name, changeSort: changeName },
+        { id: 2, value: 'Unidade', sort: unit, changeSort: changeUnit },
+        { id: 3, value: 'Nascimento', sort: birthAt, changeSort: changeBirthAt },
+        { id: 4, value: 'Celular', sort: cellphone, changeSort: changeCellphone },
+        { id: 5, value: 'Cargo', sort: position, changeSort: changePosition },
+        { id: 6, value: 'Situação', sort: situation, changeSort: changeSituation },
       ]}
       rows={teachers.map((x) => ({
         id: x.teacherId,
@@ -76,7 +78,7 @@ export const TeachersTable = () => {
       createHandle={() => navigate('/teachers/create')}
       editHandle={() => navigate(`/teachers/${tableRef.current?.getSelectedRow() ?? ''}`)}
       deleteHandle={async () => {
-        const anwser = confirm('deseja remover este(a) professor(a)?');
+        const anwser = confirm('Deseja remover este(a) professor(a)?');
         if (anwser) {
           const id = tableRef.current?.getSelectedRow() ?? '';
           const deleted = await deleteTeacher(id);
@@ -86,10 +88,16 @@ export const TeachersTable = () => {
         }
       }}
       importHandle={async () => {
-        const anwser = confirm('deseja importar os professores do ano anterior?');
+        const anwser = confirm('Deseja importar os professores do ano anterior?');
         if (anwser) {
+          const isImported = await isTeachersImported();
+          if (isImported) {
+            toast('Professores(as) do ano anterior já importados', { type: 'info' });
+            return;
+          }
           const imported = await importTeachers({ yearId });
           if (imported) {
+            toast('Professores(as) do ano anterior importados com sucesso', { type: 'success' });
             await findManyTeachers();
           }
         }

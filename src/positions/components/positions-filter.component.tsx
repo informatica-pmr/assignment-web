@@ -15,11 +15,11 @@ export const PositionsFilter = () => {
 
   return (
     <Row>
-      <InputText col={10} label='nome' value={name} setValue={changeName} />
+      <InputText col={10} label='Nome' value={name} setValue={changeName} />
       <Select
         col={2}
         all
-        label='ativo'
+        label='Ativo'
         value={active}
         setValue={changeActive}
         data={[

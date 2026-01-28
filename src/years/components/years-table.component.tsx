@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { Table, type TableElement } from '../../shared/components/table.component';
 import { useYears } from '../contexts/years.context';
 import { useYearsOrderBy } from '../contexts/years-order-by.context';
-import { useNavigate } from 'react-router';
+import { useNavigate } from '../../shared/contexts/navigate.context';
 
 export const YearsTable = () => {
   const navigate = useNavigate();
@@ -24,10 +24,10 @@ export const YearsTable = () => {
     <Table
       ref={tableRef}
       headers={[
-        { id: 1, value: 'ano', sort: yearId, changeSort: changeYearId },
-        { id: 2, value: 'ficha', sort: record, changeSort: changeRecord },
-        { id: 3, value: 'resolução', sort: resolution, changeSort: changeResolution },
-        { id: 4, value: 'bloqueado', sort: isBlocked, changeSort: changeIsBlocked },
+        { id: 1, value: 'Ano', sort: yearId, changeSort: changeYearId },
+        { id: 2, value: 'Ficha', sort: record, changeSort: changeRecord },
+        { id: 3, value: 'Resolução', sort: resolution, changeSort: changeResolution },
+        { id: 4, value: 'Bloqueado', sort: isBlocked, changeSort: changeIsBlocked },
       ]}
       rows={years.map((x) => ({
         id: x.yearId,
@@ -36,13 +36,13 @@ export const YearsTable = () => {
           { id: `${x.yearId}_${x.yearId}`, value: x.yearId.toString() },
           { id: `${x.yearId}_${x.record}`, value: x.record },
           { id: `${x.yearId}_${x.resolution}`, value: x.resolution },
-          { id: `${x.yearId}_${x.isBlocked}`, value: x.isBlocked === 'S' ? 'sim' : 'não' },
+          { id: `${x.yearId}_${x.isBlocked}`, value: x.isBlocked === 'S' ? 'Sim' : 'Não' },
         ],
       }))}
       createHandle={() => navigate('/years/create')}
       editHandle={() => navigate(`/years/${tableRef.current?.getSelectedRow() ?? ''}`)}
       deleteHandle={async () => {
-        const anwser = confirm('deseja remover este ano?');
+        const anwser = confirm('Deseja remover este ano?');
         if (anwser) {
           const id = tableRef.current?.getSelectedRow() ?? '';
           const deleted = await deleteYear(id);

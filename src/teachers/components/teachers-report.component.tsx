@@ -45,7 +45,7 @@ export const TeachersReport = () => {
         <Select
           default
           col={6}
-          label='ordenar por'
+          label='Ordenar Por'
           value={sort}
           setValue={(value) => {
             setSort(value);
@@ -61,8 +61,8 @@ export const TeachersReport = () => {
             }
           }}
           data={[
-            { value: 'unit', display: 'unidade' },
-            { value: 'teacher', display: 'professor' },
+            { value: 'unit', display: 'Unidade' },
+            { value: 'teacher', display: 'Professor' },
           ]}
         />
       </Row>

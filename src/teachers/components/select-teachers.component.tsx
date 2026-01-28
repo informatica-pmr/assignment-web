@@ -1,5 +1,5 @@
-import { Select } from "../../shared/components/select.component";
-import { useLoadTeachers } from "../contexts/load-teachers.context";
+import { Select } from '../../shared/components/select.component';
+import { useLoadTeachers } from '../contexts/load-teachers.context';
 
 type SelectTeachersProps = {
   all?: boolean;
@@ -18,7 +18,7 @@ export const SelectTeachers = (props: SelectTeachersProps) => {
       all={props.all}
       default={!props.all}
       col={props.col}
-      label={props.label ?? "professor(a)"}
+      label={props.label ?? 'Professor(a)'}
       disabled={props.disabled}
       value={props.teacherId as string}
       setValue={props.setTeacherId}

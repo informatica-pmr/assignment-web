@@ -1,5 +1,5 @@
-import { Select } from "../../shared/components/select.component";
-import { useLoadPositions } from "../contexts/load-positions.context";
+import { Select } from '../../shared/components/select.component';
+import { useLoadPositions } from '../contexts/load-positions.context';
 
 type SelectPositionsProps = {
   all?: boolean;
@@ -18,7 +18,7 @@ export const SelectPositions = (props: SelectPositionsProps) => {
       all={props.all}
       default={!props.all}
       col={props.col}
-      label={props.label ?? "cargo"}
+      label={props.label ?? 'Cargo'}
       disabled={props.disabled}
       value={props.positionId as string}
       setValue={props.setPositionId}

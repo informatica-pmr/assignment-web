@@ -3,6 +3,7 @@ import type { LoginAuthInputDTO } from '../dtos/inputs/login-auth.input.dto';
 import type { ResetPasswordAuthDTO } from '../dtos/inputs/reset-password-auth.input.dto';
 
 type AuthContextProps = {
+  isLogged: boolean;
   yearId: number;
   userId: string;
   username: string;

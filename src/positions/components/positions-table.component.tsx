@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { Table, type TableElement } from '../../shared/components/table.component';
 import { usePositions } from '../contexts/positions.context';
 import { usePositionsOrderBy } from '../contexts/positions-order-by.context';
-import { useNavigate } from 'react-router';
+import { useNavigate } from '../../shared/contexts/navigate.context';
 
 export const PositionsTable = () => {
   const { positions, deletePosition, findManyPositions } = usePositions();
@@ -15,21 +15,21 @@ export const PositionsTable = () => {
     <Table
       ref={tableRef}
       headers={[
-        { id: 1, value: 'nome', sort: name, changeSort: changeName },
-        { id: 2, value: 'ativo', sort: active, changeSort: changeActive },
+        { id: 1, value: 'Nome', sort: name, changeSort: changeName },
+        { id: 2, value: 'Ativo', sort: active, changeSort: changeActive },
       ]}
       rows={positions.map((x) => ({
         id: x.positionId,
         checked: false,
         cols: [
           { id: `${x.positionId}_${x.name}`, value: x.name },
-          { id: `${x.positionId}_${x.active}`, value: x.active === 'S' ? 'sim' : 'não' },
+          { id: `${x.positionId}_${x.active}`, value: x.active === 'S' ? 'Sim' : 'Não' },
         ],
       }))}
       createHandle={() => navigate('/positions/create')}
       editHandle={() => navigate(`/positions/${tableRef.current?.getSelectedRow() ?? ''}`)}
       deleteHandle={async () => {
-        const anwser = confirm('deseja remover este cargo?');
+        const anwser = confirm('Deseja remover este cargo?');
         if (anwser) {
           const id = tableRef.current?.getSelectedRow() ?? '';
           const deleted = await deletePosition(id);

@@ -5,7 +5,8 @@ import { InputText } from '../../shared/components/input-text.component';
 import { InputNumber } from '../../shared/components/input-number.component';
 import { Select } from '../../shared/components/select.component';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router';
+import { useNavigate } from '../../shared/contexts/navigate.context';
+import { FormFooter } from '../../shared/components/form-footer.component';
 
 type UpdateTitleFormProps = {
   id: string;
@@ -86,40 +87,26 @@ export const UpdateTitleForm = ({ id }: UpdateTitleFormProps) => {
   return (
     <>
       <Row>
-        <InputText col={10} label='descrição' value={description} setValue={setDescription} />
-        <InputText col={2} label='sigla' value={alias} setValue={setAlias} />
+        <InputText col={10} label='Descrição' value={description} setValue={setDescription} />
+        <InputText col={2} label='Sigla' value={alias} setValue={setAlias} />
       </Row>
       <Row>
-        <InputNumber col={3} label='peso' value={weight} setValue={setWeight} />
-        <InputNumber col={3} label='máximo' value={max} setValue={setMax} />
-        <InputNumber col={3} label='ordem' value={order} setValue={setOrder} />
+        <InputNumber col={3} label='Peso' value={weight} setValue={setWeight} />
+        <InputNumber col={3} label='Máximo' value={max} setValue={setMax} />
+        <InputNumber col={3} label='Ordem' value={order} setValue={setOrder} />
         <Select
           col={3}
-          label='ativo'
+          label='Ativo'
           value={active}
           setValue={setActive}
           data={[
-            { value: 'S', display: 'sim' },
-            { value: 'N', display: 'não' },
+            { value: 'S', display: 'Sim' },
+            { value: 'N', display: 'Não' },
           ]}
         />
       </Row>
       <hr />
-      <Row>
-        <div className='col-sm-2'>
-          <button
-            type='button'
-            className='btn btn-primary w-100'
-            onClick={() => navigate('/titles')}>
-            voltar
-          </button>
-        </div>
-        <div className='col-sm-2 ms-auto'>
-          <button type='submit' className='btn btn-success w-100' onClick={() => handleSubmit()}>
-            salvar
-          </button>
-        </div>
-      </Row>
+      <FormFooter handleSubmit={handleSubmit} />
     </>
   );
 };

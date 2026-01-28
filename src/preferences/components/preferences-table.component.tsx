@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { Table, type TableElement } from '../../shared/components/table.component';
 import { usePreferences } from '../contexts/preferences.context';
 import { usePreferencesOrderBy } from '../contexts/preferences-order-by.context';
-import { useNavigate } from 'react-router';
+import { useNavigate } from '../../shared/contexts/navigate.context';
 
 export const PreferencesTable = () => {
   const { preferences, deletePreference, findManyPreferences } = usePreferences();
@@ -14,7 +14,7 @@ export const PreferencesTable = () => {
   return (
     <Table
       ref={tableRef}
-      headers={[{ id: 1, value: 'nome', sort: name, changeSort: changeName }]}
+      headers={[{ id: 1, value: 'Nome', sort: name, changeSort: changeName }]}
       rows={preferences.map((x) => ({
         id: x.preferenceId,
         checked: false,

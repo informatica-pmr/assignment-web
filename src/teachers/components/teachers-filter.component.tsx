@@ -32,10 +32,10 @@ export const TeachersFilter = () => {
 
   return (
     <Row>
-      <InputText col={2} label='nome' value={name} setValue={changeName} />
+      <InputText col={2} label='Nome' value={name} setValue={changeName} />
       <SelectUnits all col={2} unitId={unitId} setUnitId={changeUnitId} />
-      <InputDate col={2} label='nascimento' value={birthAt} setValue={changeBirthAt} />
-      <InputPhone col={2} label='celular' value={cellphone} setValue={changeCellphone} />
+      <InputDate col={2} label='Nascimento' value={birthAt} setValue={changeBirthAt} />
+      <InputPhone col={2} label='Celular' value={cellphone} setValue={changeCellphone} />
       <SelectPositions all col={2} positionId={positionId} setPositionId={changePositionId} />
       <SelectSituations all col={2} situationId={situationId} setSituationId={changeSituationId} />
     </Row>

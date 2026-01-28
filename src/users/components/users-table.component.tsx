@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { Table, type TableElement } from '../../shared/components/table.component';
 import { useUsers } from '../contexts/users.context';
 import { useUsersOrderBy } from '../contexts/users-order-by.context';
-import { useNavigate } from 'react-router';
+import { useNavigate } from '../../shared/contexts/navigate.context';
 
 export const UsersTable = () => {
   const navigate = useNavigate();
@@ -15,17 +15,17 @@ export const UsersTable = () => {
     <Table
       ref={tableRef}
       headers={[
-        { id: 1, value: 'login', sort: username, changeSort: changeUsername },
-        { id: 2, value: 'nome', sort: name, changeSort: changeName },
+        { id: 1, value: 'Login', sort: username, changeSort: changeUsername },
+        { id: 2, value: 'Nome', sort: name, changeSort: changeName },
         {
           id: 3,
-          value: 'perfil',
+          value: 'Perfil',
           sort: '',
           changeSort: (value: string) => {
             console.log(value, 'ainda não implementado');
           },
         },
-        { id: 4, value: 'ativo', sort: active, changeSort: changeActive },
+        { id: 4, value: 'Ativo', sort: active, changeSort: changeActive },
       ]}
       rows={users.map((x) => ({
         id: x.username,

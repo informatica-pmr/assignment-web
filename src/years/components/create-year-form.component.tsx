@@ -5,7 +5,8 @@ import { InputNumber } from '../../shared/components/input-number.component';
 import { InputText } from '../../shared/components/input-text.component';
 import { Select } from '../../shared/components/select.component';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router';
+import { useNavigate } from '../../shared/contexts/navigate.context';
+import { FormFooter } from '../../shared/components/form-footer.component';
 
 export const CreateYearForm = () => {
   const { createYear } = useYears();
@@ -52,36 +53,22 @@ export const CreateYearForm = () => {
   return (
     <>
       <Row>
-        <InputNumber col={1} label='ano' value={year} setValue={setYear} />
-        <InputText col={4} label='ficha' value={record} setValue={setRecord} />
-        <InputText col={6} label='resolução' value={resolution} setValue={setResolution} />
+        <InputNumber col={1} label='Ano' value={year} setValue={setYear} />
+        <InputText col={4} label='Ficha' value={record} setValue={setRecord} />
+        <InputText col={6} label='Resolução' value={resolution} setValue={setResolution} />
         <Select
           col={1}
-          label='bloqueado'
+          label='Bloqueado'
           value={isBlocked}
           setValue={setIsBlocked}
           data={[
-            { value: 'S', display: 'sim' },
-            { value: 'N', display: 'não' },
+            { value: 'S', display: 'Sim' },
+            { value: 'N', display: 'Não' },
           ]}
         />
       </Row>
       <hr />
-      <Row>
-        <div className='col-sm-2'>
-          <button
-            type='button'
-            className='btn btn-primary w-100'
-            onClick={() => navigate('/years')}>
-            voltar
-          </button>
-        </div>
-        <div className='col-sm-2 ms-auto'>
-          <button type='submit' className='btn btn-success w-100' onClick={() => handleSubmit()}>
-            salvar
-          </button>
-        </div>
-      </Row>
+      <FormFooter handleSubmit={handleSubmit} />
     </>
   );
 };

@@ -115,6 +115,22 @@ export const TitlesProvider = ({ children }: TitlesProviderProps) => {
     }
   }, []);
 
+  const isTitlesImported = useCallback(async () => {
+    try {
+      const { data } = await fetch.get<boolean, { yearId: string; type: string }>({
+        filters: { yearId: yearId.toString(), type: 'titles' },
+        action: 'exists',
+      });
+      if (data === undefined) {
+        return false;
+      }
+      return data;
+    } catch (err) {
+      fetch.handleError(err);
+      return false;
+    }
+  }, [yearId]);
+
   return (
     <TitlesContext.Provider
       value={{
@@ -125,6 +141,7 @@ export const TitlesProvider = ({ children }: TitlesProviderProps) => {
         updateTitle,
         deleteTitle,
         importTitles,
+        isTitlesImported,
       }}>
       {children}
     </TitlesContext.Provider>
