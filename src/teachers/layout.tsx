@@ -9,6 +9,7 @@ import { LoadPreferencesProvider } from '../preferences/providers/load-preferenc
 import { LoadPositionsProvider } from '../positions/providers/load-positions.provider';
 import { LoadDisciplinesProvider } from '../disciplines/providers/load-disciplines.provider';
 import { TeachersOrderByProvider } from './providers/teachers-order-by.provider';
+import { ImportsProvider } from '../imports/providers/imports.provider';
 
 type TeachersLayoutProps = {
   children: ReactNode;
@@ -23,11 +24,13 @@ export const TeachersLayout = ({ children }: TeachersLayoutProps) => {
             <LoadPreferencesProvider>
               <LoadPositionsProvider>
                 <LoadDisciplinesProvider>
-                  <TeachersFiltersProvider>
-                    <TeachersOrderByProvider>
-                      <TeachersProvider>{children}</TeachersProvider>
-                    </TeachersOrderByProvider>
-                  </TeachersFiltersProvider>
+                  <ImportsProvider>
+                    <TeachersFiltersProvider>
+                      <TeachersOrderByProvider>
+                        <TeachersProvider>{children}</TeachersProvider>
+                      </TeachersOrderByProvider>
+                    </TeachersFiltersProvider>
+                  </ImportsProvider>
                 </LoadDisciplinesProvider>
               </LoadPositionsProvider>
             </LoadPreferencesProvider>

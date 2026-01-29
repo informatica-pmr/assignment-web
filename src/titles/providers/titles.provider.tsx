@@ -106,7 +106,7 @@ export const TitlesProvider = ({ children }: TitlesProviderProps) => {
     try {
       await fetch.post<ImportTitlesInputDTO>(importDTO, 'import');
 
-      toast('Títulos importados com sucesso', { type: 'success' });
+      toast('Títulos do ano anterior importados com sucesso', { type: 'success' });
 
       return true;
     } catch (err) {
@@ -114,22 +114,6 @@ export const TitlesProvider = ({ children }: TitlesProviderProps) => {
       return false;
     }
   }, []);
-
-  const isTitlesImported = useCallback(async () => {
-    try {
-      const { data } = await fetch.get<boolean, { yearId: string; type: string }>({
-        filters: { yearId: yearId.toString(), type: 'titles' },
-        action: 'exists',
-      });
-      if (data === undefined) {
-        return false;
-      }
-      return data;
-    } catch (err) {
-      fetch.handleError(err);
-      return false;
-    }
-  }, [yearId]);
 
   return (
     <TitlesContext.Provider
@@ -141,7 +125,6 @@ export const TitlesProvider = ({ children }: TitlesProviderProps) => {
         updateTitle,
         deleteTitle,
         importTitles,
-        isTitlesImported,
       }}>
       {children}
     </TitlesContext.Provider>

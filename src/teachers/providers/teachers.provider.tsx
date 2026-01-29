@@ -109,7 +109,7 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
     try {
       await fetch.post<ImportTeachersInputDTO>(importDTO, 'import');
 
-      toast('Professores importados com sucesso', { type: 'success' });
+      toast('Professores(as) do ano anterior importados com sucesso', { type: 'success' });
 
       return true;
     } catch (err) {
@@ -117,22 +117,6 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
       return false;
     }
   }, []);
-
-  const isTeachersImported = useCallback(async () => {
-    try {
-      const { data } = await fetch.get<boolean, { yearId: string; type: string }>({
-        filters: { yearId: yearId.toString(), type: 'teachers' },
-        action: 'exists',
-      });
-      if (data === undefined) {
-        return false;
-      }
-      return data;
-    } catch (err) {
-      fetch.handleError(err);
-      return false;
-    }
-  }, [yearId]);
 
   return (
     <TeachersContext.Provider
@@ -144,7 +128,6 @@ export const TeachersProvider = ({ children }: TeachersProviderProps) => {
         updateTeacher,
         deleteTeacher,
         importTeachers,
-        isTeachersImported,
       }}>
       {children}
     </TeachersContext.Provider>

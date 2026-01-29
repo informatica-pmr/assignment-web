@@ -5,10 +5,12 @@ import { useAuth } from '../../auth/contexts/auth.context';
 import { useTitlesOrderBy } from '../contexts/titles-order-by.context';
 import { useNavigate } from '../../shared/contexts/navigate.context';
 import { toast } from 'react-toastify';
+import { useImports } from '../../imports/contexts/imports.context';
 
 export const TitlesTable = () => {
   const { yearId } = useAuth();
-  const { titles, deleteTitle, importTitles, isTitlesImported, findManyTitles } = useTitles();
+  const { titles, deleteTitle, importTitles, findManyTitles } = useTitles();
+  const { isImported } = useImports();
   const { description, changeDescription } = useTitlesOrderBy();
   const navigate = useNavigate();
 
@@ -38,14 +40,13 @@ export const TitlesTable = () => {
       importHandle={async () => {
         const anwser = confirm('Deseja importar os títulos do ano anterior?');
         if (anwser) {
-          const isImported = await isTitlesImported();
-          if (isImported) {
-            toast('Títulos da ano anterior já importados', { type: 'info' });
+          const isTitlesImported = await isImported('titles');
+          if (isTitlesImported) {
+            toast('Títulos do ano anterior já importados', { type: 'info' });
             return;
           }
           const imported = await importTitles({ yearId });
           if (imported) {
-            toast('Títulos da ano anterior importados com sucesso', { type: 'success' });
             await findManyTitles();
           }
         }

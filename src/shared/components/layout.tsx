@@ -1,18 +1,18 @@
 import { Header } from './header';
 import { Container } from './container';
 import { Outlet, useNavigate } from 'react-router';
-import { useAuth } from '../../auth/contexts/auth.context';
 import { useEffect } from 'react';
+import { useNookies } from '../contexts/nookies.context';
 
 export const Layout = () => {
-  const { isLogged } = useAuth();
+  const { getAccessToken } = useNookies();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLogged) {
+    if (!getAccessToken()) {
       navigate('/auth/login');
     }
-  }, [isLogged, navigate]);
+  }, [getAccessToken, navigate]);
 
   return (
     <>

@@ -9,13 +9,14 @@ import { useAuth } from '../../auth/contexts/auth.context';
 import { useTeachersOrderBy } from '../contexts/teachers-order-by.context';
 import { useNavigate } from '../../shared/contexts/navigate.context';
 import { toast } from 'react-toastify';
+import { useImports } from '../../imports/contexts/imports.context';
 
 const formatter = new Formatter();
 
 export const TeachersTable = () => {
   const { yearId } = useAuth();
-  const { teachers, deleteTeacher, importTeachers, isTeachersImported, findManyTeachers } =
-    useTeachers();
+  const { teachers, deleteTeacher, importTeachers, findManyTeachers } = useTeachers();
+  const { isImported } = useImports();
   const {
     name,
     unit,
@@ -90,14 +91,13 @@ export const TeachersTable = () => {
       importHandle={async () => {
         const anwser = confirm('Deseja importar os professores do ano anterior?');
         if (anwser) {
-          const isImported = await isTeachersImported();
-          if (isImported) {
+          const isTeachersImported = await isImported('teachers');
+          if (isTeachersImported) {
             toast('Professores(as) do ano anterior já importados', { type: 'info' });
             return;
           }
           const imported = await importTeachers({ yearId });
           if (imported) {
-            toast('Professores(as) do ano anterior importados com sucesso', { type: 'success' });
             await findManyTeachers();
           }
         }

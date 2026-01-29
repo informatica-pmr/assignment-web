@@ -13,7 +13,6 @@ export type TitlesContextProps = {
   updateTitle: (id: string, updateTitleDTO: UpdateTitlesInputDTO) => Promise<boolean>;
   deleteTitle: (id: string) => Promise<boolean>;
   importTitles: (importDTO: ImportTitlesInputDTO) => Promise<boolean>;
-  isTitlesImported: () => Promise<boolean>;
 };
 
 export const TitlesContext = createContext<TitlesContextProps | null>(null);
