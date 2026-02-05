@@ -1,5 +1,5 @@
 import { useCookies } from 'react-cookie';
-import { type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { NookiesContext } from '../contexts/nookies.context';
 
 export type TKTheme = 'light' | 'dark';
@@ -15,6 +15,10 @@ export const NookiesProvider = ({ children }: NookiesProviderProps) => {
     'access_token',
     { access_token?: string }
   >(['access_token']);
+  const [expiresInCookie, setExpiresInCookie, removeExpiresInCookie] = useCookies<
+    'expires_in',
+    { expires_in?: string }
+  >(['expires_in']);
 
   const getAccessToken = (): string | undefined => {
     return getCookie<string>('access_token') ?? undefined;
@@ -36,11 +40,33 @@ export const NookiesProvider = ({ children }: NookiesProviderProps) => {
     deleteCookie('access_token');
   };
 
-  function getCookie<T extends string>(name: 'access_token' | 'nav_state'): T | undefined {
+  const getExpiresIn = (): string | undefined => {
+    return getCookie<string>('access_token') ?? undefined;
+  };
+
+  const getExpiresInOrThrow = () => {
+    const expiresIn = getCookie<string>('expires_in');
+    if (!expiresIn) {
+      return '';
+    }
+    return expiresIn;
+  };
+
+  const setExpiresIn = (expiresIn: string) => {
+    setCookie<string>('expires_in', expiresIn);
+  };
+
+  const deleteExpiresIn = () => {
+    deleteCookie('expires_in');
+  };
+
+  function getCookie<T extends string>(name: 'access_token' | 'expires_in'): T | undefined {
     if (typeof window === 'undefined') {
       switch (name) {
         case 'access_token':
           return accessTokenCookie[name] as T;
+        case 'expires_in':
+          return expiresInCookie[name] as T;
       }
     }
     return document.cookie
@@ -49,11 +75,14 @@ export const NookiesProvider = ({ children }: NookiesProviderProps) => {
       ?.split('=')[1] as T;
   }
 
-  function setCookie<T extends string>(name: 'access_token' | 'nav_state', value: T) {
+  function setCookie<T extends string>(name: 'access_token' | 'expires_in', value: T) {
     if (typeof window === 'undefined') {
       switch (name) {
         case 'access_token':
           setAccessTokenCookie(name, value, { path: '/', httpOnly: true, secure: true });
+          break;
+        case 'expires_in':
+          setExpiresInCookie(name, value, { path: '/', httpOnly: true, secure: true });
           break;
       }
     } else {
@@ -61,11 +90,14 @@ export const NookiesProvider = ({ children }: NookiesProviderProps) => {
     }
   }
 
-  function deleteCookie(name: 'access_token' | 'nav_state') {
+  function deleteCookie(name: 'access_token' | 'expires_in') {
     if (typeof window === 'undefined') {
       switch (name) {
         case 'access_token':
           removeAccessTokenCookie(name, { path: '/', expires: new Date(1970, 1, 1, 0, 0, 0, 0) });
+          break;
+        case 'expires_in':
+          removeExpiresInCookie(name, { path: '/', expires: new Date(1970, 1, 1, 0, 0, 0, 0) });
           break;
       }
     } else {
@@ -80,8 +112,11 @@ export const NookiesProvider = ({ children }: NookiesProviderProps) => {
         getAccessTokenOrThrow,
         setAccessToken,
         deleteAccessToken,
-      }}
-    >
+        getExpiresIn,
+        getExpiresInOrThrow,
+        setExpiresIn,
+        deleteExpiresIn,
+      }}>
       {children}
     </NookiesContext.Provider>
   );

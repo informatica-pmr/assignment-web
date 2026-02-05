@@ -5,6 +5,10 @@ type NookiesContextProps = {
   getAccessTokenOrThrow: () => string;
   setAccessToken: (accessToken: string) => void;
   deleteAccessToken: () => void;
+  getExpiresIn: () => string | undefined;
+  getExpiresInOrThrow: () => string;
+  setExpiresIn: (expiresIn: string) => void;
+  deleteExpiresIn: () => void;
 };
 
 export const NookiesContext = createContext<NookiesContextProps | null>(null);

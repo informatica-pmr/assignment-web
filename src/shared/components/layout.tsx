@@ -5,14 +5,17 @@ import { useEffect } from 'react';
 import { useNookies } from '../contexts/nookies.context';
 
 export const Layout = () => {
-  const { getAccessToken } = useNookies();
+  const { getAccessToken, getExpiresIn } = useNookies();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!getAccessToken()) {
       navigate('/auth/login');
     }
-  }, [getAccessToken, navigate]);
+    if (new Date() > new Date(getExpiresIn() ?? '')) {
+      navigate('/auth/login');
+    }
+  }, [getAccessToken, navigate, getExpiresIn]);
 
   return (
     <>

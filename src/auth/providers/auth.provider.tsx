@@ -16,7 +16,8 @@ type AuthProviderProps = {
 const fetch = new Fetch('auth');
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const { setAccessToken, deleteAccessToken, getAccessToken } = useNookies();
+  const { setAccessToken, deleteAccessToken, getAccessToken, setExpiresIn, deleteExpiresIn } =
+    useNookies();
   const [isLogged, setIsLogged] = useState(false);
   const [yearId, setYearId] = useState(0);
   const [userId, setUserId] = useState('');
@@ -58,6 +59,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setUsername(user);
         setRole(role);
         setYearId(Number(year));
+        const expiresIn = new Date();
+        expiresIn.setMinutes(expiresIn.getMinutes() + data.expiresIn);
+        setExpiresIn(expiresIn.toISOString());
 
         setAccessToken(data.accessToken);
 
@@ -67,17 +71,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         return false;
       }
     },
-    [setAccessToken],
+    [setAccessToken, setExpiresIn],
   );
 
   const logout = useCallback(() => {
     deleteAccessToken();
+    deleteExpiresIn();
     setIsLogged(false);
     setUserId('');
     setUsername('');
     setRole('');
     setYearId(0);
-  }, [deleteAccessToken]);
+  }, [deleteAccessToken, deleteExpiresIn]);
 
   const reset = useCallback(async (username: string, resetPasswordDTO: ResetPasswordAuthDTO) => {
     try {
